@@ -1,7 +1,7 @@
 /* ===============================
    GOOGLE FONT
 ================================== */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"); */
 
 * {
     margin: 0;
@@ -64,11 +64,38 @@ body {
     padding-right: 70px;
 }
 
+/* .background-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .35;
+}
+
+.circle-one {
+    width: 350px;
+    height: 350px;
+    background: #4f46e5;
+    top: -120px;
+    left: -120px;
+}
+
+.circle-two {
+    width: 420px;
+    height: 420px;
+    background: #06b6d4;
+    right: -150px;
+    bottom: -150px;
+} */
+
 .background-circle {
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
     opacity: .35;
+    pointer-events: none;
+    /* NEW — stops it from blocking clicks on things underneath */
+    z-index: 0;
+    /* NEW — keeps it behind your card/button */
 }
 
 .circle-one {
@@ -91,6 +118,18 @@ body {
    CONTAINER
 ================================== */
 
+/* .login-container {
+    width: 100%;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(18px);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
+} */
+
 .login-container {
     width: 100%;
     max-width: 1180px;
@@ -101,6 +140,10 @@ body {
     border-radius: 25px;
     overflow: hidden;
     box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
+    position: relative;
+    /* ADD THIS */
+    z-index: 1;
+    /* ADD THIS */
 }
 
 /* ===============================

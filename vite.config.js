@@ -5,4 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   base: "/GROOME_UI/",
+  build: {
+    cssTarget: ['chrome61', 'firefox60', 'safari11', 'edge18'],
+  },
 })
