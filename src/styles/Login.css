@@ -64,38 +64,15 @@ body {
     padding-right: 70px;
 }
 
-/* .background-circle {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .35;
-}
-
-.circle-one {
-    width: 350px;
-    height: 350px;
-    background: #4f46e5;
-    top: -120px;
-    left: -120px;
-}
-
-.circle-two {
-    width: 420px;
-    height: 420px;
-    background: #06b6d4;
-    right: -150px;
-    bottom: -150px;
-} */
-
 .background-circle {
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
     opacity: .35;
     pointer-events: none;
-    /* NEW — stops it from blocking clicks on things underneath */
+    /* stops it from blocking clicks on things underneath */
     z-index: 0;
-    /* NEW — keeps it behind your card/button */
+    /* keeps it behind your card/button */
 }
 
 .circle-one {
@@ -118,18 +95,6 @@ body {
    CONTAINER
 ================================== */
 
-/* .login-container {
-    width: 100%;
-    max-width: 1180px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background: rgba(255, 255, 255, .08);
-    backdrop-filter: blur(18px);
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
-} */
-
 .login-container {
     width: 100%;
     max-width: 1180px;
@@ -141,9 +106,7 @@ body {
     overflow: hidden;
     box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
     position: relative;
-    /* ADD THIS */
     z-index: 1;
-    /* ADD THIS */
 }
 
 /* ===============================
@@ -427,7 +390,8 @@ body {
    RESPONSIVE
 ================================== */
 
-/* tablets and below: drop the left brand panel, stack to one column */
+/* tablets and below: STACK the welcome panel above the card instead
+   of hiding it */
 @media (max-width: 950px) {
 
     .login-container {
@@ -436,21 +400,36 @@ body {
     }
 
     .login-left {
-        display: none;
+        padding: 50px 30px 30px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .login-left h1 {
+        font-size: clamp(30px, 8vw, 42px);
+    }
+
+    .login-left p {
+        font-size: 15px;
+        line-height: 24px;
+        margin: 0 auto;
+    }
+
+    .brand-logo {
+        margin: 0 auto 24px;
     }
 }
-
 
 /* phones */
 @media (max-width: 600px) {
 
     .login-page {
-        min-height: auto;
-        /* page only as tall as the card needs — no leftover empty space */
+        min-height: 100dvh;
+        /* full height again — the welcome panel now fills the space,
+           so there's no dead zone to avoid anymore */
         align-items: flex-start;
-        padding-top: 40px;
-        padding-bottom: 40px;
-        /* keeps it looking balanced instead of card sitting flush at the bottom edge */
+        padding-top: 24px;
+        padding-bottom: 24px;
     }
 
     .login-container {
@@ -458,6 +437,10 @@ body {
         backdrop-filter: none;
         box-shadow: none;
         border-radius: 0;
+    }
+
+    .login-left {
+        padding: 30px 20px 20px;
     }
 
     .login-card {
@@ -470,8 +453,16 @@ body {
 
     .login-page {
         padding: 10px;
-        padding-top: 24px;
-        padding-bottom: 24px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .login-left {
+        padding: 20px 16px 16px;
+    }
+
+    .login-left h1 {
+        font-size: 26px;
     }
 
     .login-right {
@@ -494,16 +485,18 @@ body {
     }
 }
 
-/* short-height screens (landscape phones) — keep the card from
-   overflowing the viewport top-to-bottom */
+/* short-height screens (landscape phones) — too short to fit both
+   the welcome panel and the card, so hide the panel here only */
 @media (max-height: 480px) and (orientation: landscape) {
 
     .login-page {
         min-height: 100dvh;
-        /* landscape needs the old full-height behavior back, since the
-           page is wide and short here, not tall and narrow */
         align-items: flex-start;
         padding: 16px;
+    }
+
+    .login-left {
+        display: none;
     }
 
     .login-card {
