@@ -46,6 +46,7 @@ export default function ForgotPassword() {
 
   }, [timer, otpSent]);
 
+
   const handleOtpChange = (value, index) => {
 
     if (!/^\d?$/.test(value)) return;

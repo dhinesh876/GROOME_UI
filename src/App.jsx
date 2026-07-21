@@ -5,11 +5,13 @@ import Register from "./pages/Register";
 // import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 // import VerifyResetOtp from "./pages/VerifyResetOtp";
+import ScrollToTop from "./components/ScrollToTop";
 import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
