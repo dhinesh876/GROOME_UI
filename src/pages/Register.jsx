@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/authApi";
-import "./Login.css";
+// import "./Login.css";
+import "../styles/Register.css";
 
 export default function Register() {
 
@@ -84,16 +85,15 @@ export default function Register() {
 
   return (
 
-    <div className="login-page">
+    <div className="register-page">
 
       <div className="background-circle circle-one"></div>
       <div className="background-circle circle-two"></div>
-
-      <div className="login-container">
+      <div className="register-container">
 
         {/* LEFT */}
 
-        <div className="login-left">
+        <div className="register-left">
 
           <div className="brand-logo">
             G
@@ -112,9 +112,9 @@ export default function Register() {
 
         {/* RIGHT */}
 
-        <div className="login-right">
+        <div className="register-right">
 
-          <div className="login-card">
+          <div className="register-card">
 
             <h2>Create Account</h2>
 
@@ -256,7 +256,7 @@ export default function Register() {
               }
 
               <button
-                className="login-btn"
+                className="register-btn"
                 disabled={loading}
               >
                 {loading
@@ -270,7 +270,7 @@ export default function Register() {
 
               Already have an account?
 
-              <Link to="/">
+              <Link to="/login">
                 Login
               </Link>
 

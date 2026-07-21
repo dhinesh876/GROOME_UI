@@ -1,15 +1,15 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 // import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 // import VerifyResetOtp from "./pages/VerifyResetOtp";
-// import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
@@ -20,18 +20,19 @@ export default function App() {
           element={<VerifyEmail />}
         />
 
-        {/* {<Route
-          path="/verify-reset-otp"
-          element={<VerifyResetOtp />}
+        {<Route
+          path="/Dashboard"
+          element={<Dashboard />}
         />}
 
-        {<Route
+        {/*{<Route
           path="/reset-password"
           element={<ResetPassword />}
         />} */}
 
         {/* add your protected /dashboard route here once login works */}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
+

@@ -4,9 +4,11 @@
 
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:3000/auth/"; // <-- update to your real backend URL
+//npm run dev -- --host 0.0.0.0
+// const BASE_URL = import.meta.env.VITE_API_URL + "/auth/"; //"http://localhost:3000/auth/"; // <-- update to your real backend URL
 
-const BASE_URL = "http://10.26.53.182:3000/auth/";
+// console.log(import.meta.env.VITE_API_URL);
+const BASE_URL = "https://groome-backend.onrender.com/auth/" //"http://10.26.53.182:3000/auth/";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -51,7 +53,7 @@ export const verifyOtp = async (data) => {
 // Matches: Reset  (email, otp)
 export const resendOtp = async (data) => {
   try {
-    const response = api.post(BASE_URL + "register/reset-otp", data)
+    const response = await api.post(BASE_URL + "register/reset-otp", data)
     console.log("Reset OTP for New user Response:", response);
     console.log("Reset OTP for New user Response Data:", response.data);
 
@@ -67,7 +69,7 @@ export const resendOtp = async (data) => {
 // Matches: login (email, password)
 export const loginUser = async (data) => {
   try {
-    const response = api.post(BASE_URL + "user/login", data);
+    const response = await api.post(BASE_URL + "user/login", data);
     console.log("Login Response:", response);
     console.log("Login Response Data:", response.data);
 
@@ -81,10 +83,10 @@ export const loginUser = async (data) => {
 
 // Forgot password (step 1: request OTP by email) 
 // Matches: forgotPassword (email)
-export const forgotPassword = (data) => {
+export const forgotPassword = async (data) => {
 
   try {
-    const response = axios.post(
+    const response = await axios.post(
       BASE_URL + "user/forgot-pass",
       data
     );

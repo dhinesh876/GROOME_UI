@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
-import "./Login.css";
+// import "./Login.css";
+import "../styles/Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    remember: false,
+    // remember: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -142,26 +143,12 @@ export default function Login() {
 
               </div>
 
-              <div className="login-options">
+              <div className="forgot-password">
 
-                {/* <label className="remember">
+                <Link to="/forgot-password">
 
-                  <input
-                    type="checkbox"
-                    name="remember"
-                    checked={form.remember}
-                    onChange={handleChange}
-                  />
-
-                  Remember Me
-
-                </label> */}
-
-                <Link
-                  to="/forgot-password"
-                  className="forgot-link"
-                >
                   Forgot Password?
+
                 </Link>
 
               </div>

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { forgotPassword, resetPassword } from "../api/authApi";
-import "./Login.css";
+// import "./Login.css";
+import "../styles/ForgotPassword.css";
 
 export default function ForgotPassword() {
 
@@ -236,13 +237,13 @@ export default function ForgotPassword() {
 
   return (
 
-    <div className="login-page">
+    <div className="forgot-page">
 
       <div className="background-circle circle-one"></div>
 
       <div className="background-circle circle-two"></div>
 
-      <div className="login-card">
+      <div className="forgot-card">
 
         <div className="otp-brand">
 
@@ -296,7 +297,7 @@ export default function ForgotPassword() {
 
               type="button"
 
-              className="login-btn"
+              className="forgot-btn"
 
               onClick={handleSendOtp}
 
@@ -558,7 +559,7 @@ export default function ForgotPassword() {
 
               <button
 
-                className="login-btn"
+                className="forgot-btn"
 
                 disabled={loading}
 

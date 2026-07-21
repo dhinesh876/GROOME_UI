@@ -1,0 +1,465 @@
+/* ===============================
+   GOOGLE FONT
+================================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+    /* stops the blurred background-circles from ever creating a
+       horizontal scrollbar on narrow phones */
+    overflow-x: hidden;
+    width: 100%;
+}
+
+body {
+    background: #0f172a;
+}
+
+/* ===============================
+   PAGE
+================================== */
+
+.login-options {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.forgot-link {
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.login-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* fixes mobile browsers' address-bar height jump */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+    padding: clamp(14px, 4vw, 30px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ===============================
+   BACKGROUND CIRCLES
+================================== */
+
+.password-box input {
+    padding-right: 70px;
+}
+
+.background-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .35;
+}
+
+.circle-one {
+    width: 350px;
+    height: 350px;
+    background: #4f46e5;
+    top: -120px;
+    left: -120px;
+}
+
+.circle-two {
+    width: 420px;
+    height: 420px;
+    background: #06b6d4;
+    right: -150px;
+    bottom: -150px;
+}
+
+/* ===============================
+   CONTAINER
+================================== */
+
+.login-container {
+    width: 100%;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(18px);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
+}
+
+/* ===============================
+   LEFT
+================================== */
+
+.login-left {
+    color: #fff;
+    padding: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.login-left h1 {
+    font-size: 52px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.login-left span {
+    color: #60a5fa;
+}
+
+.login-left p {
+    color: #d1d5db;
+    font-size: 17px;
+    line-height: 30px;
+    max-width: 450px;
+}
+
+/* ===============================
+   RIGHT
+================================== */
+
+.login-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(16px, 6vw, 50px);
+    width: 100%;
+}
+
+/* ===============================
+   CARD
+================================== */
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: #fff;
+    border-radius: 20px;
+    padding: clamp(22px, 6vw, 45px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
+    animation: fadeUp .4s ease;
+}
+
+.login-card h2 {
+    font-size: clamp(22px, 5vw, 30px);
+    color: #111827;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 30px;
+    line-height: 24px;
+    font-size: clamp(13px, 3.5vw, 15px);
+}
+
+/* ===============================
+   INPUTS
+================================== */
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 0 16px;
+    outline: none;
+    transition: .3s;
+    /* min 16px stops iOS Safari from auto-zooming the page on focus */
+    font-size: max(16px, 15px);
+}
+
+.input-group input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, .15);
+}
+
+/* ===============================
+   PASSWORD
+================================== */
+
+.password-box {
+    position: relative;
+}
+
+.show-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ===============================
+   FORGOT PASSWORD
+================================== */
+
+.forgot-password {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -5px;
+    margin-bottom: 18px;
+}
+
+.forgot-password a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   LOGIN BUTTON
+================================== */
+
+.login-btn {
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, .25);
+}
+
+/* ===============================
+   DIVIDER
+================================== */
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 22px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #d1d5db;
+}
+
+.divider span {
+    padding: 0 15px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ===============================
+   GOOGLE BUTTON
+================================== */
+
+.google-btn {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.google-btn:hover {
+    background: #f8fafc;
+}
+
+/* ===============================
+   ERROR
+================================== */
+
+.error-box {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+/* ===============================
+   BOTTOM
+================================== */
+
+.bottom-text {
+    margin-top: 26px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.bottom-text a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bottom-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   ANIMATION
+================================== */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+   RESPONSIVE
+================================== */
+
+/* tablets and below: drop the left brand panel, stack to one column */
+@media (max-width: 950px) {
+
+    .login-container {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+    }
+
+    .login-left {
+        display: none;
+    }
+}
+
+/* phones */
+@media (max-width: 600px) {
+
+    .login-page {
+        align-items: flex-start;
+        /* card starts near top instead of dead-center, so it doesn't jump when the keyboard opens */
+        padding-top: 40px;
+    }
+
+    .login-container {
+        background: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .login-card {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
+    }
+}
+
+/* small phones (iPhone SE, older/compact Android widths) */
+@media (max-width: 380px) {
+
+    .login-page {
+        padding: 10px;
+        padding-top: 24px;
+    }
+
+    .login-right {
+        padding: 6px;
+    }
+
+    .login-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .input-group input,
+    .login-btn,
+    .google-btn {
+        height: 46px;
+    }
+
+    .divider {
+        margin: 18px 0;
+    }
+}
+
+/* short-height screens (landscape phones) — keep the card from
+   overflowing the viewport top-to-bottom */
+@media (max-height: 480px) and (orientation: landscape) {
+
+    .login-page {
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .login-card {
+        padding: 20px;
+    }
+
+    .subtitle {
+        margin-bottom: 16px;
+    }
+}

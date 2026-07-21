@@ -1,0 +1,303 @@
+/* ===============================
+   GOOGLE FONT
+================================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #0f172a;
+}
+
+/* ===============================
+   PAGE
+================================== */
+
+/* .verify-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+    padding: 30px;
+} */
+.verify-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.otp-container {
+    margin: 30px 0;
+}
+
+.otp-input {
+    cursor: text;
+}
+
+/* ===============================
+   CARD
+================================== */
+
+.verify-card {
+    width: 100%;
+    max-width: 460px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .15);
+    animation: fadeUp .4s ease;
+}
+
+.verify-card {
+    position: relative;
+    z-index: 1;
+}
+
+.verify-card h2 {
+    font-size: 30px;
+    color: #111827;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: #64748b;
+    line-height: 24px;
+    margin-bottom: 30px;
+}
+
+/* ===============================
+   OTP BOXES
+================================== */
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.otp-input {
+    width: 55px;
+    height: 60px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    outline: none;
+    transition: .3s;
+}
+
+.otp-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, .15);
+}
+
+/* ===============================
+   BUTTON
+================================== */
+
+.verify-btn {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.verify-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, .25);
+}
+
+.verify-btn:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+}
+
+/* ===============================
+   RESEND
+================================== */
+
+.resend-area {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.resend-area p {
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    color: #4f46e5;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.resend-btn:hover {
+    text-decoration: underline;
+}
+
+.resend-btn:disabled {
+    color: #9ca3af;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+/* ===============================
+   ERROR
+================================== */
+
+.error-box {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* ===============================
+   SUCCESS
+================================== */
+
+.success-box {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* ===============================
+   BACK LINK
+================================== */
+
+.bottom-text {
+    margin-top: 25px;
+    text-align: center;
+    color: #64748b;
+}
+
+.bottom-text a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bottom-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   ANIMATION
+================================== */
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* ===============================
+   MOBILE
+================================== */
+
+@media(max-width:600px) {
+
+    .verify-page {
+        padding: 18px;
+    }
+
+    .verify-card {
+        padding: 28px 20px;
+    }
+
+    .verify-card h2 {
+        font-size: 26px;
+    }
+
+    .otp-container {
+        gap: 8px;
+    }
+
+    .otp-input {
+        width: 45px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .verify-btn {
+        height: 48px;
+    }
+
+}
+
+.background-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .35;
+}
+
+.circle-one {
+    width: 350px;
+    height: 350px;
+    background: #4f46e5;
+    top: -120px;
+    left: -120px;
+}
+
+.circle-two {
+    width: 420px;
+    height: 420px;
+    background: #06b6d4;
+    right: -150px;
+    bottom: -150px;
+}
+
+.otp-brand {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.otp-brand h1 {
+    color: #4f46e5;
+    font-size: 34px;
+}
+
+.otp-brand p {
+    color: #64748b;
+}

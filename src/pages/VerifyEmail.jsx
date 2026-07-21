@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resendOtp, verifyOtp } from "../api/authApi";
-import "./Login.css";
+// import "./Login.css";
+import "../styles/VerifyEmail.css";
 
 export default function VerifyEmail() {
 
@@ -16,6 +17,11 @@ export default function VerifyEmail() {
     const [error, setError] = useState("");
 
     const inputs = useRef([]);
+
+    // 1️⃣ Auto focus
+    useEffect(() => {
+        inputs.current[0]?.focus();
+    }, []);
 
     useEffect(() => {
 
@@ -38,7 +44,7 @@ export default function VerifyEmail() {
 
         setOtp(updatedOtp);
 
-        if (value && index < 5) {
+        if (value && index < otp.length - 1) {
             inputs.current[index + 1]?.focus();
         }
 
@@ -63,7 +69,7 @@ export default function VerifyEmail() {
         const pasted = e.clipboardData
             .getData("text")
             .trim()
-            .slice(0, 6);
+            .slice(0, 5);
 
         if (!/^\d+$/.test(pasted)) return;
 
@@ -125,7 +131,7 @@ export default function VerifyEmail() {
 
             await resendOtp({ email });
 
-            setOtp(["", "", "", "", "", ""]);
+            setOtp(["", "", "", "", ""]);
 
             setTimer(600);
 
@@ -142,13 +148,13 @@ export default function VerifyEmail() {
 
     return (
 
-        <div className="login-page">
+        <div className="verify-page">
 
             <div className="background-circle circle-one"></div>
 
             <div className="background-circle circle-two"></div>
 
-            <div className="otp-card">
+            <div className="verify-card">
 
                 <div className="otp-brand">
 
@@ -172,11 +178,11 @@ export default function VerifyEmail() {
 
                 <form onSubmit={handleSubmit}>
 
-                    <div className="otp-box">
+                    <div className="otp-container">
 
                         {otp.map((digit, index) => (
 
-                            <input
+                            <input className="otp-input"
 
                                 key={index}
 
@@ -187,6 +193,8 @@ export default function VerifyEmail() {
                                 maxLength={1}
 
                                 value={digit}
+
+                                disabled={loading}
 
                                 onChange={(e) =>
                                     handleChange(
@@ -222,7 +230,7 @@ export default function VerifyEmail() {
 
                     <button
 
-                        className="login-btn"
+                        className="verify-btn"
 
                         disabled={loading}
 
