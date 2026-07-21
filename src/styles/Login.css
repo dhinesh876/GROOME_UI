@@ -440,13 +440,17 @@ body {
     }
 }
 
+
 /* phones */
 @media (max-width: 600px) {
 
     .login-page {
+        min-height: auto;
+        /* page only as tall as the card needs — no leftover empty space */
         align-items: flex-start;
-        /* card starts near top instead of dead-center, so it doesn't jump when the keyboard opens */
         padding-top: 40px;
+        padding-bottom: 40px;
+        /* keeps it looking balanced instead of card sitting flush at the bottom edge */
     }
 
     .login-container {
@@ -467,6 +471,7 @@ body {
     .login-page {
         padding: 10px;
         padding-top: 24px;
+        padding-bottom: 24px;
     }
 
     .login-right {
@@ -494,6 +499,9 @@ body {
 @media (max-height: 480px) and (orientation: landscape) {
 
     .login-page {
+        min-height: 100dvh;
+        /* landscape needs the old full-height behavior back, since the
+           page is wide and short here, not tall and narrow */
         align-items: flex-start;
         padding: 16px;
     }
