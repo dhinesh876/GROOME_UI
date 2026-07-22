@@ -142,38 +142,10 @@ api.interceptors.response.use(
   }
 );
 
-// // Matches: createAppointment
-// // Send only what appointmentValidation.js expects — raw client input:
-// // { employeeId, services: [serviceIds], date, starttime }
-// // (shopid/price/duration/totalDuration/totalPrice are server-calculated, don't send them)
-// export const createAppointment = async (shopId, data) => {
-
-//   try {
-//     const response = await api.post(`/createappointment/${shopId}`, data);
-
-//     console.log("createappointment Response:", response);
-//     console.log("createappointment Response Data:", response.data);
-
-//     return response;
-//   } catch (error) {
-//     console.error("Error:", error.response?.data || error.message);
-//     throw error;
-//   }
-// }
-
-// export const cancelAppointment = (appointmentId) =>
-//   api.patch(`/appointments/${appointmentId}/cancel`);
-
-// Matches: createAppointment(shopId, data)
-// data = { customerId, date, employeeId, services: [{serviceItemId}], starttime }
-// Route is shop-scoped (/:shopId/appointments) to match the pattern your
-// other shop routes already use (slots, employees-with-slots, etc.)
 export const createAppointment = async (shopId, data) => {
 
   try {
     const response = await api.post(`/createappointment/${shopId}`, data);
-    console.log("createappointment Response:", response);
-    console.log("createappointment Response Data:", response.data);
     return response;
   }
   catch (error) {
@@ -189,7 +161,6 @@ export const getMyAppointments = async () => {
   try {
     const appoinmetdata = await api.get("/getmyAppointment");
 
-    console.log(appoinmetdata);
     return appoinmetdata;
   }
   catch (err) {

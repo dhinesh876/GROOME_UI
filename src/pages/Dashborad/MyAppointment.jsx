@@ -39,8 +39,6 @@ export default function MyAppointments() {
 
     try {
       const res = await cancelAppointment(id);
-
-      console.log(res.data.message)
       alert(res.data.message);
 
       setAppointments((prev) =>
@@ -51,10 +49,6 @@ export default function MyAppointments() {
         )
       );
     } catch (err) {
-
-      console.log(err);
-      console.log(err.response);
-      console.log(err.response?.data);
       alert(
         err.response?.data?.data ||
         err.response?.data?.message ||
@@ -62,111 +56,6 @@ export default function MyAppointments() {
       );
     }
   };
-
-  // const formatDate = (date) =>
-  //   new Date(date).toLocaleDateString("en-GB", {
-  //     day: "2-digit",
-  //     month: "2-digit",
-  //     year: "numeric",
-  //   });
-
-  // const formatTime = (time) =>
-  //   new Date(time).toLocaleTimeString("en-GB", {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //     hour12: false,
-  //   });
-
-  // return (
-  //   <>
-  //     <h1 className="dash-heading">
-  //       My Appointments
-  //     </h1>
-
-  //     <p className="dash-subheading">
-  //       View and manage your bookings.
-  //     </p>
-
-  //     {error && (
-  //       <p className="auth-error">{error}</p>
-  //     )}
-
-  //     {loading ? (
-  //       <p>Loading...</p>
-  //     ) : appointments.length === 0 ? (
-  //       <p className="empty-state">
-  //         No appointments found.
-  //       </p>
-  //     ) : (
-  //       <div className="shop-grid">
-  //         {appointments.map((item) => (
-  //           <div
-  //             key={item._id}
-  //             className="shop-card"
-  //           >
-  //             <div className="shop-card-body">
-  //               <h3>{item.shopname}</h3>
-
-  //               <p>
-  //                 <strong>Date:</strong>{" "}
-  //                 {item.date}
-  //               </p>
-
-  //               <p>
-  //                 <strong>Time:</strong>{" "}
-  //                 {item.starttime} - {item.endtime}
-  //               </p>
-
-  //               <p>
-  //                 <strong>Employee:</strong>{" "}
-  //                 {item.employee?.name}
-  //               </p>
-
-  //               <p>
-  //                 <strong>Status:</strong>{" "}
-  //                 {item.status}
-  //               </p>
-
-  //               <p>
-  //                 <strong>Total:</strong> ₹
-  //                 {item.totalPrice}
-  //               </p>
-
-  //               <div
-  //                 style={{
-  //                   marginTop: 15,
-  //                 }}
-  //               >
-  //                 {item.services?.map((s) => (
-  //                   <span
-  //                     key={s.serviceItemId}
-  //                     className="pill"
-  //                   >
-  //                     {s.servicename}
-  //                   </span>
-  //                 ))}
-  //               </div>
-
-  //               {item.status !== "Cancelled" && (
-  //                 <button
-  //                   className="btn-danger"
-  //                   style={{
-  //                     marginTop: 20,
-  //                   }}
-  //                   onClick={() =>
-  //                     handleCancel(item._id)
-  //                   }
-  //                 >
-  //                   Cancel Appointment
-  //                 </button>
-  //               )}
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     )}
-  //   </>
-  // );
 
   return (
     <>
@@ -252,7 +141,7 @@ export default function MyAppointments() {
                 ))}
               </div>
 
-              {item.status !== "Cancelled" && (
+              {!["Cancelled", "Completed", "NoShow"].includes(item.status) && (
                 <button
                   className="cancel-btn"
                   onClick={() =>

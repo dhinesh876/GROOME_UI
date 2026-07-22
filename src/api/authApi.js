@@ -22,9 +22,6 @@ export const registerUser = async (data) => {
   try {
     const response = await api.post(BASE_URL + "register/user", data);
 
-    console.log("Register New user Response:", response);
-    console.log("Register New user Response Data:", response.data);
-
     return response;
   } catch (error) {
     console.error("Error:", error.response?.data || error.message);
@@ -39,8 +36,6 @@ export const verifyOtp = async (data) => {
   try {
     const response = await api.post(BASE_URL + "register/verify-otp", data)
 
-    console.log("Verify OTP for New user Response:", response);
-    console.log("Verify OTP for New user Response Data:", response.data);
 
     return response;
   } catch (error) {
@@ -54,8 +49,6 @@ export const verifyOtp = async (data) => {
 export const resendOtp = async (data) => {
   try {
     const response = await api.post(BASE_URL + "register/reset-otp", data)
-    console.log("Reset OTP for New user Response:", response);
-    console.log("Reset OTP for New user Response Data:", response.data);
 
     return response;
   } catch (error) {
@@ -70,8 +63,7 @@ export const resendOtp = async (data) => {
 export const loginUser = async (data) => {
   try {
     const response = await api.post(BASE_URL + "user/login", data);
-    console.log("Login Response:", response);
-    console.log("Login Response Data:", response.data);
+
 
     return response;
   } catch (error) {
@@ -90,8 +82,7 @@ export const forgotPassword = async (data) => {
       BASE_URL + "user/forgot-pass",
       data
     );
-    console.log("forgotPassword Response:", response);
-    console.log("forgotPassword Response Data:", response.data);
+
 
     return response;
   } catch (error) {
@@ -109,8 +100,6 @@ export const resetPassword = async (data) => {
       data
     );
 
-    console.log("Response:", response);
-    console.log("Response Data:", response.data);
 
     return response;
   } catch (error) {
