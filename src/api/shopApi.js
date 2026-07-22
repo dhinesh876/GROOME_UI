@@ -6,13 +6,15 @@
 
 import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com";
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const BASE_URL = "http://localhost:3000";
+const Authrefresh = "http://localhost:3000/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/shop`,
   withCredentials: true,
 });
+
+
 
 const authApi = axios.create({
   baseURL: `${Authrefresh}/user`,
@@ -125,8 +127,8 @@ api.interceptors.response.use(
 
         processQueue(err, null);
 
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("user");
+        // localStorage.removeItem("accessToken");
+        // localStorage.removeItem("user");
 
         window.location.href = "/GROOME_UI/login";
 
@@ -144,7 +146,7 @@ api.interceptors.response.use(
 // --- Customer side --------------------------------------------------
 export const browseShops = (userid) => api.get(`/browserShops/${userid}`); // search/filter query params
 export const getShopById = (shopId, userid) => api.get(`/browserShops/${shopId}/${userid}`);
-export const getMyAppointments = () => api.get("/appointments/mine");
+
 
 // --- Shop owner side --------------------------------------------------
 export const getMyShop = () => api.get("/shops/mine");

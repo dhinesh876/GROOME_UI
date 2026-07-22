@@ -1,9 +1,10 @@
 // src/api/appointmentApi.js
 import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com/shops"; // <-- same host as your authApi.js; confirm the exact prefix per route below
+const BASE_URL = "http://localhost:3000/shops"; // <-- same host as your authApi.js; confirm the exact prefix per route below
 
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const Authrefresh = "http://localhost:3000/auth";
+
 
 const api = axios.create({
   baseURL: `${BASE_URL}`,
@@ -125,10 +126,10 @@ api.interceptors.response.use(
 
         processQueue(err, null);
 
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("user");
+        // localStorage.removeItem("accessToken");
+        // localStorage.removeItem("user");
 
-        // window.location.href = "/GROOME_UI/login";
+        window.location.href = "/GROOME_UI/login";
 
         return Promise.reject(err);
 
@@ -181,9 +182,32 @@ export const createAppointment = async (shopId, data) => {
   }
 }
 
-export const getMyAppointments = () => api.get("/appointments/mine");
+// export const getMyAppointments = () => api.get("/appointments/mine");
 
-export const cancelAppointment = (appointmentId) =>
-  api.patch(`/appointments/${appointmentId}/cancel`);
+export const getMyAppointments = async () => {
+
+  try {
+    const appoinmetdata = await api.get("/getmyAppointment");
+
+    console.log(appoinmetdata);
+    return appoinmetdata;
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
+
+export const cancelAppointment = async (appointmentId) => {
+
+  try {
+    const canceldata = await api.put(`/cancelAppoinment/${appointmentId}`);
+
+    return canceldata;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 
 export default api;

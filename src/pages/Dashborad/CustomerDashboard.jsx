@@ -678,12 +678,12 @@
 
 //22/-07
 // src/pages/dashboard/CustomerDashboard.jsx
-
 import {
   useCallback,
   useEffect,
   useState,
 } from "react";
+import MyAppointments from "./MyAppointment";
 
 import {
   browseShops,
@@ -719,7 +719,6 @@ export default function CustomerDashboard({
   const user = JSON.parse(
     localStorage.getItem("user") || "{}"
   );
-
 
   /*
   ============================================
@@ -1058,18 +1057,7 @@ export default function CustomerDashboard({
         ===================================== */}
 
         {tab === "appointments" && (
-
-          <>
-            <h1 className="dash-heading">
-              My appointments
-            </h1>
-
-
-            <p className="dash-subheading">
-              Your appointments will appear here.
-            </p>
-          </>
-
+          <MyAppointments />
         )}
 
       </div>
