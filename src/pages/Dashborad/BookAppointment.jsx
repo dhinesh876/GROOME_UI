@@ -531,19 +531,42 @@ export default function BookAppointment({ shop, onBack, onBooked }) {
   const totalAmount = backendCost ?? clientComputedTotal;
 
   // next 21 days, for the date-strip picker below
+  // const dateList = useMemo(() => {
+  //   const list = [];
+  //   const today = new Date();
+  //   for (let i = 0; i < 21; i++) {
+  //     const d = new Date(today);
+  //     d.setDate(today.getDate() + i);
+  //     list.push({
+  //       iso: d.toISOString().slice(0, 10),
+  //       day: d.getDate(),
+  //       weekday: d.toLocaleDateString("en-US", { weekday: "short" }),
+  //       month: d.toLocaleDateString("en-US", { month: "long" }),
+  //     });
+  //   }
+  //   return list;
+  // }, []);
+
   const dateList = useMemo(() => {
     const list = [];
     const today = new Date();
+
     for (let i = 0; i < 21; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
+
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+
       list.push({
-        iso: d.toISOString().slice(0, 10),
-        day: d.getDate(),
+        iso: `${yyyy}-${mm}-${dd}`,
+        day: dd,
         weekday: d.toLocaleDateString("en-US", { weekday: "short" }),
         month: d.toLocaleDateString("en-US", { month: "long" }),
       });
     }
+
     return list;
   }, []);
 
