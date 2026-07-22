@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 // import VerifyResetOtp from "./pages/VerifyResetOtp";
 import ScrollToTop from "./componets/ScrollToTop";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashborad/Dashboard";
 
 export default function App() {
   return (

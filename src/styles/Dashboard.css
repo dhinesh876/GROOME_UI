@@ -1,34 +1,43 @@
 /* ===================================================================
-   Dashboard.css — restyled to match the real Groome auth pages
-   (Login.css / Register.css / ForgotPassword.css / VerifyEmail.css)
+   Dashboard.css — re-themed to match the uploaded auth pages
+   (Login.css / Register.css / VerifyEmail.css / ForgotPassword.css)
 
-   Same font (Poppins), same indigo/cyan gradient + glass-card system,
-   just applied to dashboard layouts instead of a single centered card.
-   Variable NAMES kept the same as before so no other file needs
-   changing — only the VALUES moved to match Groome's real palette.
-
-     --ink        #111827   heading/body text (matches Groome cards)
-     --burgundy   #4f46e5   primary brand indigo — buttons, active tab
-     --burgundy-d #4338ca   darker indigo hover state
-     --gold       #06b6d4   cyan accent — badges, highlights
-     --ivory      #f3f4f9   light page background (dashboard body)
-     --card       #ffffff   card background
-     --line       #d1d5db   borders/dividers (Groome's input border gray)
-     --muted      #6b7280   secondary text (Groome's subtitle gray)
+   Palette (lifted directly from those files):
+     --ink       #111827   headings on white cards
+     --muted     #6b7280   secondary text
+     --muted2    #64748b   dividers/meta text
+     --line      #d1d5db   input/card borders
+     --indigo    #4f46e5   primary brand, buttons, active states
+     --indigo-d  #2563eb   gradient end for buttons/links hover
+     --blue      #60a5fa   accent (used for highlighted words, badges)
+     --cyan      #06b6d4   second background-circle accent
+     --card      #ffffff   card background
+     --err-bg    #fee2e2 / --err-text #dc2626  (.error-box)
+   Same dark gradient page background + white "glass" cards as their
+   login/register/verify pages, same Poppins font.
    =================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 :root {
   --ink: #111827;
-  --burgundy: #4f46e5;
-  --burgundy-d: #4338ca;
-  --gold: #06b6d4;
-  --ivory: #f3f4f9;
-  --card: #ffffff;
-  --line: #d1d5db;
   --muted: #6b7280;
-  --radius: 14px;
+  --muted2: #64748b;
+  --line: #d1d5db;
+  --indigo: #4f46e5;
+  --indigo-d: #2563eb;
+  --blue: #60a5fa;
+  --cyan: #06b6d4;
+  --card: #ffffff;
+  --radius-card: 20px;
+  --radius: 12px;
+  /* kept for backwards-compat with existing inline styles in the
+     dashboard components — same values as above, different names */
+  --burgundy: var(--indigo);
+  --burgundy-d: var(--indigo-d);
+  --gold: var(--blue);
+  --ivory: #f8fafc;
+  --line-alt: var(--line);
 }
 
 * {
@@ -41,19 +50,49 @@ body {
 
 .dash-shell {
   min-height: 100vh;
-  background: var(--ivory);
+  background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
   font-family: "Poppins", sans-serif;
-  color: var(--ink);
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ---------- Top bar ---------- */
+/* soft blurred accent circles, same trick as the login page */
+.dash-shell::before,
+.dash-shell::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.dash-shell::before {
+  width: 350px;
+  height: 350px;
+  background: var(--indigo);
+  top: -120px;
+  left: -120px;
+}
+
+.dash-shell::after {
+  width: 420px;
+  height: 420px;
+  background: var(--cyan);
+  right: -150px;
+  top: 200px;
+}
+
+/* ---------- Top bar (glass, like the login card's outer container) ---------- */
 .dash-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
+  padding: 18px 28px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -63,10 +102,11 @@ body {
   font-weight: 700;
   font-size: 20px;
   letter-spacing: 0.2px;
+  color: #fff;
 }
 
 .dash-logo span {
-  color: var(--burgundy);
+  color: var(--blue);
 }
 
 .dash-user {
@@ -76,77 +116,88 @@ body {
 }
 
 .dash-role-badge {
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
   color: #fff;
   font-size: 12px;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
 
 .dash-logout-btn {
-  background: none;
-  border: 1px solid var(--line);
-  color: var(--ink);
-  padding: 8px 16px;
-  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: var(--radius);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.25s;
 }
+
 .dash-logout-btn:hover {
-  border-color: var(--burgundy);
-  color: var(--burgundy);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 /* ---------- Tabs ---------- */
 .dash-tabs {
   display: flex;
   gap: 8px;
-  padding: 16px 24px 0;
+  padding: 18px 28px 0;
   overflow-x: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .dash-tab {
   border: none;
-  background: transparent;
-  padding: 10px 18px;
-  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 20px;
+  border-radius: var(--radius);
   font-size: 14px;
   font-weight: 600;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   white-space: nowrap;
+  transition: 0.25s;
+}
+
+.dash-tab:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .dash-tab.active {
-  background: linear-gradient(135deg, var(--burgundy), var(--burgundy-d));
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
   color: #fff;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
 }
 
 /* ---------- Content ---------- */
 .dash-content {
-  padding: 24px;
+  padding: 28px;
   max-width: 1100px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .dash-heading {
-  font-size: clamp(22px, 3vw, 28px);
+  font-size: clamp(22px, 3vw, 30px);
   font-weight: 700;
   margin: 0 0 6px 0;
+  color: #fff;
 }
 
 .dash-subheading {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.65);
   margin: 0 0 24px 0;
   font-size: 14px;
 }
 
-/* ---------- Stat cards ---------- */
+/* ---------- Stat cards (owner dashboard) — white glass cards ---------- */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -156,15 +207,15 @@ body {
 
 .stat-card {
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 18px;
+  border-radius: var(--radius-card);
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .stat-card .stat-value {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  color: var(--burgundy);
+  color: var(--indigo);
 }
 
 .stat-card .stat-label {
@@ -173,7 +224,7 @@ body {
   margin-top: 4px;
 }
 
-/* ---------- Shop / result cards ---------- */
+/* ---------- Shop / result cards (customer grid) ---------- */
 .shop-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -182,31 +233,32 @@ body {
 
 .shop-card {
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .shop-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
 }
 
 .shop-card-photo {
   height: 120px;
-  background: linear-gradient(135deg, var(--burgundy), var(--gold));
+  background: linear-gradient(135deg, var(--indigo), var(--cyan));
 }
 
 .shop-card-body {
-  padding: 14px 16px 18px;
+  padding: 16px 18px 20px;
 }
 
 .shop-card-name {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
   margin: 0 0 4px 0;
+  color: var(--ink);
 }
 
 .shop-card-meta {
@@ -222,26 +274,35 @@ body {
 }
 
 .pill {
-  background: var(--ivory);
+  background: #f8fafc;
   border: 1px solid var(--line);
   color: var(--ink);
   font-size: 12px;
-  padding: 4px 10px;
+  padding: 4px 11px;
   border-radius: 999px;
 }
 
 /* ---------- Detail panel ---------- */
 .detail-card {
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px;
+  border-radius: var(--radius-card);
+  padding: 32px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.detail-card .dash-heading,
+.detail-card .dash-subheading {
+  color: var(--ink);
+}
+
+.detail-card .dash-subheading {
+  color: var(--muted);
 }
 
 .detail-back {
   background: none;
   border: none;
-  color: var(--burgundy);
+  color: var(--indigo);
   font-weight: 600;
   cursor: pointer;
   padding: 0 0 16px 0;
@@ -253,17 +314,18 @@ body {
   width: 100%;
   border-collapse: collapse;
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .appt-table th,
 .appt-table td {
   text-align: left;
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 14px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #eef0f4;
+  color: var(--ink);
 }
 
 .appt-table th {
@@ -279,48 +341,70 @@ body {
   padding: 3px 10px;
   border-radius: 999px;
 }
-.status-Pending { background: #fef3c7; color: #92400e; }
-.status-Confirmed { background: #d1fae5; color: #065f46; }
-.status-Completed { background: #e0e7ff; color: #3730a3; }
-.status-Cancelled { background: #fee2e2; color: #991b1b; }
+
+.status-Pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-Confirmed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-Completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.status-Cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 /* ---------- Register-shop CTA ---------- */
 .register-cta {
   background: var(--card);
-  border: 1px dashed var(--burgundy);
-  border-radius: var(--radius);
-  padding: 32px 24px;
+  border-radius: var(--radius-card);
+  padding: 40px 28px;
   text-align: center;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
 }
 
 .register-cta h3 {
   margin: 0 0 8px 0;
+  color: var(--ink);
+  font-size: 22px;
 }
 
 .register-cta p {
   color: var(--muted);
-  margin: 0 0 20px 0;
+  margin: 0 0 22px 0;
   font-size: 14px;
 }
 
 /* ---------- Forms shared ---------- */
 .dash-form {
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px;
-  max-width: 480px;
+  border-radius: var(--radius-card);
+  padding: 32px;
+  max-width: 520px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.dash-form .dash-heading {
+  color: var(--ink);
 }
 
 .dash-field {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .dash-field label {
   display: block;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #374151;
 }
 
@@ -328,47 +412,78 @@ body {
 .dash-field select,
 .dash-field textarea {
   width: 100%;
+  height: 48px;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
+  border-radius: var(--radius);
+  padding: 0 14px;
+  font-size: 15px;
   outline: none;
   background: #fff;
-  transition: 0.2s;
+  color: var(--ink);
+  transition: 0.25s;
+  font-family: "Poppins", sans-serif;
+}
+
+.dash-field textarea {
+  height: auto;
+  padding: 12px 14px;
 }
 
 .dash-field input:focus,
 .dash-field select:focus,
 .dash-field textarea:focus {
-  border-color: var(--burgundy);
+  border-color: var(--indigo);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
+/* ---------- Buttons — rounded rectangle + gradient, matching login-btn ---------- */
 .btn-primary {
-  background: linear-gradient(135deg, var(--burgundy), var(--burgundy-d));
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
   color: #fff;
   border: none;
-  border-radius: 999px;
-  padding: 12px 28px;
+  border-radius: var(--radius);
+  padding: 13px 30px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.25s;
+  font-family: "Poppins", sans-serif;
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
 }
+
 .btn-primary:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
+.auth-error,
+.error-box {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 0 0 18px 0;
+  font-size: 14px;
+}
+
+.auth-success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 0 0 18px 0;
+  font-size: 14px;
+}
+
 .empty-state {
   text-align: center;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.65);
   padding: 60px 20px;
   font-size: 14px;
 }
@@ -376,20 +491,30 @@ body {
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
   .dash-topbar {
-    padding: 12px 16px;
+    padding: 14px 18px;
   }
+
   .dash-content {
-    padding: 16px;
+    padding: 18px;
   }
+
   .dash-tabs {
-    padding: 12px 16px 0;
+    padding: 14px 18px 0;
   }
+
   .shop-grid {
     grid-template-columns: 1fr 1fr;
   }
+
   .appt-table {
     display: block;
     overflow-x: auto;
+  }
+
+  .dash-form,
+  .detail-card,
+  .register-cta {
+    padding: 22px;
   }
 }
 

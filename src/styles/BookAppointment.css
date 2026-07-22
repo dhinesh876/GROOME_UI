@@ -1,0 +1,415 @@
+/* ===================================================================
+   BookAppointment.css
+   Matches the reference design: white card, numbered step badges,
+   checkable service/employee cards, colored slot grid, sticky
+   bottom summary bar. Uses the same --indigo/--card/--line variables
+   already defined in Dashboard.css.
+   =================================================================== */
+
+.ba-card {
+    background: var(--card);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+    color: var(--ink);
+}
+
+/* ---------- Header ---------- */
+.ba-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.ba-header-icon {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.ba-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 2px 0;
+    color: var(--ink);
+}
+
+.ba-header p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ---------- Step label (numbered circle + title) ---------- */
+.ba-step-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.ba-step-number {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ba-step-label h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+}
+
+.ba-step-block {
+    margin-bottom: 32px;
+}
+
+/* ---------- Service cards ---------- */
+.ba-service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.ba-service-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #fff;
+}
+
+.ba-service-card:hover {
+    border-color: #c7d2fe;
+}
+
+.ba-service-card.selected {
+    border-color: var(--indigo);
+    background: #eef0ff;
+}
+
+.ba-service-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 999px;
+    background: #e9e7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--indigo);
+}
+
+.ba-service-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+}
+
+.ba-service-price {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--indigo);
+    margin-top: 2px;
+}
+
+.ba-check-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--indigo);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4);
+}
+
+/* ---------- Date field ---------- */
+.ba-date-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    max-width: 320px;
+    background: #fff;
+}
+
+.ba-date-field input {
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
+    color: var(--ink);
+    width: 100%;
+    background: transparent;
+}
+
+.ba-date-field svg {
+    color: var(--indigo);
+    flex-shrink: 0;
+}
+
+/* ---------- Employee card ---------- */
+.ba-employee-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.ba-employee-card:hover {
+    border-color: #c7d2fe;
+}
+
+.ba-employee-card.selected {
+    border-color: var(--indigo);
+    background: #eef0ff;
+}
+
+.ba-employee-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 999px;
+    background: #e9e7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--indigo);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.ba-employee-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    flex: 1;
+}
+
+.ba-employee-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--indigo);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- Slot grid ---------- */
+.ba-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.ba-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.ba-slot-time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ba-slot-status {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* available (not selected) */
+.ba-slot.available {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #166534;
+    cursor: pointer;
+}
+
+.ba-slot.available:hover {
+    border-color: #22c55e;
+}
+
+/* selected */
+.ba-slot.selected {
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+    border-color: var(--indigo);
+    color: #fff;
+}
+
+/* lunch break */
+.ba-slot.lunch {
+    background: #fffbeb;
+    border-color: #fcd34d;
+    color: #92400e;
+    cursor: not-allowed;
+}
+
+/* occupied */
+.ba-slot.occupied {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #991b1b;
+    cursor: not-allowed;
+}
+
+/* ---------- Summary bar ---------- */
+.ba-summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 24px;
+    margin-top: 8px;
+}
+
+.ba-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ba-summary-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ba-summary-label {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.ba-summary-time {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--indigo);
+}
+
+.ba-summary-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.ba-summary-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.ba-book-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: "Poppins", sans-serif;
+}
+
+.ba-book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(79, 70, 229, 0.35);
+}
+
+.ba-book-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.ba-secure-note {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ba-find-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 640px) {
+    .ba-card {
+        padding: 20px;
+    }
+
+    .ba-summary-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ba-summary-right {
+        align-items: stretch;
+    }
+
+    .ba-book-btn {
+        justify-content: center;
+    }
+}
