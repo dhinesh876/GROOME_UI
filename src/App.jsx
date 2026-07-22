@@ -24,7 +24,11 @@ export default function App() {
 
         {<Route
           path="/Dashboard"
-          element={<Dashboard />}
+          element={
+            localStorage.getItem("accessToken")
+              ? <Dashboard />
+              : <Navigate to="/login" replace />
+          }
         />}
 
         {/*{<Route
