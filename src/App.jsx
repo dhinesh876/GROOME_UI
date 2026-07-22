@@ -23,7 +23,7 @@ export default function App() {
         />
 
         {<Route
-          path="/Dashboard"
+          path="/dashboard"
           element={
             localStorage.getItem("accessToken")
               ? <Dashboard />
