@@ -1,9 +1,9 @@
 // src/api/slotApi.js
 import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com/shops"; // <-- same host as your authApi.js; confirm the exact prefix per route below
+const BASE_URL = "http://localhost:3000/shops"; // <-- same host as your authApi.js; confirm the exact prefix per route below
 
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const Authrefresh = "http://localhost:3000/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}`,
@@ -128,8 +128,7 @@ api.interceptors.response.use(
         // localStorage.removeItem("accessToken");
         // localStorage.removeItem("user");
 
-        window.location.href = "/GROOME_UI/login";
-
+        window.location.href = "/GROOME_UI/#/login";
         return Promise.reject(err);
 
       } finally {

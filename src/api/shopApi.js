@@ -6,15 +6,13 @@
 
 import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com";
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const BASE_URL = "http://localhost:3000";
+const Authrefresh = "http://localhost:3000/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/shop`,
   withCredentials: true,
 });
-
-
 
 const authApi = axios.create({
   baseURL: `${Authrefresh}/user`,
@@ -130,7 +128,7 @@ api.interceptors.response.use(
         // localStorage.removeItem("accessToken");
         // localStorage.removeItem("user");
 
-        window.location.href = "/GROOME_UI/login";
+        window.location.href = "/GROOME_UI/#/login";
 
         return Promise.reject(err);
 
@@ -149,11 +147,53 @@ export const getShopById = (shopId, userid) => api.get(`/browserShops/${shopId}/
 
 
 // --- Shop owner side --------------------------------------------------
-export const getMyShop = () => api.get("/shops/mine");
-export const setupShop = (data) => api.post("/shops", data);
-export const updateShop = (data) => api.put("/shops/mine", data);
-export const getShopAppointments = () => api.get("/appointments/shop");
+export const getMyShop = async () => {
+  try {
+    const response = await api.get("/getMyShop");
+    return response
+  }
+  catch (errr) {
+    console.error("Error:", errr.response?.data || errr.message);
+    throw errr;
+  }
+};
 
+export const setupShop = async (data) => {
+  try {
+    const response = await api.post("/setup", data)
+
+    console.log(response);
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+};
+
+export const updateShop = (data) => api.put("/shops/mine", data);
+export const getShopAppointments = async (shopid) => {
+
+  try {
+
+    const response = await api.get(`/getmyshopAppointment/${shopid}`);
+    return response;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+
+  }
+}
+
+export const updateAppointmentStatus = async (appointmentId, status) => {
+  try {
+    console.log("status", status)
+    const response = await api.put(`/updateAppointmentstatus/${appointmentId}`, { status });
+    return response;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+
+  }
+}
 // --- Managing services / employees after the shop already exists ------
 // adjust these paths to match your real shopController routes
 export const addService = (data) => api.post("/shops/services", data);       // { servicename, price, duration }

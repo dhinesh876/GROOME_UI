@@ -1,79 +1,189 @@
-// src/pages/dashboard/ShopOwnerDashboard.jsx
+// // src/pages/dashboard/ShopOwnerDashboard.jsx
+
+import { Check } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { getMyShop, getShopAppointments, setupShop } from "../../api/shopApi";
+import {
+  getMyShop,
+  getShopAppointments,
+  setupShop, updateAppointmentStatus
+} from "../../api/shopApi";
+
+import "../../styles/ShopOwnerDashboard.css";
 import ManageShop from "../Dashborad/ManageShop";
 import Profile from "../Dashborad/Profile";
 
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAYS = [
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun",
+];
 
-const emptyService = { servicename: "", price: "", duration: "" };
-const emptyEmployee = { name: "", gender: "male" };
+const emptyService = {
+  servicename: "",
+  price: "",
+  duration: "",
+};
 
-export default function ShopOwnerDashboard({ tab, setTab }) {
-  const [shop, setShop] = useState(null);       // null while checking, {} object once found
-  const [hasShop, setHasShop] = useState(null); // null = checking, false = not registered, true = registered
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+const emptyEmployee = {
+  name: "",
+  gender: "male",
+  employeeServices: [],
+};
 
-  // registration form state — matches the backend's req.body exactly:
-  // { shopname, address, genderCategory, ownername, openingTime,
-  //   closingTime, workingDays, services, employees }
-  const [showForm, setShowForm] = useState(false);
+export default function ShopOwnerDashboard({
+  tab,
+  setTab,
+}) {
+  // -------------------------------
+  // Dashboard
+  // -------------------------------
+  const [shop, setShop] = useState(null);
+  const [hasShop, setHasShop] = useState(null);
+
+  const [appointments, setAppointments] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [saving, setSaving] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+  // -------------------------------
+  // Register Shop
+  // -------------------------------
+
+  const [showForm, setShowForm] =
+    useState(false);
+
+  const [shopImage, setShopImage] =
+    useState(null);
+
+  const [previewImage, setPreviewImage] =
+    useState("");
+
   const [form, setForm] = useState({
     shopname: "",
     ownername: "",
     address: "",
+
     genderCategory: "unisex",
+
     openingTime: "",
     closingTime: "",
+
     workingDays: [],
-    services: [{ ...emptyService }],
-    employees: [{ ...emptyEmployee }],
+
+    services: [
+      {
+        ...emptyService,
+      },
+    ],
+
+    employees: [
+      {
+        ...emptyEmployee,
+      },
+    ],
   });
-  const [saving, setSaving] = useState(false);
+
+  // -------------------------------
+  // Appointment Counts
+  // -------------------------------
+
+  const pendingCount =
+    appointments.filter(
+      (x) => x.status === "Pending"
+    ).length;
+
+  const confirmedCount =
+    appointments.filter(
+      (x) => x.status === "Confirmed"
+    ).length;
+
+  const completedCount =
+    appointments.filter(
+      (x) => x.status === "Completed"
+    ).length;
+
+  const cancelledCount =
+    appointments.filter(
+      (x) => x.status === "Cancelled"
+    ).length;
+
+  const noShowCount =
+    appointments.filter(
+      (x) => x.status === "NoShow"
+    ).length;
 
 
-  // const loadAppointments = async () => {
-  //   try {
-  //     const res = await getShopAppointments();
-  //     setAppointments(res.data.appointments || res.data);
-  //   } catch {
-  //     // non-fatal — shop profile still shows even if appointments fail to load
-  //   }
-  // };
+  // ===========================
+  // Load Appointments
+  // ===========================
 
-  // ---- basic field changes (shopname, ownername, address, times, category) ----
-
-
-  // Load appointments first
-  const loadAppointments = useCallback(async () => {
+  const loadAppointments = useCallback(async (shopId) => {
     try {
-      const res = await getShopAppointments();
-      setAppointments(res.data.appointments || res.data);
+      if (!shopId) return;
+
+      const res = await getShopAppointments(shopId);
+
+      setAppointments(res.data.appointments || res.data || []);
+      console.log(res.data.appointments);
+
     } catch (err) {
-      console.error("Failed to load appointments:", err);
+      if (
+        err.response?.status === 400 &&
+        err.response?.data?.message ===
+        "No booking on your shop"
+      ) {
+        setAppointments([]);
+      } else {
+        setError(
+          err.response?.data?.message ||
+          "Could not check shop status."
+        );
+      }
     }
   }, []);
 
-  // Then check shop
+  // ===========================
+  // Check Shop
+  // ===========================
+
   const checkShop = useCallback(async () => {
     setLoading(true);
     setError("");
-
     try {
       const res = await getMyShop();
 
-      setShop(res.data.shop || res.data);
+      const shopData = res.data.shop || res.data;
+
+      setShop(shopData);
       setHasShop(true);
 
-      await loadAppointments();
+      if (shopData.adminapproval === "Approved") {
+        await loadAppointments(shopData._id);
+      } else {
+        setAppointments([]);
+      }
     } catch (err) {
-      if (err.response?.status === 404) {
+      if (
+        err.response?.status === 400 &&
+        err.response?.data?.message ===
+        "User Not Exists, Create New user Register"
+      ) {
         setHasShop(false);
       } else {
         setError(
-          err.response?.data?.message || "Could not check shop status."
+          err.response?.data?.message ||
+          "Could not check shop status."
         );
       }
     } finally {
@@ -81,380 +191,1207 @@ export default function ShopOwnerDashboard({ tab, setTab }) {
     }
   }, [loadAppointments]);
 
+
+
   useEffect(() => {
-    (async () => {
-      await checkShop();
-    })();
+    checkShop();
   }, [checkShop]);
 
-  const handleFormChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+
+  // ===========================
+  // Image Upload
+  // ===========================
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setShopImage(file);
+
+    setPreviewImage(
+      URL.createObjectURL(file)
+    );
   };
 
+  // ===========================
+  // Shop Fields
+  // ===========================
 
-  // const checkShop = async () => {
-  //   setLoading(true);
-  //   setError("");
-  //   try {
-  //     const res = await getMyShop();
-  //     setShop(res.data.shop || res.data);
-  //     setHasShop(true);
-  //     loadAppointments();
-  //   } catch (err) {
-  //     if (err.response?.status === 404) {
-  //       setHasShop(false); // first-time owner, no shop registered yet
-  //     } else {
-  //       setError(err.response?.data?.message || "Could not check shop status.");
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const handleFormChange = (e) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-  // useEffect(() => {
-  //   // call async loader inside effect to avoid setting state synchronously in the
-  //   // effect body which can cause cascading renders
-  //   (async () => {
-  //     await checkShop();
-  //   })();
-  // }, []);
-
-  // ---- workingDays: toggle a day in/out of the array ----
-
+  // ===========================
+  // Working Days
+  // ===========================
 
   const toggleDay = (day) => {
     setForm((prev) => {
-      const already = prev.workingDays.includes(day);
+      const exists =
+        prev.workingDays.includes(day);
+
       return {
         ...prev,
-        workingDays: already
-          ? prev.workingDays.filter((d) => d !== day)
+        workingDays: exists
+          ? prev.workingDays.filter(
+            (d) => d !== day
+          )
           : [...prev.workingDays, day],
       };
     });
   };
 
-  // ---- services: dynamic rows ----
-  const handleServiceChange = (index, field, value) => {
-    const updated = [...form.services];
-    updated[index] = { ...updated[index], [field]: value };
-    setForm({ ...form, services: updated });
-  };
-  const addServiceRow = () => {
-    setForm({ ...form, services: [...form.services, { ...emptyService }] });
-  };
-  const removeServiceRow = (index) => {
-    setForm({ ...form, services: form.services.filter((_, i) => i !== index) });
+  // ===========================
+  // Services
+  // ===========================
+
+  const handleServiceChange = (
+    index,
+    field,
+    value
+  ) => {
+    const services = [...form.services];
+
+    services[index][field] = value;
+
+    setForm({
+      ...form,
+      services,
+    });
   };
 
-  // ---- employees: dynamic rows ----
-  const handleEmployeeChange = (index, field, value) => {
-    const updated = [...form.employees];
-    updated[index] = { ...updated[index], [field]: value };
-    setForm({ ...form, employees: updated });
+  const addService = () => {
+    setForm((prev) => ({
+      ...prev,
+      services: [
+        ...prev.services,
+        {
+          ...emptyService,
+        },
+      ],
+    }));
   };
-  const addEmployeeRow = () => {
-    setForm({ ...form, employees: [...form.employees, { ...emptyEmployee }] });
+
+  const removeService = (index) => {
+    setForm({
+      ...form,
+      services: form.services.filter(
+        (_, i) => i !== index
+      ),
+    });
   };
-  const removeEmployeeRow = (index) => {
-    setForm({ ...form, employees: form.employees.filter((_, i) => i !== index) });
+
+  // ===========================
+  // Employees
+  // ===========================
+
+  const handleEmployeeChange = (
+    index,
+    field,
+    value
+  ) => {
+    const employees = [...form.employees];
+
+    employees[index][field] = value;
+
+    setForm({
+      ...form,
+      employees,
+    });
   };
+
+  const addEmployee = () => {
+    setForm({
+      ...form,
+      employees: [
+        ...form.employees,
+        {
+          ...emptyEmployee,
+        },
+      ],
+    });
+  };
+
+  const removeEmployee = (index) => {
+    setForm({
+      ...form,
+      employees: form.employees.filter(
+        (_, i) => i !== index
+      ),
+    });
+  };// ===================================
+  // Register Shop
+  // ===================================
 
   const handleRegisterShop = async (e) => {
     e.preventDefault();
+
     setSaving(true);
     setError("");
+
     try {
-      // strip out any fully-empty service/employee rows before sending
-      const payload = {
-        ...form,
-        services: form.services.filter((s) => s.servicename.trim() !== ""),
-        employees: form.employees.filter((emp) => emp.name.trim() !== ""),
-      };
+      const payload = new FormData();
+
+      payload.append("shopname", form.shopname);
+      payload.append("ownername", form.ownername);
+      payload.append("address", form.address);
+      payload.append(
+        "genderCategory",
+        form.genderCategory
+      );
+
+      payload.append(
+        "openingTime",
+        form.openingTime
+      );
+
+      payload.append(
+        "closingTime",
+        form.closingTime
+      );
+
+      payload.append(
+        "workingDays",
+        JSON.stringify(form.workingDays)
+      );
+
+      payload.append(
+        "services",
+        JSON.stringify(
+          form.services.filter(
+            (x) => x.servicename.trim() !== ""
+          )
+        )
+      );
+
+      payload.append(
+        "employees",
+        JSON.stringify(
+          form.employees.filter(
+            (x) => x.name.trim() !== ""
+          )
+        )
+      );
+
+      if (shopImage) {
+        payload.append("photo", shopImage);
+      }
+
       await setupShop(payload);
+
       setShowForm(false);
-      checkShop(); // reload — will now find the shop and switch views
+
+      checkShop();
     } catch (err) {
-      setError(err.response?.data?.message || "Could not register shop.");
+      setError(
+        err.response?.data?.message ||
+        "Unable to register shop."
+      );
     } finally {
       setSaving(false);
     }
   };
 
-  const pendingCount = appointments.filter((a) => a.status === "Pending").length;
-  const confirmedCount = appointments.filter((a) => a.status === "Confirmed").length;
-  const completedCount = appointments.filter((a) => a.status === "Completed").length;
+  // ===================================
+  // Loading
+  // ===================================
 
   if (loading) {
     return (
       <div className="dash-content">
-        <p className="empty-state">Checking your shop status...</p>
+        <h2>Loading...</h2>
       </div>
     );
   }
 
-  // ---------- First-time owner: no shop registered yet ----------
+  // ===================================
+  // No Shop Found
+  // ===================================
+
   if (hasShop === false) {
     return (
       <div className="dash-content">
+
         {!showForm ? (
-          <div className="register-cta">
-            <h3>Register your shop</h3>
-            <p>You haven't set up a shop yet. Add your details to start accepting bookings.</p>
-            {error && <p className="auth-error">{error}</p>}
-            <button className="btn-primary" onClick={() => setShowForm(true)}>
-              Register shop
+          <div className="register-card">
+
+            <h1>
+              Register Your Salon
+            </h1>
+
+            <p>
+              Create your salon profile to
+              start accepting bookings.
+            </p>
+
+            {error && (
+              <p className="auth-error">
+                {error}
+              </p>
+            )}
+
+            <button
+              className="btn-primary"
+              onClick={() =>
+                setShowForm(true)
+              }
+            >
+              Register Shop
             </button>
+
           </div>
-        ) : (
-          <form className="dash-form" onSubmit={handleRegisterShop} style={{ maxWidth: 560 }}>
-            <h1 className="dash-heading">Shop details</h1>
+        ) : (<form
+          className="dash-form"
+          onSubmit={handleRegisterShop}
+        >
 
-            <div className="dash-field">
-              <label>Shop name</label>
-              <input name="shopname" value={form.shopname} onChange={handleFormChange} required />
-            </div>
+          <h2 className="dash-heading">
+            Register Shop
+          </h2>
 
-            <div className="dash-field">
-              <label>Owner name</label>
-              <input name="ownername" value={form.ownername} onChange={handleFormChange} required />
-            </div>
+          {/* Shop Image */}
 
-            <div className="dash-field">
-              <label>Address</label>
-              <input name="address" value={form.address} onChange={handleFormChange} required />
-            </div>
+          <div className="dash-field">
 
-            <div style={{ display: "flex", gap: 16 }}>
-              <div className="dash-field" style={{ flex: 1 }}>
-                <label>Opening time</label>
-                <input name="openingTime" type="time" value={form.openingTime} onChange={handleFormChange} required />
-              </div>
-              <div className="dash-field" style={{ flex: 1 }}>
-                <label>Closing time</label>
-                <input name="closingTime" type="time" value={form.closingTime} onChange={handleFormChange} required />
-              </div>
-            </div>
+            <label>Shop Photo</label>
 
-            <div className="dash-field">
-              <label>Category</label>
-              <select name="genderCategory" value={form.genderCategory} onChange={handleFormChange}>
-                <option value="unisex">Unisex</option>
-                <option value="male">Male only</option>
-                <option value="female">Female only</option>
-              </select>
-            </div>
+            <div className="shop-image-upload">
 
-            <div className="dash-field">
-              <label>Working days</label>
-              <div className="pill-row">
-                {DAYS.map((day) => {
-                  const active = form.workingDays.includes(day);
-                  return (
-                    <span
-                      key={day}
-                      className="pill"
-                      onClick={() => toggleDay(day)}
-                      style={{
-                        cursor: "pointer",
-                        background: active ? "var(--burgundy)" : "var(--ivory)",
-                        color: active ? "#fff" : "var(--ink)",
-                        borderColor: active ? "var(--burgundy)" : "var(--line)",
-                      }}
-                    >
-                      {day}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="dash-field">
-              <label>Services</label>
-              {form.services.map((s, i) => (
-                <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "center" }}>
-                  <input
-                    placeholder="Service name"
-                    value={s.servicename}
-                    onChange={(e) => handleServiceChange(i, "servicename", e.target.value)}
-                    style={{ flex: 2 }}
-                  />
-                  <input
-                    placeholder="Price"
-                    type="number"
-                    value={s.price}
-                    onChange={(e) => handleServiceChange(i, "price", e.target.value)}
-                    style={{ flex: 1 }}
-                  />
-                  <input
-                    placeholder="Duration (min)"
-                    type="number"
-                    value={s.duration}
-                    onChange={(e) => handleServiceChange(i, "duration", e.target.value)}
-                    style={{ flex: 1 }}
-                  />
-                  {form.services.length > 1 && (
-                    <button type="button" className="dash-logout-btn" onClick={() => removeServiceRow(i)}>
-                      Remove
-                    </button>
-                  )}
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="shop-preview"
+                />
+              ) : (
+                <div className="shop-placeholder">
+                  No Image
                 </div>
-              ))}
-              <button type="button" className="dash-logout-btn" onClick={addServiceRow}>
-                + Add service
-              </button>
+              )}
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+
+            </div>
+
+          </div>
+
+          {/* Shop Name */}
+
+          <div className="dash-field">
+
+            <label>Shop Name</label>
+
+            <input
+              name="shopname"
+              value={form.shopname}
+              onChange={handleFormChange}
+              placeholder="Royal Unisex Salon"
+              required
+            />
+
+          </div>
+
+          {/* Owner */}
+
+          <div className="dash-field">
+
+            <label>Owner Name</label>
+
+            <input
+              name="ownername"
+              value={form.ownername}
+              onChange={handleFormChange}
+              placeholder="Owner Name"
+              required
+            />
+
+          </div>
+
+          {/* Address */}
+
+          <div className="dash-field">
+
+            <label>Address</label>
+
+            <textarea
+              rows={3}
+              name="address"
+              value={form.address}
+              onChange={handleFormChange}
+              placeholder="Full Address"
+              required
+            />
+
+          </div>
+
+          {/* Category */}
+
+          <div className="dash-field">
+
+            <label>Category</label>
+
+            <select
+              name="genderCategory"
+              value={form.genderCategory}
+              onChange={handleFormChange}
+            >
+              <option value="unisex">
+                Unisex
+              </option>
+
+              <option value="male">
+                Male
+              </option>
+
+              <option value="female">
+                Female
+              </option>
+
+            </select>
+
+          </div>
+
+          {/* Timing */}
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 15,
+            }}
+          >
+
+            <div className="dash-field">
+
+              <label>
+                Opening Time
+              </label>
+
+              <input
+                type="time"
+                name="openingTime"
+                value={form.openingTime}
+                onChange={handleFormChange}
+                required
+              />
+
             </div>
 
             <div className="dash-field">
-              <label>Employees</label>
-              {form.employees.map((emp, i) => (
-                <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "center" }}>
-                  <input
-                    placeholder="Employee name"
-                    value={emp.name}
-                    onChange={(e) => handleEmployeeChange(i, "name", e.target.value)}
-                    style={{ flex: 2 }}
-                  />
-                  <select
-                    value={emp.gender}
-                    onChange={(e) => handleEmployeeChange(i, "gender", e.target.value)}
-                    style={{ flex: 1 }}
+
+              <label>
+                Closing Time
+              </label>
+
+              <input
+                type="time"
+                name="closingTime"
+                value={form.closingTime}
+                onChange={handleFormChange}
+                required
+              />
+
+            </div>
+
+          </div>
+
+          {/* Working Days */}
+
+          <div className="dash-field">
+
+            <label>
+              Working Days
+            </label>
+
+            <div className="pill-row">
+
+              {DAYS.map((day) => {
+
+                const active =
+                  form.workingDays.includes(day);
+
+                return (
+
+                  <button
+                    type="button"
+                    key={day}
+                    className={`pill ${active ? "active" : ""
+                      }`}
+                    onClick={() =>
+                      toggleDay(day)
+                    }
                   >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                  {form.employees.length > 1 && (
-                    <button type="button" className="dash-logout-btn" onClick={() => removeEmployeeRow(i)}>
-                      Remove
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button type="button" className="dash-logout-btn" onClick={addEmployeeRow}>
-                + Add employee
-              </button>
+                    {day}
+                  </button>
+
+                );
+              })}
+
             </div>
 
-            {error && <p className="auth-error">{error}</p>}
+          </div>{/* ===========================
+    SERVICES
+=========================== */}
 
-            <button className="btn-primary" type="submit" disabled={saving} style={{ marginTop: 8 }}>
-              {saving ? "Saving..." : "Save & continue"}
+          <div className="dash-field">
+
+            <label>Services</label>
+
+            {form.services.map((service, index) => (
+
+              <div
+                key={index}
+                className="service-card"
+              >
+
+                <input
+                  type="text"
+                  placeholder="Service Name"
+                  value={service.servicename}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "servicename",
+                      e.target.value
+                    )
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Price"
+                  value={service.price}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "price",
+                      e.target.value
+                    )
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Duration (Minutes)"
+                  value={service.duration}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "duration",
+                      e.target.value
+                    )
+                  }
+                />
+
+                {form.services.length > 1 && (
+
+                  <button
+                    type="button"
+                    className="remove-btn"
+                    onClick={() =>
+                      removeService(index)
+                    }
+                  >
+                    Remove
+                  </button>
+
+                )}
+
+              </div>
+
+            ))}
+
+            <button
+              type="button"
+              className="add-btn"
+              onClick={addService}
+            >
+              + Add Service
             </button>
-          </form>
+
+          </div>{/* ===========================
+    EMPLOYEES
+=========================== */}
+
+          <div className="dash-field">
+
+            <label>Employees</label>
+
+            {form.employees.map((employee, index) => (
+
+              <div
+                key={index}
+                className="employee-card"
+              >
+
+                {/* Employee Name */}
+
+                <input
+                  type="text"
+                  placeholder="Employee Name"
+                  value={employee.name}
+                  onChange={(e) =>
+                    handleEmployeeChange(
+                      index,
+                      "name",
+                      e.target.value
+                    )
+                  }
+                />
+
+                {/* Gender */}
+
+                <select
+                  value={employee.gender}
+                  onChange={(e) =>
+                    handleEmployeeChange(
+                      index,
+                      "gender",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="male">
+                    Male
+                  </option>
+
+                  <option value="female">
+                    Female
+                  </option>
+
+                  <option value="other">
+                    Other
+                  </option>
+
+                </select>
+
+                <div className="employee-services">
+
+                  <div className="employee-services-grid" style={{ color: "black" }}>
+                    <h4>Employee Services</h4>
+
+                    <div className="employee-service-grid">
+                      <div className="pill-row">
+                        {form.services
+                          .filter((s) => s.servicename.trim() !== "")
+                          .map((service) => {
+                            const checked = employee.employeeServices.includes(service.servicename);
+
+                            return (
+                              <span
+                                key={service.servicename}
+                                className="pill"
+                                onClick={() => {
+                                  const employees = [...form.employees];
+
+                                  if (checked) {
+                                    employees[index].employeeServices = employees[
+                                      index
+                                    ].employeeServices.filter((x) => x !== service.servicename);
+                                  } else {
+                                    employees[index].employeeServices.push(service.servicename);
+                                  }
+
+                                  setForm({ ...form, employees });
+                                }}
+                                style={{
+                                  cursor: "pointer",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 6,
+                                  background: checked ? "var(--burgundy)" : "var(--ivory)",
+                                  color: checked ? "#fff" : "var(--ink)",
+                                  borderColor: checked ? "var(--burgundy)" : "var(--line)",
+                                }}
+                              >
+                                {checked && <Check size={13} />}
+                                {service.servicename}
+                              </span>
+                            );
+                          })}
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+                {form.employees.length >
+                  1 && (
+
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={() =>
+                        removeEmployee(index)
+                      }
+                    >
+                      Remove Employee
+                    </button>
+
+                  )}
+
+              </div>
+
+            ))}
+
+            <button
+              type="button"
+              className="add-btn"
+              onClick={addEmployee}
+            >
+              + Add Employee
+            </button>
+
+          </div>{/* ===========================
+    ERROR
+=========================== */}
+
+          {error && (
+            <div className="auth-error">
+              {error}
+            </div>
+          )}
+
+          {/* ===========================
+    ACTION BUTTONS
+=========================== */}
+
+          <div className="form-actions">
+
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() =>
+                setShowForm(false)
+              }
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={saving}
+            >
+              {saving
+                ? "Registering..."
+                : "Register Shop"}
+            </button>
+
+          </div>
+
+        </form>
         )}
       </div>
     );
   }
 
-  // ---------- Returning owner: shop already registered ----------
+  /* ===============================
+     SHOP REGISTERED DASHBOARD
+  ================================ */
+  const isApproved = shop?.adminapproval === "Approved";
+
   return (
     <>
       <div className="dash-tabs">
-        <button className={`dash-tab ${tab === "home" ? "active" : ""}`} onClick={() => setTab("home")}>
+
+        <button
+          className={`dash-tab ${tab === "home"
+            ? "active"
+            : ""
+            }`}
+          onClick={() =>
+            setTab("home")
+          }
+        >
           Overview
         </button>
-        <button className={`dash-tab ${tab === "appointments" ? "active" : ""}`} onClick={() => setTab("appointments")}>
+
+        <button
+          className={`dash-tab ${tab === "appointments"
+            ? "active"
+            : ""
+            }`}
+          onClick={() =>
+            setTab("appointments")
+          }
+        >
           Appointments
         </button>
-        <button className={`dash-tab ${tab === "manage" ? "active" : ""}`} onClick={() => setTab("manage")}>
+
+        <button
+          className={`dash-tab ${tab === "manage"
+            ? "active"
+            : ""
+            }`}
+          onClick={() =>
+            setTab("manage")
+          }
+        >
           Manage
         </button>
-        <button className={`dash-tab ${tab === "profile" ? "active" : ""}`} onClick={() => setTab("profile")}>
+
+        <button
+          className={`dash-tab ${tab === "profile"
+            ? "active"
+            : ""
+            }`}
+          onClick={() =>
+            setTab("profile")
+          }
+        >
           Profile
         </button>
+
       </div>
 
       <div className="dash-content">
-        {tab === "profile" && <Profile />}
-
-        {tab === "manage" && shop && <ManageShop shop={shop} onChanged={checkShop} />}
-
         {tab === "home" && shop && (
           <>
-            <h1 className="dash-heading">{shop.shopname}</h1>
-            <p className="dash-subheading">{shop.address}</p>
+            <div className="shop-hero">
 
-            <div className="stat-grid">
-              <div className="stat-card">
-                <div className="stat-value">{pendingCount}</div>
-                <div className="stat-label">Pending</div>
+              <div className="shop-left">
+                <img
+
+                  src={shop.photo}
+                  alt={shop.shopname}
+                  className="shop-cover"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://placehold.co/600x400?text=Salon";
+                  }}
+                />
               </div>
-              <div className="stat-card">
-                <div className="stat-value">{confirmedCount}</div>
-                <div className="stat-label">Confirmed</div>
+
+              <div className="shop-right">
+
+                <h1>{shop.shopname}</h1>
+
+                <p className="shop-owner">
+                  Owner : {shop.ownername}
+                </p>
+
+                <p className="shop-address">
+                  📍 {shop.address}
+                </p>
+
+                <div className="shop-tags">
+
+                  <span>{shop.genderCategory}</span>
+
+                  <span>
+                    🕘 {shop.openingTime} - {shop.closingTime}
+                  </span>
+
+                </div>
+
+                <div className="working-days">
+                  <span>{shop.workingDays}</span>
+                </div>
+
+                <div
+                  className={`approval-banner ${isApproved
+                    ? "approved"
+                    : "pending"
+                    }`}
+                >
+                  {isApproved
+                    ? "✅ Shop Approved"
+                    : "⏳ Waiting For Admin Approval"}
+                </div>
+
               </div>
-              <div className="stat-card">
-                <div className="stat-value">{completedCount}</div>
-                <div className="stat-label">Completed</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{shop.adminapproval}</div>
-                <div className="stat-label">Approval status</div>
-              </div>
+
             </div>
 
-            <div className="pill-row" style={{ marginBottom: 16 }}>
-              <span className="pill">{shop.genderCategory}</span>
-              <span className="pill">{shop.openingTime}–{shop.closingTime}</span>
-              {(shop.workingDays || []).map((d) => (
-                <span className="pill" key={d}>{d}</span>
-              ))}
-            </div>
+            {isApproved ? (
 
-            {shop.services?.length > 0 && (
               <>
-                <h3 style={{ marginBottom: 8 }}>Services</h3>
-                <div className="pill-row" style={{ marginBottom: 16 }}>
-                  {shop.services.map((s) => (
-                    <span className="pill" key={s._id}>{s.servicename} · ₹{s.price}</span>
-                  ))}
-                </div>
-              </>
-            )}
+                {/* ================= STATS ================= */}
+                <div className={`stats-grid ${!isApproved ? "disabled-section" : ""
+                  }`}>
 
-            {shop.employees?.length > 0 && (
-              <>
-                <h3 style={{ marginBottom: 8 }}>Employees</h3>
-                <div className="pill-row">
-                  {shop.employees.map((e) => (
-                    <span className="pill" key={e._id}>{e.name}</span>
-                  ))}
+                  <div className="stat-box">
+
+                    <h2>{pendingCount}</h2>
+
+                    <p>Pending</p>
+
+                  </div>
+
+                  <div className="stat-box">
+
+                    <h2>{confirmedCount}</h2>
+
+                    <p>Confirmed</p>
+
+                  </div>
+
+                  <div className="stat-box">
+
+                    <h2>{completedCount}</h2>
+
+                    <p>Completed</p>
+
+                  </div>
+
+                  <div className="stat-box">
+                    <h2>{cancelledCount}</h2>
+                    <p>Cancelled</p>
+                  </div>
+
+                  <div className="stat-box">
+                    <h2>{noShowCount}</h2>
+                    <p>No Show</p>
+                  </div>
+
+                  {/* <div className="stat-box">
+
+                    <h2>
+                      {shop.adminapproval}
+                    </h2>
+
+                    <p>Approval</p>
+
+                  </div> */}
+
                 </div>
+
+                {/* ================= SERVICES ================= */}
+
+                <div className={`dashboard-card ${!isApproved ? "disabled-section" : ""
+                  }`}>
+
+                  <div className="card-header">
+
+                    <h2>Services</h2>
+
+                  </div>
+
+                  <div className="service-grid">
+
+                    {shop.services?.map((service) => (
+
+                      <div
+                        key={service._id}
+                        className="service-item"
+                      >
+
+                        <h3>
+                          {service.servicename}
+                        </h3>
+
+                        <p>
+                          ₹{service.price}
+                        </p>
+
+                        <small>
+                          {service.duration} Minutes
+                        </small>
+
+                      </div>
+
+                    ))}
+
+                  </div>
+
+                </div>
+
+                {/* ================= EMPLOYEES ================= */}
+
+                <div className={`dashboard-card ${!isApproved ? "disabled-section" : ""
+                  }`}>
+
+                  <div className="card-header">
+
+                    <h2>Employees</h2>
+
+                  </div>
+
+                  <div className="employee-grid">
+
+                    {shop.employees?.map((emp) => (
+
+                      <div
+                        key={emp._id}
+                        className="employee-item"
+                      >
+
+                        <div className="employee-avatar">
+
+                          {emp.name.charAt(0)}
+
+                        </div>
+
+                        <h3>
+                          {emp.name}
+                        </h3>
+
+                        <p>
+                          {emp.gender}
+                        </p>
+                        <div className="employee-services-list">
+                          {emp.employeeServices?.map((service, index) => (
+                            <span
+                              key={service._id || index}
+                            >
+                              {typeof service === "string"
+                                ? service
+                                : service.servicename}
+                            </span>
+                          ))}
+                        </div>
+
+                      </div>
+
+                    ))}
+
+                  </div>
+
+                </div>
+
               </>
+
+            ) : (
+
+              <div className="approval-card">
+
+                <h2>
+                  Your salon registration has been submitted.
+                </h2>
+
+                <p>
+                  Your shop is currently under review.
+                  Once approved, customers can book
+                  appointments and your dashboard will
+                  become active.
+                </p>
+
+              </div>
+
             )}
           </>
         )}
 
         {tab === "appointments" && (
           <>
-            <h1 className="dash-heading">Appointments</h1>
+
+            <div className="appointment-header">
+
+              <div>
+
+                <h1>Appointments</h1>
+
+                <p>
+                  Manage all customer bookings
+                </p>
+
+              </div>
+
+            </div>
+
             {appointments.length === 0 ? (
-              <p className="empty-state">No appointments yet.</p>
+
+              <div className="empty-card">
+
+                <h2>No Appointments</h2>
+
+                <p>
+                  You don't have any bookings yet.
+                </p>
+
+              </div>
+
             ) : (
-              <table className="appt-table">
-                <thead>
-                  <tr>
-                    <th>Customer</th>
-                    <th>Services</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {appointments.map((a) => (
-                    <tr key={a._id}>
-                      <td>{a.customerId?.name || a.customerId}</td>
-                      <td>{(a.services || []).map((s) => s.servicename).join(", ")}</td>
-                      <td>{a.starttime} – {a.endTime}</td>
-                      <td><span className={`status-badge status-${a.status}`}>{a.status}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+              <div className="appointment-list">
+
+                {appointments.map((appointment) => (
+
+                  <div
+                    className="appointment-card"
+                    key={appointment.appointmentId}
+                  >
+
+                    {/* Customer */}
+
+                    <div className="customer-section">
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-user"></i>
+                        <span>{appointment.customer?.name}</span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-envelope"></i>
+                        <span>{appointment.customer?.email}</span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-phone"></i>
+                        <span>{appointment.customer?.number}</span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-calendar-days"></i>
+                        <strong>Date</strong>
+                        <span>{appointment.starttime.split(", ")[0]}</span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-clock"></i>
+                        <strong>Time</strong>
+                        <span>
+                          {appointment.starttime.split(", ")[1]} - {appointment.endTime.split(", ")[1]}
+                        </span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-scissors"></i>
+                        <strong>Services</strong>
+
+                        <div className="service-chip-list">
+                          {appointment.services?.map((service, index) => (
+                            <span
+                              key={`${service.serviceItemId}-${index}`}
+                              className="service-chip"
+                            >
+                              {service.servicename}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-user-tie"></i>
+                        <strong>Employee</strong>
+                        <span>{appointment.employee?.name}</span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-circle-info"></i>
+                        <strong>Status</strong>
+
+                        <span
+                          className={`status-badge status-${appointment.status
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}`}
+                        >
+                          {appointment.status}
+                        </span>
+                      </div>
+
+                      <div className="customer-info-row">
+                        <i className="fa-solid fa-indian-rupee-sign"></i>
+                        <strong>Total</strong>
+                        <span className="price-value">₹{appointment.totalPrice}</span>
+                      </div>
+
+                    </div>
+
+                    <div className="appointment-actions">
+
+                      {appointment.status === "Pending" && (
+                        <>
+                          <button
+                            className="btn-action btn-confirm"
+                            onClick={() =>
+                              updateAppointmentStatus(
+                                appointment.appointmentId,
+                                "Confirmed"
+                              )
+                            }
+                          >
+                            ✓ Confirm
+                          </button>
+
+                          <button
+                            className="btn-action btn-cancel"
+                            onClick={() =>
+                              updateAppointmentStatus(
+                                appointment.appointmentId,
+                                "Cancelled"
+                              )
+                            }
+                          >
+                            ✕ Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {appointment.status === "Confirmed" && (
+                        <>
+                          <button
+                            className="btn-action btn-complete"
+                            onClick={() =>
+                              updateAppointmentStatus(
+                                appointment.appointmentId,
+                                "Completed"
+                              )
+                            }
+                          >
+                            ✔ Complete
+                          </button>
+
+                          <button
+                            className="btn-action btn-noshow"
+                            onClick={() =>
+                              updateAppointmentStatus(
+                                appointment.appointmentId,
+                                "NoShow"
+                              )
+                            }
+                          >
+                            🚫 No Show
+                          </button>
+
+                          <button
+                            className="btn-action btn-cancel"
+                            onClick={() =>
+                              updateAppointmentStatus(
+                                appointment.appointmentId,
+                                "Cancelled"
+                              )
+                            }
+                          >
+                            ✕ Cancel
+                          </button>
+                        </>
+                      )}
+
+                    </div>
+
+                  </div>
+
+                ))}
+
+              </div>
+
             )}
+
           </>
         )}
+
+        {tab === "manage" && (
+          <ManageShop
+            shop={shop}
+            onChanged={checkShop}
+          />
+        )}
+
+        {tab === "profile" && (
+          <Profile />
+        )}
+
       </div>
     </>
   );

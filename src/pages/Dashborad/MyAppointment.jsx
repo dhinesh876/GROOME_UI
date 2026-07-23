@@ -72,13 +72,14 @@ export default function MyAppointments() {
       )}
 
       {loading ? (
-        <p className="empty-state">
-          Loading appointments...
-        </p>
+        <div className="empty-state">
+          <h3>Loading appointments...</h3>
+        </div>
       ) : appointments.length === 0 ? (
-        <p className="empty-state">
-          No appointments found.
-        </p>
+        <div className="empty-state">
+          <h3>No Appointments Found</h3>
+          <p>You haven't booked any appointments yet.</p>
+        </div>
       ) : (
         <div className="appointment-grid">
           {appointments.map((item) => (
@@ -86,50 +87,58 @@ export default function MyAppointments() {
               key={item.appointmentId}
               className="appointment-card"
             >
+              {/* Header */}
               <div className="appointment-header">
-                <h2>{item.shop?.shopname}</h2>
+                <div>
+                  <h2>{item.shop?.shopname}</h2>
 
-                {/* <span
-                  className={`appointment-status ${item.status.toLowerCase()}`}
-                >
-                  {item.status}
-                </span> */}
+                  <p className="booking-id">
+                    Booking ID : #{item.appointmentId.slice(-6).toUpperCase()}
+                  </p>
+                </div>
 
                 <span
                   className={`appointment-status ${(item.status || "")
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
                 >
-                  {item.status || "Unknown"}
+                  {item.status}
                 </span>
               </div>
 
+              {/* Details */}
               <div className="appointment-info">
-                <p>
-                  <strong>Date:</strong> {item.date}
-                </p>
 
-                <p>
-                  <strong>Time:</strong>{" "}
-                  {item.starttime} - {item.endTime}
-                </p>
+                <div className="info-row">
+                  <span>Date</span>
+                  <strong>{item.date}</strong>
+                </div>
 
-                <p>
-                  <strong>Employee:</strong>{" "}
-                  {item.employee?.name}
-                </p>
+                <div className="info-row">
+                  <span>Time</span>
+                  <strong>
+                    {item.starttime} - {item.endTime}
+                  </strong>
+                </div>
 
-                <p>
-                  <strong>Duration:</strong>{" "}
-                  {item.totalDuration} mins
-                </p>
+                <div className="info-row">
+                  <span>Employee</span>
+                  <strong>{item.employee?.name}</strong>
+                </div>
 
-                <p>
-                  <strong>Total Price:</strong> ₹
-                  {item.totalPrice}
-                </p>
+                <div className="info-row">
+                  <span>Duration</span>
+                  <strong>{item.totalDuration} mins</strong>
+                </div>
+
+                <div className="info-row total-price">
+                  <span>Total Price</span>
+                  <strong>₹{item.totalPrice}</strong>
+                </div>
+
               </div>
 
+              {/* Services */}
               <div className="appointment-services">
                 {item.services.map((service) => (
                   <span
@@ -141,12 +150,11 @@ export default function MyAppointments() {
                 ))}
               </div>
 
+              {/* Cancel Button */}
               {!["Cancelled", "Completed", "NoShow"].includes(item.status) && (
                 <button
                   className="cancel-btn"
-                  onClick={() =>
-                    handleCancel(item.appointmentId)
-                  }
+                  onClick={() => handleCancel(item.appointmentId)}
                 >
                   Cancel Appointment
                 </button>
@@ -155,6 +163,8 @@ export default function MyAppointments() {
           ))}
         </div>
       )}
+
+
     </>
   );
 }

@@ -8,7 +8,7 @@ import axios from "axios";
 // const BASE_URL = import.meta.env.VITE_API_URL + "/auth/"; //"http://localhost:3000/auth/"; // <-- update to your real backend URL
 
 // console.log(import.meta.env.VITE_API_URL);
-const BASE_URL = "https://groome-backend.onrender.com/auth/" //"https://groome-backend.onrender.com/auth/" //"http://10.26.53.182:3000/auth/";
+const BASE_URL = "http://localhost:3000/auth/" //"https://groome-backend.onrender.com/auth/" //"http://10.26.53.182:3000/auth/";
 
 const api = axios.create({
   baseURL: BASE_URL,
