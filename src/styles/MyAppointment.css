@@ -264,6 +264,12 @@
     color: white;
     border-radius: 10px;
     cursor: pointer;
+    transition: 0.25s;
+}
+
+.cancel-btn:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
 }
 
 .btn-primary {
