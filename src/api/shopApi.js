@@ -6,8 +6,8 @@
 
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
-const Authrefresh = "http://localhost:3000/auth";
+const BASE_URL = "https://groome-backend.onrender.com";
+const Authrefresh = "https://groome-backend.onrender.com/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/shop`,
