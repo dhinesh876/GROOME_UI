@@ -110,29 +110,29 @@ export default function MyAppointments() {
               <div className="appointment-info">
 
                 <div className="info-row">
-                  <span>Date</span>
+                  <span>Date </span>
                   <strong>{item.date}</strong>
                 </div>
 
                 <div className="info-row">
-                  <span>Time</span>
+                  <span>Time </span>
                   <strong>
                     {item.starttime} - {item.endTime}
                   </strong>
                 </div>
 
                 <div className="info-row">
-                  <span>Employee</span>
+                  <span>Employee </span>
                   <strong>{item.employee?.name}</strong>
                 </div>
 
                 <div className="info-row">
-                  <span>Duration</span>
+                  <span>Duration </span>
                   <strong>{item.totalDuration} mins</strong>
                 </div>
 
                 <div className="info-row total-price">
-                  <span>Total Price</span>
+                  <span>Total Price </span>
                   <strong>₹{item.totalPrice}</strong>
                 </div>
 
