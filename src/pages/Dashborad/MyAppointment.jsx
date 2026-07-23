@@ -81,7 +81,7 @@ export default function MyAppointments() {
           <p>You haven't booked any appointments yet.</p>
         </div>
       ) : (
-        <div className="appointment-grid">
+        <div className="appointment-grid" >
           {appointments.map((item) => (
             <div
               key={item.appointmentId}
