@@ -209,6 +209,8 @@ export default function ShopOwnerDashboard({
 
       const res = await getShopAppointments(shopId);
 
+      console.log(res.data.counts, " ", res.data.appointments)
+
       setAppointments(res.data.appointments || res.data || []);
 
 
@@ -242,8 +244,6 @@ export default function ShopOwnerDashboard({
 
       setShop(shopData);
       setHasShop(true);
-
-      console.log(shop.photo.url);
 
       if (shopData.adminapproval === "Approved") {
         await loadAppointments(shopData._id);

@@ -289,7 +289,6 @@ export const deleteEmployee = async (shopId, employeeId) => {
 export const getExistingServices = async () => {
   try {
     const res = await api.get("/shop/services");
-    console.log(res);
     return res;
   }
   catch (err) {
