@@ -210,7 +210,7 @@ export default function ShopOwnerDashboard({
       const res = await getShopAppointments(shopId);
 
       setAppointments(res.data.appointments || res.data || []);
-      console.log(res.data.appointments);
+
 
     } catch (err) {
       if (
