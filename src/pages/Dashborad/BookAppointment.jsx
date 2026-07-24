@@ -671,11 +671,19 @@ export default function BookAppointment({ shop, onBack, onBooked }) {
       {/* ---------- Header ---------- */}
       <div className="ba-header">
         <div className="ba-header-icon">
-          <Scissors size={26} />
+          {/* <Scissors size={26} /> */}
+
+          <div className="profile-shop-avatar">
+
+            <img
+              src={shop.photo?.url || shop.photo}
+              className="profile-shop-avatar-img"
+            />
+          </div>
         </div>
-        <div>
+        <div style={{ marginLeft: 10 }}>
           <h1>{shop.shopname}</h1>
-          <p>Select your services and preferred time</p>
+          <p> Select your services and preferred time</p>
         </div>
       </div>
 
@@ -754,7 +762,7 @@ export default function BookAppointment({ shop, onBack, onBooked }) {
           </div>
 
           {employees.length === 0 ? (
-            <p className="empty-state">No employee can perform all selected services.</p>
+            <p className="empty-state" style={{ color: "black" }}>No employee can perform all selected services.</p>
           ) : (
             employees.map((employee) => {
               const active = selectedEmployeeId === employee._id;

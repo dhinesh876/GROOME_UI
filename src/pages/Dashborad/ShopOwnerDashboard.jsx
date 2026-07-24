@@ -3,6 +3,7 @@
 import { Check } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {
+  getExistingServices,
   getMyShop,
   getShopAppointments,
   setupShop, updateAppointmentStatus
@@ -43,7 +44,7 @@ export default function ShopOwnerDashboard({
   // -------------------------------
   const [shop, setShop] = useState(null);
   const [hasShop, setHasShop] = useState(null);
-
+  const [existingServices, setExistingServices] = useState([]);
   const [appointments, setAppointments] =
     useState([]);
 
@@ -93,6 +94,80 @@ export default function ShopOwnerDashboard({
       },
     ],
   });
+
+
+  // const selectExistingService = (index, id) => {
+
+  //   const selected = existingServices.find(
+  //     service => service._id === id
+  //   );
+
+  //   if (!selected) return;
+
+  //   const updated = [...form.services];
+
+  //   updated[index] = {
+  //     servicename: selected.servicename,
+  //     price: selected.price,
+  //     duration: selected.duration,
+  //   };
+
+  //   setForm({
+  //     ...form,
+  //     services: updated,
+  //   });
+
+  // };
+
+  const selectExistingService = (index, serviceId) => {
+    const selected = existingServices.find(
+      (item) => item._id === serviceId
+    );
+
+    if (!selected) return;
+
+    setForm((prev) => {
+      // Prevent duplicate service names
+      const exists = prev.services.some(
+        (service, i) =>
+          i !== index &&
+          service.servicename.trim().toLowerCase() ===
+          selected.servicename.trim().toLowerCase()
+      );
+
+      if (exists) {
+        alert("This service has already been added.");
+        return prev;
+      }
+
+      const services = [...prev.services];
+
+      services[index] = {
+        servicename: selected.servicename,
+        price: selected.price,
+        duration: selected.duration,
+      };
+
+      return {
+        ...prev,
+        services,
+      };
+    });
+  };
+
+
+  const loadExistingServices = async () => {
+    try {
+      const res = await getExistingServices();
+      setExistingServices(res.data.services || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    loadExistingServices();
+  }, []);
 
   // -------------------------------
   // Appointment Counts
@@ -167,6 +242,8 @@ export default function ShopOwnerDashboard({
 
       setShop(shopData);
       setHasShop(true);
+
+      console.log(shop.photo.url);
 
       if (shopData.adminapproval === "Approved") {
         await loadAppointments(shopData._id);
@@ -264,16 +341,39 @@ export default function ShopOwnerDashboard({
     });
   };
 
+  // const addService = () => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     services: [
+  //       ...prev.services,
+  //       {
+  //         ...emptyService,
+  //       },
+  //     ],
+  //   }));
+  // };
+
   const addService = () => {
-    setForm((prev) => ({
-      ...prev,
-      services: [
-        ...prev.services,
-        {
-          ...emptyService,
-        },
-      ],
-    }));
+    setForm((prev) => {
+      const hasEmptyService = prev.services.some(
+        (service) => service.servicename.trim() === ""
+      );
+
+      if (hasEmptyService) {
+        alert("Please fill the existing service before adding a new one.");
+        return prev;
+      }
+
+      return {
+        ...prev,
+        services: [
+          ...prev.services,
+          {
+            ...emptyService,
+          },
+        ],
+      };
+    });
   };
 
   const removeService = (index) => {
@@ -417,7 +517,7 @@ export default function ShopOwnerDashboard({
       <div className="dash-content">
 
         {!showForm ? (
-          <div className="register-card">
+          <div className="shop-setup-empty-card">
 
             <h1>
               Register Your Salon
@@ -493,7 +593,7 @@ export default function ShopOwnerDashboard({
               name="shopname"
               value={form.shopname}
               onChange={handleFormChange}
-              placeholder="Royal Unisex Salon"
+              placeholder="Enter Salon name"
               required
             />
 
@@ -645,7 +745,7 @@ export default function ShopOwnerDashboard({
 
             <label>Services</label>
 
-            {form.services.map((service, index) => (
+            {/* {form.services.map((service, index) => (
 
               <div
                 key={index}
@@ -707,12 +807,157 @@ export default function ShopOwnerDashboard({
 
               </div>
 
+            ))} */}
+
+            {form.services.map((service, index) => (
+
+              <div key={index} className="service-card">
+
+                {/* <select
+                  value=""
+                  onChange={(e) =>
+                    selectExistingService(index, e.target.value)
+                  }
+                >
+                  <option value="">Select Existing Service</option>
+
+                  {existingServices.map((item) => (
+                    <option
+                      key={item._id}
+                      value={item._id}
+                    >
+                      {item.servicename}
+                    </option>
+                  ))}
+                </select> */}
+
+                <select
+                  value=""
+                  onChange={(e) =>
+                    selectExistingService(index, e.target.value)
+                  }
+                  style={{
+                    width: "100%",
+                    height: "48px",
+                    padding: "0 14px",
+                    marginBottom: "1px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "10px",
+                    background: "#fff",
+                    color: "#374151",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    outline: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.border = "1px solid #7C3AED";
+                    e.target.style.boxShadow =
+                      "0 0 0 4px rgba(124,58,237,0.15)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.border = "1px solid #d1d5db";
+                    e.target.style.boxShadow =
+                      "0 2px 8px rgba(0,0,0,0.05)";
+                  }}
+                >
+                  <option value="">Select Existing Service</option>
+
+                  {existingServices.map((item) => (
+                    <option
+                      key={item._id}
+                      value={item._id}
+                    >
+                      {item.servicename}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="text"
+                  placeholder="Service Name"
+                  value={service.servicename}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "servicename",
+                      e.target.value
+                    )
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Price"
+                  value={service.price}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "price",
+                      e.target.value
+                    )
+                  }
+                />
+
+                <input
+                  type="number"
+                  placeholder="Duration (Minutes)"
+                  value={service.duration}
+                  onChange={(e) =>
+                    handleServiceChange(
+                      index,
+                      "duration",
+                      e.target.value
+                    )
+                  }
+                />
+
+                {form.services.length > 1 && (
+                  <button
+                    type="button"
+                    className="remove-btn"
+                    onClick={() => removeService(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+
+              </div>
+
             ))}
 
             <button
               type="button"
               className="add-btn"
               onClick={addService}
+              style={{
+                background: "linear-gradient(135deg, #7C3AED, #4F46E5)",
+                color: "#fff",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "10px",
+                fontSize: "15px",
+                fontWeight: "600",
+                cursor: "pointer",
+                boxShadow: "0 8px 20px rgba(124, 58, 237, 0.3)",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #6D28D9, #4338CA)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 24px rgba(124, 58, 237, 0.45)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #7C3AED, #4F46E5)";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 20px rgba(124, 58, 237, 0.3)";
+              }}
             >
               + Add Service
             </button>
@@ -780,9 +1025,11 @@ export default function ShopOwnerDashboard({
 
                     <div className="employee-service-grid">
                       <div className="pill-row">
-                        {form.services
+
+                        {/* {form.services
                           .filter((s) => s.servicename.trim() !== "")
                           .map((service) => {
+
                             const checked = employee.employeeServices.includes(service.servicename);
 
                             return (
@@ -816,7 +1063,51 @@ export default function ShopOwnerDashboard({
                                 {service.servicename}
                               </span>
                             );
+                          })} */}
+
+                        {form.services
+                          .filter((s) => s.servicename.trim() !== "")
+                          .map((service, serviceIndex) => {
+
+                            const checked = employee.employeeServices.includes(service.servicename);
+
+                            return (
+                              <span
+                                key={`${service.servicename}-${serviceIndex}`}
+                                className="pill"
+                                onClick={() => {
+                                  const employees = [...form.employees];
+
+                                  if (checked) {
+                                    employees[index].employeeServices =
+                                      employees[index].employeeServices.filter(
+                                        (x) => x !== service.servicename
+                                      );
+                                  } else {
+                                    employees[index].employeeServices.push(service.servicename);
+                                  }
+
+                                  setForm({
+                                    ...form,
+                                    employees,
+                                  });
+                                }}
+                                style={{
+                                  cursor: "pointer",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 6,
+                                  background: checked ? "var(--burgundy)" : "var(--ivory)",
+                                  color: checked ? "#fff" : "var(--ink)",
+                                  borderColor: checked ? "var(--burgundy)" : "var(--line)",
+                                }}
+                              >
+                                {checked && <Check size={13} />}
+                                {service.servicename}
+                              </span>
+                            );
                           })}
+
                       </div>
 
                     </div>
@@ -847,6 +1138,32 @@ export default function ShopOwnerDashboard({
               type="button"
               className="add-btn"
               onClick={addEmployee}
+              style={{
+                background: "linear-gradient(135deg, #7C3AED, #4F46E5)",
+                color: "#fff",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "10px",
+                fontSize: "15px",
+                fontWeight: "600",
+                cursor: "pointer",
+                boxShadow: "0 8px 20px rgba(124, 58, 237, 0.3)",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #6D28D9, #4338CA)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 24px rgba(124, 58, 237, 0.45)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #7C3AED, #4F46E5)";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 20px rgba(124, 58, 237, 0.3)";
+              }}
             >
               + Add Employee
             </button>
@@ -961,8 +1278,7 @@ export default function ShopOwnerDashboard({
 
               <div className="shop-left">
                 <img
-
-                  src={shop.photo}
+                  src={shop.photo?.url || shop.photo}
                   alt={shop.shopname}
                   className="shop-cover"
                   onError={(e) => {
@@ -1304,24 +1620,28 @@ export default function ShopOwnerDashboard({
                         <>
                           <button
                             className="btn-action btn-confirm"
-                            onClick={() =>
-                              updateAppointmentStatus(
+                            onClick={async () => {
+                              await updateAppointmentStatus(
                                 appointment.appointmentId,
                                 "Confirmed"
-                              )
-                            }
+                              );
+
+                              await loadAppointments();
+                            }}
                           >
                             ✓ Confirm
                           </button>
 
                           <button
                             className="btn-action btn-cancel"
-                            onClick={() =>
-                              updateAppointmentStatus(
+                            onClick={async () => {
+                              await updateAppointmentStatus(
                                 appointment.appointmentId,
                                 "Cancelled"
-                              )
-                            }
+                              );
+
+                              await loadAppointments();
+                            }}
                           >
                             ✕ Cancel
                           </button>
@@ -1332,36 +1652,42 @@ export default function ShopOwnerDashboard({
                         <>
                           <button
                             className="btn-action btn-complete"
-                            onClick={() =>
-                              updateAppointmentStatus(
+                            onClick={async () => {
+                              await updateAppointmentStatus(
                                 appointment.appointmentId,
                                 "Completed"
-                              )
-                            }
+                              );
+
+                              await loadAppointments();
+                            }}
                           >
                             ✔ Complete
                           </button>
 
                           <button
                             className="btn-action btn-noshow"
-                            onClick={() =>
-                              updateAppointmentStatus(
+                            onClick={async () => {
+                              await updateAppointmentStatus(
                                 appointment.appointmentId,
                                 "NoShow"
-                              )
-                            }
+                              );
+
+                              await loadAppointments();
+                            }}
                           >
                             🚫 No Show
                           </button>
 
                           <button
                             className="btn-action btn-cancel"
-                            onClick={() =>
-                              updateAppointmentStatus(
+                            onClick={async () => {
+                              await updateAppointmentStatus(
                                 appointment.appointmentId,
                                 "Cancelled"
-                              )
-                            }
+                              );
+
+                              await loadAppointments();
+                            }}
                           >
                             ✕ Cancel
                           </button>

@@ -156,17 +156,102 @@ export const getProfile = async () => {
 }
 
 
+// export const updateProfile = async (data) => {
+
+//   try {
+
+//     if (data.shop) {
+
+//       const shop = data.shop?.[0];
+
+//       console.log(data.shop.shopname, " data ", shop);
+
+//       const formData = new FormData();
+
+//       formData.append("name", data.name);
+//       formData.append("number", data.number);
+//       formData.append("gender", data.gender);
+
+//       formData.append("shopname", data.shop.shopname);
+//       formData.append("address", data.shop.address);
+//       formData.append("openingTime", data.shop.openingTime);
+//       formData.append("closingTime", data.shop.closingTime);
+//       formData.append("genderCategory", data.shop.genderCategory);
+//       formData.append(
+//         "workingDays",
+//         JSON.stringify(data.shop.workingDays)
+//       );
+
+//       if (data.shop.photo instanceof File) {
+//         formData.append("photo", data.shop.photo);
+//       }
+
+//       console.log(formData);
+//       const Profiledata = await api.post(
+//         "/updaet/myprofile",
+//         formData,
+//       );
+
+//       return Profiledata;
+
+//     }
+
+//     return await api.post("/updaet/myprofile", data);
+
+//   } catch (err) {
+
+//     console.log(err.message);
+
+//   }
+
+// };
+
 export const updateProfile = async (data) => {
 
   try {
-    const Profiledata = await api.post("/updaet/myprofile", data);
 
-    return Profiledata;
-  }
-  catch (err) {
-    console.log(err.message);
-  }
-}
+    if (data.shop) {
 
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("number", data.number);
+      formData.append("gender", data.gender);
+
+      // Send the complete shop object
+      formData.append(
+        "shop",
+        JSON.stringify({
+          shopname: data.shop.shopname,
+          address: data.shop.address,
+          openingTime: data.shop.openingTime,
+          closingTime: data.shop.closingTime,
+          genderCategory: data.shop.genderCategory,
+          workingDays: data.shop.workingDays,
+        })
+      );
+
+      // Send photo separately
+      if (data.shop.photo instanceof File) {
+        formData.append("photo", data.shop.photo);
+      }
+
+      const Profiledata = await api.post(
+        "/updaet/myprofile",
+        formData
+      );
+
+      return Profiledata;
+    }
+
+    return await api.post("/updaet/myprofile", data);
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
 
 export default api;

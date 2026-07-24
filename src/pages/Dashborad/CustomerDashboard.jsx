@@ -297,7 +297,7 @@ export default function CustomerDashboard({
                             shop.photo
                               ? {
                                 backgroundImage:
-                                  `url(${shop.photo})`,
+                                  `url(${shop.photo?.url || shop.photo})`,
                                 backgroundSize:
                                   "cover",
                                 backgroundPosition:

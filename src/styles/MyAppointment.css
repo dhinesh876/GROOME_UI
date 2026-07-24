@@ -13,7 +13,7 @@
    REGISTER SHOP (empty state, before shop is set up)
 =================================================== */
 
-.register-card {
+/* .register-card {
     max-width: 450px;
     margin: 80px auto;
     text-align: center;
@@ -30,7 +30,7 @@
 .register-card p {
     color: #666;
     margin-bottom: 25px;
-}
+} */
 
 /* ===================================================
    REGISTER / EDIT SHOP FORM

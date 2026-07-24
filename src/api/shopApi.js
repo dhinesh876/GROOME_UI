@@ -141,6 +141,9 @@ api.interceptors.response.use(
   }
 );
 
+
+
+
 // --- Customer side --------------------------------------------------
 export const browseShops = (userid) => api.get(`/browserShops/${userid}`); // search/filter query params
 export const getShopById = (shopId, userid) => api.get(`/browserShops/${shopId}/${userid}`);
@@ -196,12 +199,101 @@ export const updateAppointmentStatus = async (appointmentId, status) => {
 }
 // --- Managing services / employees after the shop already exists ------
 // adjust these paths to match your real shopController routes
-export const addService = (data) => api.post("/shops/services", data);       // { servicename, price, duration }
-export const updateService = (serviceId, data) => api.put(`/shops/services/${serviceId}`, data);
-export const deleteService = (serviceId) => api.delete(`/shops/services/${serviceId}`);
 
-export const addEmployee = (data) => api.post("/shops/employees", data);     // { name, gender, employeeServices }
-export const updateEmployee = (employeeId, data) => api.put(`/shops/employees/${employeeId}`, data);
-export const deleteEmployee = (employeeId) => api.delete(`/shops/employees/${employeeId}`);
+function toTitleCase(text) {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
+export const addService = async (data, shopId) => {
+  try {
+
+    const shopservices = {
+      ...data,
+      servicename: toTitleCase(data.servicename),
+    };
+    const res = await api.post(`/${shopId}/addservice`, { shopservices });       // { servicename, price, duration }
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+}
+
+export const deleteService = async (shopId, servicenames_id) => {
+  try {
+    const res = await api.delete(`/${shopId}/removeservices`, {
+      data: {
+        servicenames_id: servicenames_id,
+      },
+    });
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+
+}
+
+export const updateService = (shopId, data) => api.put(`/${shopId}/addservice`, data);
+
+
+export const addEmployee = async (shopId, data) => {
+  try {
+    console.log(data);
+    const res = await api.post(`/${shopId}/addemployee`, data);     // { name, gender, employeeServices };
+    console.log(res);
+
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+}
+
+
+export const updateEmployee = async (shopId, employeeId, data) => {
+  try {
+    console.log(shopId, employeeId, data);
+    const res = await api.put(`/${shopId}/employee/${employeeId}`, data);
+    console.log(res);
+
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+
+}
+
+export const deleteEmployee = async (shopId, employeeId) => {
+  try {
+    console.log(shopId, employeeId);
+    const res = await api.delete(`/${shopId}/removesemployee`, { data: { employee_id: employeeId } });   // ← wrap in { data }, this is required for DELETE
+    console.log(res);
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+}
+
+
+export const getExistingServices = async () => {
+  try {
+    const res = await api.get("/shop/services");
+    console.log(res);
+    return res;
+  }
+  catch (err) {
+    console.error("Error:", err.response?.data || err.message);
+  }
+};
 export default api;
