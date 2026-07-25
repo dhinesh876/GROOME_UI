@@ -385,6 +385,23 @@ export default function ShopOwnerDashboard({
     });
   };
 
+  const handleStatusUpdate = async (appointmentId, status) => {
+    try {
+      await updateAppointmentStatus(appointmentId, status);
+
+
+      setAppointments(prev =>
+        prev.map(item =>
+          item.appointmentId === appointmentId
+            ? { ...item, status }
+            : item
+        )
+      );
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
   // ===========================
   // Employees
   // ===========================
@@ -1621,12 +1638,12 @@ export default function ShopOwnerDashboard({
                           <button
                             className="btn-action btn-confirm"
                             onClick={async () => {
-                              await updateAppointmentStatus(
+
+                              handleStatusUpdate(
                                 appointment.appointmentId,
                                 "Confirmed"
-                              );
+                              )
 
-                              await loadAppointments();
                             }}
                           >
                             ✓ Confirm
@@ -1635,12 +1652,11 @@ export default function ShopOwnerDashboard({
                           <button
                             className="btn-action btn-cancel"
                             onClick={async () => {
-                              await updateAppointmentStatus(
+
+                              handleStatusUpdate(
                                 appointment.appointmentId,
                                 "Cancelled"
-                              );
-
-                              await loadAppointments();
+                              )
                             }}
                           >
                             ✕ Cancel
@@ -1653,12 +1669,11 @@ export default function ShopOwnerDashboard({
                           <button
                             className="btn-action btn-complete"
                             onClick={async () => {
-                              await updateAppointmentStatus(
+                              handleStatusUpdate(
                                 appointment.appointmentId,
                                 "Completed"
-                              );
+                              )
 
-                              await loadAppointments();
                             }}
                           >
                             ✔ Complete
@@ -1667,12 +1682,11 @@ export default function ShopOwnerDashboard({
                           <button
                             className="btn-action btn-noshow"
                             onClick={async () => {
-                              await updateAppointmentStatus(
+
+                              handleStatusUpdate(
                                 appointment.appointmentId,
                                 "NoShow"
-                              );
-
-                              await loadAppointments();
+                              )
                             }}
                           >
                             🚫 No Show
@@ -1681,12 +1695,10 @@ export default function ShopOwnerDashboard({
                           <button
                             className="btn-action btn-cancel"
                             onClick={async () => {
-                              await updateAppointmentStatus(
+                              handleStatusUpdate(
                                 appointment.appointmentId,
                                 "Cancelled"
-                              );
-
-                              await loadAppointments();
+                              )
                             }}
                           >
                             ✕ Cancel

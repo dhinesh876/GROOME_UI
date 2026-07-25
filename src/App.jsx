@@ -6,8 +6,9 @@ import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 // import VerifyResetOtp from "./pages/VerifyResetOtp";
 import ScrollToTop from "./componets/ScrollToTop";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminPendingShops from "./pages/AdminPendingShops";
 import Dashboard from "./pages/Dashborad/Dashboard";
-
 export default function App() {
   return (
     <HashRouter>
@@ -27,6 +28,16 @@ export default function App() {
           element={<Dashboard />}
         />}
 
+        {<Route
+          path="/adminpendingshop"
+          element={<AdminPendingShops />}
+        />}
+
+        {<Route
+          path="/admindashboard"
+          element={<AdminDashboard />}
+        />}
+
         {/*{<Route
           path="/reset-password"
           element={<ResetPassword />}
@@ -34,7 +45,7 @@ export default function App() {
 
         {/* add your protected /dashboard route here once login works */}
       </Routes>
-    </HashRouter>
+    </HashRouter >
   );
 }
 

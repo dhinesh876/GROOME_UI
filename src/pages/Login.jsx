@@ -44,7 +44,11 @@ export default function Login() {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
-      navigate("/dashboard");
+      if (user.email === "groome@gmail.com") {
+        console.log(user);
+        navigate("/admindashboard");
+      }
+      else { navigate("/dashboard"); }
     } catch (err) {
       setError(
         err.response?.data?.message ||

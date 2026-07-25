@@ -8,7 +8,7 @@ import axios from "axios";
 // const BASE_URL = import.meta.env.VITE_API_URL + "/auth/"; //"http://localhost:3000/auth/"; // <-- update to your real backend URL
 
 // console.log(import.meta.env.VITE_API_URL);
-const BASE_URL = "https://groome-backend.onrender.com/auth/" //"https://groome-backend.onrender.com/auth/" //"http://10.26.53.182:3000/auth/";
+const BASE_URL = "http://localhost:3000/auth/" //"https://groome-backend.onrender.com/auth/" //"http://10.26.53.182:3000/auth/";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -62,10 +62,17 @@ export const resendOtp = async (data) => {
 // Matches: login (email, password)
 export const loginUser = async (data) => {
   try {
-    const response = await api.post(BASE_URL + "user/login", data);
 
+    if (data.email === "groome@gmail.com") {
+      const admin = await api.post(BASE_URL + "admin/login", data);
+      return admin;
+    }
+    else {
+      const response = await api.post(BASE_URL + "user/login", data);
+      return response;
 
-    return response;
+    }
+
   } catch (error) {
     console.error("Error:", error.response?.data || error.message);
     throw error;

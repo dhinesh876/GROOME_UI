@@ -1,0 +1,307 @@
+/* ===================================
+   ADMIN PENDING SHOPS
+=================================== */
+
+.adminP-page {
+    padding: 30px;
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.adminP-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.adminP-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.adminP-subtitle {
+    color: #6b7280;
+    margin-top: 6px;
+    font-size: 15px;
+}
+
+.adminP-count {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(79, 70, 229, .2);
+}
+
+/* ===========================
+   GRID
+=========================== */
+
+.adminP-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 25px;
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.adminP-card {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    transition: .35s;
+    border: 1px solid #eef2f7;
+}
+
+.adminP-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .12);
+}
+
+/* ===========================
+   IMAGE
+=========================== */
+
+.adminP-imageBox {
+    position: relative;
+    height: 220px;
+}
+
+.adminP-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.adminP-status {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #f59e0b;
+    color: white;
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.adminP-content {
+    padding: 25px;
+}
+
+.adminP-shopName {
+    font-size: 24px;
+    color: #111827;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* ===========================
+   DETAILS
+=========================== */
+
+.adminP-details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.adminP-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px dashed #ececec;
+    padding-bottom: 10px;
+}
+
+.adminP-row span {
+    color: #6b7280;
+    font-size: 14px;
+    min-width: 110px;
+}
+
+.adminP-row strong {
+    color: #111827;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* ===========================
+   DAYS
+=========================== */
+
+.adminP-days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.adminP-day {
+    background: #eef2ff;
+    color: #4338ca;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+
+.adminP-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.adminP-actions button {
+    flex: 1;
+    min-width: 100px;
+    height: 46px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    font-size: 14px;
+}
+
+/* VIEW */
+
+.adminP-viewBtn {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.adminP-viewBtn:hover {
+    background: #4338ca;
+    color: white;
+}
+
+/* APPROVE */
+
+.adminP-approveBtn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+}
+
+.adminP-approveBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(34, 197, 94, .35);
+}
+
+/* REJECT */
+
+.adminP-rejectBtn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.adminP-rejectBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(239, 68, 68, .35);
+}
+
+/* ===========================
+   EMPTY
+=========================== */
+
+.adminP-empty {
+    background: white;
+    border-radius: 18px;
+    padding: 80px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+}
+
+.adminP-empty h2 {
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+.adminP-empty p {
+    color: #6b7280;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:900px) {
+
+    .adminP-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width:700px) {
+
+    .adminP-page {
+        padding: 18px;
+    }
+
+    .adminP-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .adminP-title {
+        font-size: 28px;
+    }
+
+    .adminP-actions {
+        flex-direction: column;
+    }
+
+    .adminP-actions button {
+        width: 100%;
+    }
+
+    .adminP-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .adminP-row strong {
+        text-align: left;
+    }
+
+    .adminP-days {
+        justify-content: flex-start;
+    }
+
+}
+
+@media (max-width:500px) {
+
+    .adminP-imageBox {
+        height: 180px;
+    }
+
+    .adminP-shopName {
+        font-size: 20px;
+    }
+
+}

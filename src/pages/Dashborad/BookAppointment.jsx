@@ -795,7 +795,7 @@ export default function BookAppointment({ shop, onBack, onBooked }) {
           </div>
 
           {loadingSlots ? (
-            <p className="empty-state">Loading available slots...</p>
+            <p className="empty-state" style={{ color: "black" }}>Loading available slots...</p>
           ) : availableSlots && availableSlots.length === 0 ? (
             <p className="empty-state">No slots found for this employee on this date.</p>
           ) : (
