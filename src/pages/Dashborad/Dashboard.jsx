@@ -281,18 +281,6 @@ export default function Dashboard() {
       ) : (
 
         <>
-
-          {!city && (
-
-            <LocationSearchBar
-              city={city}
-              onCityChange={handleCityChange}
-              search={search}
-              onSearchChange={setSearch}
-            />
-
-          )}
-
           <CustomerDashboard
             tab={tab}
             setTab={setTab}
