@@ -105,6 +105,12 @@ body {
   color: #fff;
 }
 
+.dash-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .dash-logo span {
   color: var(--blue);
 }
@@ -222,49 +228,6 @@ body {
   font-size: 13px;
   color: var(--muted);
   margin-top: 4px;
-}
-
-/* ---------- Shop / result cards (customer grid) ---------- */
-.shop-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.shop-card {
-  background: var(--card);
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.shop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
-}
-
-.shop-card-photo {
-  height: 120px;
-  background: linear-gradient(135deg, var(--indigo), var(--cyan));
-}
-
-.shop-card-body {
-  padding: 16px 18px 20px;
-}
-
-.shop-card-name {
-  font-weight: 700;
-  font-size: 16px;
-  margin: 0 0 4px 0;
-  color: var(--ink);
-}
-
-.shop-card-meta {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 0 0 10px 0;
 }
 
 .pill-row {
@@ -489,9 +452,39 @@ body {
 }
 
 /* ---------- Responsive ---------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .dash-topbar {
+    padding: 16px 22px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dash-left {
+    gap: 16px;
+  }
+
+  .dash-content {
+    padding: 22px;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phones */
 @media (max-width: 640px) {
   .dash-topbar {
     padding: 14px 18px;
+  }
+
+  .dash-left {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .dash-content {
@@ -500,10 +493,6 @@ body {
 
   .dash-tabs {
     padding: 14px 18px 0;
-  }
-
-  .shop-grid {
-    grid-template-columns: 1fr 1fr;
   }
 
   .appt-table {
@@ -518,8 +507,19 @@ body {
   }
 }
 
+/* Small phones */
 @media (max-width: 420px) {
-  .shop-grid {
+  .dash-heading {
+    font-size: 20px;
+  }
+
+  .stat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dash-form,
+  .detail-card,
+  .register-cta {
+    padding: 16px;
   }
 }

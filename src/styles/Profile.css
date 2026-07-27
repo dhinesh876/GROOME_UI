@@ -173,6 +173,26 @@
     }
 }
 
+/* Small phones */
+@media (max-width: 420px) {
+
+    .profile-card,
+    .profile-form {
+        padding: 16px;
+    }
+
+    .profile-avatar,
+    .profile-shop-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 26px;
+    }
+
+    .profile-user h2 {
+        font-size: 20px;
+    }
+}
+
 .profile-shop-avatar {
     width: 90px;
     height: 90px;

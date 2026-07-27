@@ -1,0 +1,73 @@
+/* ===================================================
+   CUSTOMER DASHBOARD — shop results grid
+   Extracted from Dashboard.css (these classes were only
+   ever used by CustomerDashboard.jsx). Uses the same
+   --card / --radius-card / --indigo / --cyan / --ink /
+   --muted tokens defined in Dashboard.css's :root, since
+   Dashboard.css is still loaded on this page for the
+   shared shell (topbar, tabs, headings, etc).
+=================================================== */
+
+.cd-shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.cd-shop-card {
+    background: var(--card);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cd-shop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+}
+
+.cd-shop-card-photo {
+    height: 120px;
+    background: linear-gradient(135deg, var(--indigo), var(--cyan));
+}
+
+.cd-shop-card-body {
+    padding: 16px 18px 20px;
+}
+
+.cd-shop-card-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 0 4px 0;
+    color: var(--ink);
+}
+
+.cd-shop-card-meta {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 10px 0;
+}
+
+/* ---------- Responsive ---------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+    .cd-shop-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+    .cd-shop-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .cd-shop-grid {
+        grid-template-columns: 1fr;
+    }
+}

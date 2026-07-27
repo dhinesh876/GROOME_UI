@@ -124,7 +124,7 @@
     gap: 15px;
 }
 
-.employee-avatar {
+.ms-employee-avatar {
     width: 55px;
     height: 55px;
     border-radius: 50%;
@@ -150,7 +150,7 @@
     color: #6b7280;
 }
 
-.employee-services {
+.ms-employee-services {
     margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
@@ -306,14 +306,14 @@
    HEADING
 ========================================== */
 
-.dash-subheading {
+.ms-dash-subheading {
     margin-top: -12px;
     margin-bottom: 30px;
     color: #64748b;
     font-size: 15px;
 }
 
-.auth-error {
+.ms-auth-error {
     margin-bottom: 20px;
     background: #fee2e2;
     color: #dc2626;

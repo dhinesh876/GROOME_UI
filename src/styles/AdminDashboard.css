@@ -438,21 +438,25 @@ body {
    CUSTOM SCROLLBAR
 ===================================================== */
 
-::-webkit-scrollbar {
+/* Scoped to body.adminD-scrollbar-theme, which AdminDashboard.jsx adds
+   on mount and removes on unmount — this is what stops the purple
+   scrollbar from bleeding onto every other page (e.g. Shop Owner
+   Dashboard) once this CSS has been loaded once in the SPA. */
+body.adminD-scrollbar-theme::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
-::-webkit-scrollbar-track {
+body.adminD-scrollbar-theme::-webkit-scrollbar-track {
     background: #edf2f7;
 }
 
-::-webkit-scrollbar-thumb {
+body.adminD-scrollbar-theme::-webkit-scrollbar-thumb {
     background: #8b5cf6;
     border-radius: 20px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+body.adminD-scrollbar-theme::-webkit-scrollbar-thumb:hover {
     background: #6d28d9;
 }
 

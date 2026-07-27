@@ -38,11 +38,11 @@ body {
 }
 
 
-.otp-container {
+.verify-otp-container {
     margin: 30px 0;
 }
 
-.otp-input {
+.verify-otp-input {
     cursor: text;
 }
 
@@ -57,7 +57,7 @@ body {
     border-radius: 20px;
     padding: 45px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, .15);
-    animation: fadeUp .4s ease;
+    animation: verifyFadeUp .4s ease;
 }
 
 .verify-card {
@@ -72,7 +72,7 @@ body {
     text-align: center;
 }
 
-.subtitle {
+.verify-subtitle {
     text-align: center;
     color: #64748b;
     line-height: 24px;
@@ -83,14 +83,14 @@ body {
    OTP BOXES
 ================================== */
 
-.otp-container {
+.verify-otp-container {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin-bottom: 30px;
 }
 
-.otp-input {
+.verify-otp-input {
     width: 55px;
     height: 60px;
     border: 1px solid #d1d5db;
@@ -102,7 +102,7 @@ body {
     transition: .3s;
 }
 
-.otp-input:focus {
+.verify-otp-input:focus {
     border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, .15);
 }
@@ -138,17 +138,17 @@ body {
    RESEND
 ================================== */
 
-.resend-area {
+.verify-resend-area {
     margin-top: 25px;
     text-align: center;
 }
 
-.resend-area p {
+.verify-resend-area p {
     color: #64748b;
     margin-bottom: 10px;
 }
 
-.resend-btn {
+.verify-resend-btn {
     background: none;
     border: none;
     color: #4f46e5;
@@ -157,11 +157,11 @@ body {
     cursor: pointer;
 }
 
-.resend-btn:hover {
+.verify-resend-btn:hover {
     text-decoration: underline;
 }
 
-.resend-btn:disabled {
+.verify-resend-btn:disabled {
     color: #9ca3af;
     cursor: not-allowed;
     text-decoration: none;
@@ -171,7 +171,7 @@ body {
    ERROR
 ================================== */
 
-.error-box {
+.verify-error-box {
     background: #fee2e2;
     color: #dc2626;
     padding: 12px;
@@ -197,19 +197,19 @@ body {
    BACK LINK
 ================================== */
 
-.bottom-text {
+.verify-bottom-text {
     margin-top: 25px;
     text-align: center;
     color: #64748b;
 }
 
-.bottom-text a {
+.verify-bottom-text a {
     color: #4f46e5;
     text-decoration: none;
     font-weight: 600;
 }
 
-.bottom-text a:hover {
+.verify-bottom-text a:hover {
     text-decoration: underline;
 }
 
@@ -217,7 +217,7 @@ body {
    ANIMATION
 ================================== */
 
-@keyframes fadeUp {
+@keyframes verifyFadeUp {
 
     from {
         opacity: 0;
@@ -229,6 +229,21 @@ body {
         transform: translateY(0);
     }
 
+}
+
+/* ===============================
+   TABLET
+================================== */
+
+@media(max-width:900px) {
+
+    .verify-card {
+        max-width: 420px;
+    }
+
+    .verify-page {
+        padding: 24px;
+    }
 }
 
 /* ===============================
@@ -249,11 +264,11 @@ body {
         font-size: 26px;
     }
 
-    .otp-container {
+    .verify-otp-container {
         gap: 8px;
     }
 
-    .otp-input {
+    .verify-otp-input {
         width: 45px;
         height: 50px;
         font-size: 20px;
@@ -265,14 +280,14 @@ body {
 
 }
 
-.background-circle {
+.verify-bg-circle {
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
     opacity: .35;
 }
 
-.circle-one {
+.verify-circle-one {
     width: 350px;
     height: 350px;
     background: #4f46e5;
@@ -280,7 +295,7 @@ body {
     left: -120px;
 }
 
-.circle-two {
+.verify-circle-two {
     width: 420px;
     height: 420px;
     background: #06b6d4;
@@ -288,16 +303,16 @@ body {
     bottom: -150px;
 }
 
-.otp-brand {
+.verify-otp-brand {
     text-align: center;
     margin-bottom: 25px;
 }
 
-.otp-brand h1 {
+.verify-otp-brand h1 {
     color: #4f46e5;
     font-size: 34px;
 }
 
-.otp-brand p {
+.verify-otp-brand p {
     color: #64748b;
 }

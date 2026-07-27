@@ -1,3 +1,6 @@
+// 
+
+
 import { useEffect, useState } from "react";
 import {
   cancelAppointment,
@@ -81,24 +84,24 @@ export default function MyAppointments() {
           <p>You haven't booked any appointments yet.</p>
         </div>
       ) : (
-        <div className="appointment-grid" >
+        <div className="ma-appointment-grid" >
           {appointments.map((item) => (
             <div
               key={item.appointmentId}
-              className="appointment-card"
+              className="ma-appointment-card"
             >
               {/* Header */}
-              <div className="appointment-header">
+              <div className="ma-appointment-header">
                 <div>
                   <h2>{item.shop?.shopname}</h2>
 
-                  <p className="booking-id">
+                  <p className="ma-booking-id">
                     Booking ID : #{item.appointmentId.slice(-6).toUpperCase()}
                   </p>
                 </div>
 
                 <span
-                  className={`appointment-status ${(item.status || "")
+                  className={`ma-appointment-status ${(item.status || "")
                     .toLowerCase()
                     .replace(/\s+/g, "-")}`}
                 >
@@ -107,31 +110,31 @@ export default function MyAppointments() {
               </div>
 
               {/* Details */}
-              <div className="appointment-info">
+              <div className="ma-appointment-info">
 
-                <div className="info-row">
+                <div className="ma-info-row">
                   <span>Date </span>
                   <strong>{item.date}</strong>
                 </div>
 
-                <div className="info-row">
+                <div className="ma-info-row">
                   <span>Time </span>
                   <strong>
                     {item.starttime} - {item.endTime}
                   </strong>
                 </div>
 
-                <div className="info-row">
+                <div className="ma-info-row">
                   <span>Employee </span>
                   <strong>{item.employee?.name}</strong>
                 </div>
 
-                <div className="info-row">
+                <div className="ma-info-row">
                   <span>Duration </span>
                   <strong>{item.totalDuration} mins</strong>
                 </div>
 
-                <div className="info-row total-price">
+                <div className="ma-info-row ma-total-price">
                   <span>Total Price </span>
                   <strong>₹{item.totalPrice}</strong>
                 </div>
@@ -139,11 +142,11 @@ export default function MyAppointments() {
               </div>
 
               {/* Services */}
-              <div className="appointment-services">
+              <div className="ma-appointment-services">
                 {item.services.map((service) => (
                   <span
                     key={service.serviceItemId}
-                    className="service-pill"
+                    className="ma-service-pill"
                   >
                     {service.servicename}
                   </span>
@@ -153,7 +156,7 @@ export default function MyAppointments() {
               {/* Cancel Button */}
               {!["Cancelled", "Completed", "NoShow"].includes(item.status) && (
                 <button
-                  className="cancel-btn"
+                  className="ma-cancel-btn"
                   onClick={() => handleCancel(item.appointmentId)}
                 >
                   Cancel Appointment

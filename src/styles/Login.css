@@ -60,11 +60,11 @@ body {
    BACKGROUND CIRCLES
 ================================== */
 
-.password-box input {
+.login-password-box input {
     padding-right: 70px;
 }
 
-.background-circle {
+.login-bg-circle {
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
@@ -75,7 +75,7 @@ body {
     /* keeps it behind your card/button */
 }
 
-.circle-one {
+.login-circle-one {
     width: 350px;
     height: 350px;
     background: #4f46e5;
@@ -83,7 +83,7 @@ body {
     left: -120px;
 }
 
-.circle-two {
+.login-circle-two {
     width: 420px;
     height: 420px;
     background: #06b6d4;
@@ -121,7 +121,7 @@ body {
     justify-content: center;
 }
 
-.brand-logo {
+.login-brand-logo {
     width: 80px;
     height: 80px;
     border-radius: 20px;
@@ -174,7 +174,7 @@ body {
     border-radius: 20px;
     padding: clamp(22px, 6vw, 45px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
-    animation: fadeUp .4s ease;
+    animation: loginFadeUp .4s ease;
 }
 
 .login-card h2 {
@@ -184,7 +184,7 @@ body {
     margin-bottom: 10px;
 }
 
-.subtitle {
+.login-subtitle {
     color: #6b7280;
     margin-bottom: 30px;
     line-height: 24px;
@@ -195,11 +195,11 @@ body {
    INPUTS
 ================================== */
 
-.input-group {
+.login-input-group {
     margin-bottom: 18px;
 }
 
-.input-group label {
+.login-input-group label {
     display: block;
     margin-bottom: 8px;
     color: #374151;
@@ -207,7 +207,7 @@ body {
     font-size: 14px;
 }
 
-.input-group input {
+.login-input-group input {
     width: 100%;
     height: 50px;
     border: 1px solid #d1d5db;
@@ -219,7 +219,7 @@ body {
     font-size: max(16px, 15px);
 }
 
-.input-group input:focus {
+.login-input-group input:focus {
     border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, .15);
 }
@@ -228,11 +228,11 @@ body {
    PASSWORD
 ================================== */
 
-.password-box {
+.login-password-box {
     position: relative;
 }
 
-.show-btn {
+.login-show-btn {
     position: absolute;
     right: 15px;
     top: 50%;
@@ -249,21 +249,21 @@ body {
    FORGOT PASSWORD
 ================================== */
 
-.forgot-password {
+.login-forgot-password-link {
     display: flex;
     justify-content: flex-end;
     margin-top: -5px;
     margin-bottom: 18px;
 }
 
-.forgot-password a {
+.login-forgot-password-link a {
     color: #4f46e5;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
 }
 
-.forgot-password a:hover {
+.login-forgot-password-link a:hover {
     text-decoration: underline;
 }
 
@@ -293,22 +293,22 @@ body {
    DIVIDER
 ================================== */
 
-.divider {
+.login-divider {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 22px 0;
 }
 
-.divider::before,
-.divider::after {
+.login-divider::before,
+.login-divider::after {
     content: "";
     flex: 1;
     height: 1px;
     background: #d1d5db;
 }
 
-.divider span {
+.login-divider span {
     padding: 0 15px;
     color: #64748b;
     font-size: 13px;
@@ -320,7 +320,7 @@ body {
    GOOGLE BUTTON
 ================================== */
 
-.google-btn {
+.login-google-btn {
     width: 100%;
     height: 50px;
     border: 1px solid #d1d5db;
@@ -332,7 +332,7 @@ body {
     transition: .3s;
 }
 
-.google-btn:hover {
+.login-google-btn:hover {
     background: #f8fafc;
 }
 
@@ -340,7 +340,7 @@ body {
    ERROR
 ================================== */
 
-.error-box {
+.login-error-box {
     background: #fee2e2;
     color: #dc2626;
     padding: 12px;
@@ -353,20 +353,20 @@ body {
    BOTTOM
 ================================== */
 
-.bottom-text {
+.login-bottom-text {
     margin-top: 26px;
     text-align: center;
     color: #6b7280;
     font-size: 14px;
 }
 
-.bottom-text a {
+.login-bottom-text a {
     color: #4f46e5;
     text-decoration: none;
     font-weight: 600;
 }
 
-.bottom-text a:hover {
+.login-bottom-text a:hover {
     text-decoration: underline;
 }
 
@@ -374,7 +374,7 @@ body {
    ANIMATION
 ================================== */
 
-@keyframes fadeUp {
+@keyframes loginFadeUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -415,7 +415,7 @@ body {
         margin: 0 auto;
     }
 
-    .brand-logo {
+    .login-brand-logo {
         margin: 0 auto 24px;
     }
 }
@@ -474,13 +474,13 @@ body {
         border-radius: 16px;
     }
 
-    .input-group input,
+    .login-input-group input,
     .login-btn,
-    .google-btn {
+    .login-google-btn {
         height: 46px;
     }
 
-    .divider {
+    .login-divider {
         margin: 18px 0;
     }
 }
@@ -503,7 +503,7 @@ body {
         padding: 20px;
     }
 
-    .subtitle {
+    .login-subtitle {
         margin-bottom: 16px;
     }
 }

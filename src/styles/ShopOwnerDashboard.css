@@ -36,7 +36,7 @@
    REGISTER / EDIT SHOP FORM
 =================================================== */
 
-.dash-form {
+.sod-dash-form {
     width: 100%;
     max-width: 1100px;
     margin: 40px auto;
@@ -47,18 +47,18 @@
     border: 1px solid #ececec;
 }
 
-.dash-heading {
+.sod-dash-heading {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 30px;
     color: white;
 }
 
-.dash-field {
+.sod-dash-field {
     margin-bottom: 24px;
 }
 
-.dash-field label {
+.sod-dash-field label {
     display: block;
     margin-bottom: 10px;
     font-size: 15px;
@@ -66,9 +66,9 @@
     color: #475569;
 }
 
-.dash-field input,
-.dash-field textarea,
-.dash-field select {
+.sod-dash-field input,
+.sod-dash-field textarea,
+.sod-dash-field select {
     width: 100%;
     padding: 14px 18px;
     border: 1px solid #dbe2ea;
@@ -78,9 +78,9 @@
     transition: .25s;
 }
 
-.dash-field input:focus,
-.dash-field textarea:focus,
-.dash-field select:focus {
+.sod-dash-field input:focus,
+.sod-dash-field textarea:focus,
+.sod-dash-field select:focus {
     outline: none;
     border-color: #3b82f6;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, .12);
@@ -127,16 +127,16 @@
 }
 
 /* ===================================================
-   WORKING DAYS (pill toggles)
+   WORKING DAYS (sod-day-pill toggles)
 =================================================== */
 
-.pill-row {
+.sod-day-pill-row {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.pill {
+.sod-day-pill {
     padding: 10px 18px;
     border: 1px solid #ddd;
     border-radius: 30px;
@@ -144,7 +144,7 @@
     cursor: pointer;
 }
 
-.pill.active {
+.sod-day-pill.active {
     background: royalblue;
     color: white;
     border-color: royalblue;
@@ -206,11 +206,11 @@
     margin-bottom: 15px;
 }
 
-.employee-services {
+.sod-employee-services {
     margin-top: 20px;
 }
 
-.employee-services label:first-child {
+.sod-employee-services label:first-child {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 15px;
@@ -266,7 +266,7 @@
     cursor: pointer;
 }
 
-.btn-primary {
+.sod-btn-primary {
     padding: 12px 28px;
     border: none;
     background: royalblue;
@@ -412,7 +412,7 @@
     text-align: center;
 }
 
-.employee-avatar {
+.sod-employee-avatar {
     width: 65px;
     height: 65px;
     border-radius: 50%;
@@ -446,120 +446,213 @@
    APPOINTMENTS TAB
 =================================================== */
 
-.appointment-list {
-    color: black;
-}
-
-.appointment-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-    border: 1px solid #ececec;
-}
-
-.appointment-top {
+.sod-appt-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 }
 
-.appointment-info {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin: 20px 0;
+.sod-appt-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px 0;
 }
 
-.appointment-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 20px;
+.sod-appt-header p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
 }
 
-.info-icon {
-    margin-right: 8px;
-    color: #2563eb;
-    font-size: 15px;
-    vertical-align: middle;
+/* ---------- Empty state ---------- */
+.sod-appt-empty {
+    background: #fff;
+    border-radius: 20px;
+    padding: 60px 20px;
+    text-align: center;
+    border: 1px dashed #e2e5eb;
 }
 
-.customer-details h3,
-.customer-details p,
-.customer-details small,
-.appointment-time h4,
-.appointment-employee h4,
-.appointment-services h4,
-.appointment-price h4 {
+.sod-appt-empty-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4f46e5;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    margin: 0 auto 16px;
 }
 
-.customer-details p,
-.customer-details small {
-    color: #555;
+.sod-appt-empty h2 {
+    color: #111827;
+    margin-bottom: 8px;
 }
 
-.appointment-time h4,
-.appointment-employee h4,
-.appointment-services h4,
-.appointment-price h4 {
-    font-weight: 600;
-    margin-bottom: 6px;
+.sod-appt-empty p {
+    color: #6b7280;
 }
 
-.appointment-services,
-.appointment-time,
-.appointment-employee {
-    margin-bottom: 2px;
-    gap: 4px;
-}
-
-.appointment-price h2 {
-    color: #16a34a;
-    font-size: 30px;
-    margin-top: 8px;
-}
-
-.price-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: #16a34a;
-}
-
-.customer-section {
+/* ---------- Card list ---------- */
+.appointment-list {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.customer-info-row {
+.sod-appt-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+    border: 1px solid #ececec;
+    transition: 0.25s;
+}
+
+.sod-appt-card:hover {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .1);
+    transform: translateY(-2px);
+}
+
+/* ---------- Top row: avatar + name + status ---------- */
+.sod-appt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #f1f3f7;
+}
+
+.sod-appt-customer {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+}
+
+.sod-appt-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sod-appt-name {
+    margin: 0 0 4px 0;
     font-size: 16px;
-}
-
-.customer-info-row i {
-    width: 20px;
-    color: #2563eb;
-    font-size: 16px;
-    text-align: center;
-}
-
-.customer-info-row strong {
-    min-width: 90px;
-    color: #374151;
-    font-weight: 600;
-}
-
-.customer-info-row span {
+    font-weight: 700;
     color: #111827;
+}
+
+.sod-appt-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+}
+
+.sod-appt-contact span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.sod-appt-contact svg {
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+/* ---------- Meta row: date / time / employee ---------- */
+.sod-appt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-bottom: 18px;
+}
+
+.sod-appt-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #374151;
     font-weight: 500;
+}
+
+.sod-appt-meta-item svg {
+    color: #4f46e5;
+    flex-shrink: 0;
+}
+
+/* ---------- Services ---------- */
+.sod-appt-services-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sod-appt-services-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.sod-appt-services-label svg {
+    color: #4f46e5;
+}
+
+/* ---------- Footer: total + actions ---------- */
+.sod-appt-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 18px;
+    border-top: 1px solid #f1f3f7;
+}
+
+.sod-appt-total {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sod-appt-total span {
+    font-size: 12px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.price-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #16a34a;
+}
+
+.appointment-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 /* ===================================================
@@ -580,14 +673,18 @@
 }
 
 .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: .25s;
     color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
 }
 
 .btn-action:hover {
@@ -600,6 +697,7 @@
 
 .btn-confirm:hover {
     background: #1d4ed8;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, .3);
 }
 
 .btn-complete {
@@ -608,6 +706,7 @@
 
 .btn-complete:hover {
     background: #15803d;
+    box-shadow: 0 8px 18px rgba(22, 163, 74, .3);
 }
 
 .btn-cancel {
@@ -616,6 +715,7 @@
 
 .btn-cancel:hover {
     background: #b91c1c;
+    box-shadow: 0 8px 18px rgba(220, 38, 38, .3);
 }
 
 .btn-noshow {
@@ -624,13 +724,14 @@
 
 .btn-noshow:hover {
     background: #d97706;
+    box-shadow: 0 8px 18px rgba(245, 158, 11, .3);
 }
 
 /* ===================================================
    STATUS BADGES (solid color, matches live design)
 =================================================== */
 
-.status-badge {
+.sod-status-badge {
     padding: 6px 14px;
     border-radius: 30px;
     font-size: 13px;
@@ -707,5 +808,59 @@
 
     .employee-services-grid {
         grid-template-columns: 1fr;
+    }
+
+    .sod-appt-meta {
+        gap: 14px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+
+    .shopownerdashboard {
+        padding: 16px;
+    }
+
+    .sod-dash-form {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .shop-cover {
+        width: 100%;
+        height: 180px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sod-appt-card {
+        padding: 18px;
+    }
+
+    .sod-appt-top {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .sod-appt-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .appointment-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .appointment-actions .btn-action {
+        width: 100%;
+    }
+
+    .form-actions .sod-btn-primary,
+    .form-actions .cancel-btn {
+        width: 100%;
     }
 }

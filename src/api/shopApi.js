@@ -6,8 +6,8 @@
 
 import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com";
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const BASE_URL = "http://localhost:3000";
+const Authrefresh = "http://localhost:3000/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/shop`,
@@ -142,11 +142,31 @@ api.interceptors.response.use(
 );
 
 
-
-
 // --- Customer side --------------------------------------------------
-export const browseShops = (userid) => api.get(`/browserShops/${userid}`); // search/filter query params
-export const getShopById = (shopId, userid) => api.get(`/browserShops/${shopId}/${userid}`);
+export const browseShops = async (userid, cityname) => {
+  try {
+    const response = await api.get(`/browserShops/${userid}/${cityname}`); // search/filter query params
+    return response;
+  }
+  catch (errr) {
+    console.error("Error:", errr.response?.data || errr.message);
+  }
+}
+
+export const getShopById = async (shopId, userid) => {
+  try {
+    const response = await api.get(`/browserShopsID/${shopId}/${userid}`);
+
+    console.log(response)
+    return response;
+  }
+  catch (errr) {
+    console.error("Error:", errr.response?.data || errr.message);
+  }
+}
+// Returns: [{ city, state }, ...] sorted by relevance.
+export const searchCity = (keyword) =>
+  api.get("/search/city", { params: { q: keyword } });
 
 
 // --- Shop owner side --------------------------------------------------
