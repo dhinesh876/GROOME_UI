@@ -75,6 +75,11 @@
     color: #dc2626;
 }
 
+.ma-appointment-status.noshow {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
 /* ---------- Info rows ---------- */
 .ma-appointment-info {
     display: flex;
