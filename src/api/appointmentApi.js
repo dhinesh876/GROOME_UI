@@ -1,9 +1,9 @@
 // src/api/appointmentApi.js
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/shop"; // <-- same host as your authApi.js; confirm the exact prefix per route below
+const BASE_URL = "https://groome-backend.onrender.com/shop"; // <-- same host as your authApi.js; confirm the exact prefix per route below
 
-const Authrefresh = "http://localhost:3000/auth";
+const Authrefresh = "https://groome-backend.onrender.com/auth";
 
 
 const api = axios.create({
