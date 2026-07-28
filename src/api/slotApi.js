@@ -149,10 +149,17 @@ api.interceptors.response.use(
 // serviceItemIds must be sent as a comma-joined string: "id1,id2,id3"
 // Response: { status, employees: [{_id, name, gender, shop}], totalDuration }
 // — no slots yet at this step, just the eligible employee list.
-export const getEmployeesWithSlots = (shopId, date, serviceItemIds) =>
-  api.get(`/${shopId}/employees-with-slots`, {
-    params: { date, serviceItemIds: serviceItemIds.join(",") },
-  });
+export const getEmployeesWithSlots = async (shopId, date, serviceItemIds) => {
+  try {
+    const response = await api.get(`/${shopId}/employees-with-slots`, {
+      params: { date, serviceItemIds: serviceItemIds.join(",") },
+    });
+    return response;
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
 
 // Matches: getAvailbleSlots(shopId, date, serviceItemIds, employeeId)
 // Only call this AFTER an employee has been picked from the list above —

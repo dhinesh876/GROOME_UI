@@ -620,9 +620,22 @@ export default function BookAppointment({ shop, onBack, onBooked }) {
     setLoadingSlots(true);
     try {
       const res = await getAvailableSlots(shop._id, date, selectedServiceIds, employeeId);
-      setAvailableSlots(res.data.slots || res.data);
+
+      // setAvailableSlots(res.data.slots || res.data);
+      // setTotalDuration(res.data.totalDuration);
+      // // backend may or may not send totalPrice — clientComputedTotal covers it if absent
+      // setBackendCost(res.data.totalPrice ?? null);
+
+      const slots = res.data.slots || [];
+
+      if (slots.length === 0) {
+        setError("No available slots for today. The shop is today Close.");
+      } else {
+        setError("");
+      }
+
+      setAvailableSlots(slots);
       setTotalDuration(res.data.totalDuration);
-      // backend may or may not send totalPrice — clientComputedTotal covers it if absent
       setBackendCost(res.data.totalPrice ?? null);
     } catch (err) {
       setError(err.response?.data?.message || "Could not load available slots.");

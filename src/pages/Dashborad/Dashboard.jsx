@@ -217,6 +217,7 @@ export default function Dashboard() {
     () => localStorage.getItem("city") || ""
   );
 
+
   // FIX: keep localStorage in sync whenever the city changes, the same
   // way "user" is persisted after login.
   const handleCityChange = (newCity) => {

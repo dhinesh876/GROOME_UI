@@ -447,7 +447,6 @@ export default function CustomerDashboard({
 
       setError("");
 
-      console.log(city)
 
       try {
         const response =
@@ -455,6 +454,7 @@ export default function CustomerDashboard({
             user.userid,
             city
           );
+
 
         setShops(
           response.data.shops ||
@@ -475,6 +475,10 @@ export default function CustomerDashboard({
       city
     ]
   );
+
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "short",
+  });
 
 
   useEffect(() => {
@@ -693,7 +697,7 @@ export default function CustomerDashboard({
                 ) : (
                   <div className="cd-shop-grid">
 
-                    {shops.map(
+                    {/* {shops.map(
                       (shop) => (
                         <div
                           key={shop._id}
@@ -759,7 +763,62 @@ export default function CustomerDashboard({
 
                         </div>
                       )
-                    )}
+                    )} */}
+
+                    {shops.map((shop) => {
+                      const isOpenToday = shop.workingDays?.includes(today);
+
+                      return (
+                        <div
+                          key={shop._id}
+                          className={`cd-shop-card ${!isOpenToday ? "cd-shop-disabled" : ""}`}
+                          onClick={() => {
+                            if (isOpenToday) {
+                              openShop(shop._id);
+                            }
+                          }}
+                        >
+                          <div
+                            className="cd-shop-card-photo"
+                            style={
+                              shop.photo
+                                ? {
+                                  backgroundImage: `url(${shop.photo?.url || shop.photo})`,
+                                  backgroundSize: "cover",
+                                  backgroundPosition: "center",
+                                }
+                                : undefined
+                            }
+                          />
+
+                          <div className="cd-shop-card-body">
+                            <p className="cd-shop-card-name">
+                              {shop.shopname}
+                            </p>
+
+                            <p className="cd-shop-card-meta">
+                              {shop.address}
+                            </p>
+
+                            <div className="pill-row">
+                              <span className="pill">
+                                {shop.genderCategory}
+                              </span>
+
+                              <span className="pill">
+                                {shop.openingTime} – {shop.closingTime}
+                              </span>
+
+                              {!isOpenToday && (
+                                <span className="pill cd-shop-closed-pill" style={{ background: "red", color: "white" }}>
+                                  Closed Today
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
 
                   </div>
                 )}

@@ -157,7 +157,7 @@ export const getShopById = async (shopId, userid) => {
   try {
     const response = await api.get(`/browserShopsID/${shopId}/${userid}`);
 
-    console.log(response)
+
     return response;
   }
   catch (errr) {
