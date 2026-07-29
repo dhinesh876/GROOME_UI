@@ -1,21 +1,378 @@
+// // src/api/shopApi.js
+// //
+// // Calls for everything the dashboard needs, matching your
+// // shopController.js and appointmentController.js endpoints.
+// // Update BASE_URL to your real backend.
+
+// import axios from "axios";
+
+// const BASE_URL = "http://localhost:3000";
+// const Authrefresh = "http://localhost:3000/auth";
+
+// const api = axios.create({
+//   baseURL: `${BASE_URL}/shop`,
+//   withCredentials: true,
+// });
+
+// const authApi = axios.create({
+//   baseURL: `${Authrefresh}/user`,
+//   withCredentials: true,
+// });
+
+// // Request interceptor
+// api.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("accessToken");
+
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
+
+// // ================= Refresh Variables =================
+
+
+// let isRefreshing = false;
+// let failedQueue = [];
+
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach((promise) => {
+//     if (error) {
+//       promise.reject(error);
+//     } else {
+//       promise.resolve(token);
+//     }
+//   });
+
+//   failedQueue = [];
+// };
+
+// // ================= Response Interceptor =================
+
+// api.interceptors.response.use(
+//   (response) => response,
+
+//   async (error) => {
+//     const originalRequest = error.config;
+
+//     //console.log("API Error:", error.response?.status);
+
+//     // Don't refresh the refresh-token request itself
+//     if (originalRequest.url?.includes("/regenerate-token")) {
+//       return Promise.reject(error);
+//     }
+
+//     if (
+//       error.response?.status === 401 &&
+//       !originalRequest._retry
+//     ) {
+//       originalRequest._retry = true;
+
+//       if (isRefreshing) {
+//         return new Promise((resolve, reject) => {
+//           failedQueue.push({ resolve, reject });
+//         }).then((token) => {
+//           originalRequest.headers.Authorization = `Bearer ${token}`;
+//           return api(originalRequest);
+//         });
+//       }
+
+//       isRefreshing = true;
+
+//       // try {
+//       //   //console.log("Refreshing Access Token...");
+
+//       //   const res = await authApi.get("/regenerate-token");
+
+//       //   //console.log("Refresh Success", res.data);
+
+//       //   const newAccessToken = res.data.accessToken;
+
+//       //   if (!newAccessToken) {
+//       //     throw new Error("No access token received.");
+//       //   }
+
+//       //   // Save new token
+//       //   localStorage.setItem("accessToken", newAccessToken);
+
+//       //   // Update axios default header
+//       //   api.defaults.headers.common.Authorization =
+//       //     `Bearer ${newAccessToken}`;
+
+//       //   // Update failed request header
+//       //   originalRequest.headers.Authorization =
+//       //     `Bearer ${newAccessToken}`;
+
+//       //   // Resolve queued requests
+//       //   processQueue(null, newAccessToken);
+
+//       //   // Retry failed request
+//       //   const retryResponse = await api(originalRequest);
+
+//       //   //console.log("Retry Success");
+
+//       //   return retryResponse;
+
+//       // } catch (err) {
+
+//       //   //console.log("Refresh Failed");
+//       //   //console.log(err.response?.status);
+//       //   //console.log(err.response?.data);
+
+//       //   processQueue(err, null);
+
+//       //   // localStorage.removeItem("accessToken");
+//       //   // localStorage.removeItem("user");
+
+//       //   window.location.href = "/GROOME_UI/#/login";
+
+//       //   return Promise.reject(err);
+
+//       // } finally {
+//       //   isRefreshing = false;
+//       // }
+
+//       isRefreshing = true;
+
+//       let newAccessToken;
+
+//       try {
+//         //console.log("Refreshing Access Token...");
+
+//         const res = await authApi.get("/regenerate-token");
+//         //console.log("Refresh Success", res.data);
+
+//         newAccessToken = res.data.accessToken;
+
+//         if (!newAccessToken) {
+//           throw new Error("No access token received.");
+//         }
+
+//         localStorage.setItem("accessToken", newAccessToken);
+//         api.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+
+//         processQueue(null, newAccessToken);
+
+//       } catch (err) {
+//         // ONLY true refresh failures land here now
+//         //console.log("Refresh Failed", err.response?.status, err.response?.data);
+
+//         processQueue(err, null);
+
+//         localStorage.removeItem("accessToken");
+//         localStorage.removeItem("user");
+
+//         window.location.href = "/GROOME_UI/#/login";
+
+//         return Promise.reject(err);
+
+//       } finally {
+//         isRefreshing = false;
+//       }
+
+//       // Retry happens OUTSIDE the refresh try/catch — its failure is its own concern,
+//       // not treated as a refresh/auth failure
+//       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//       return api(originalRequest);
+//     }
+
+//     // return Promise.reject(error);
+//   }
+// );
+
+
+// // --- Customer side --------------------------------------------------
+// export const browseShops = async (userid, cityname) => {
+//   try {
+//     const response = await api.get(`/browserShops/${userid}/${cityname}`); // search/filter query params
+//     return response;
+//   }
+//   catch (errr) {
+//     console.error("Error:", errr.response?.data || errr.message);
+//   }
+// }
+
+// export const getShopById = async (shopId, userid) => {
+//   try {
+//     const response = await api.get(`/browserShopsID/${shopId}/${userid}`);
+
+
+//     return response;
+//   }
+//   catch (errr) {
+//     console.error("Error:", errr.response?.data || errr.message);
+//   }
+// }
+// // Returns: [{ city, state }, ...] sorted by relevance.
+// export const searchCity = (keyword) =>
+//   api.get("/search/city", { params: { q: keyword } });
+
+
+// // --- Shop owner side --------------------------------------------------
+// export const getMyShop = async () => {
+//   try {
+//     const response = await api.get("/getMyShop");
+//     return response
+//   }
+//   catch (errr) {
+//     console.error("Error:", errr.response?.data || errr.message);
+//     throw errr;
+//   }
+// };
+
+// export const setupShop = async (data) => {
+//   try {
+//     const response = await api.post("/setup", data)
+
+//     //console.log(response);
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+// };
+
+// export const updateShop = (data) => api.put("/shops/mine", data);
+// export const getShopAppointments = async (shopid) => {
+
+//   try {
+
+//     const response = await api.get(`/getmyshopAppointment/${shopid}`);
+//     return response;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+
+//   }
+// }
+
+// export const updateAppointmentStatus = async (appointmentId, status) => {
+//   try {
+//     //console.log("status", status)
+//     const response = await api.put(`/updateAppointmentstatus/${appointmentId}`, { status });
+//     return response;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+
+//   }
+// }
+// // --- Managing services / employees after the shop already exists ------
+// // adjust these paths to match your real shopController routes
+
+// function toTitleCase(text) {
+//   return text
+//     .trim()
+//     .toLowerCase()
+//     .replace(/[_-]+/g, " ")
+//     .replace(/[^\w\s]/g, "")
+//     .replace(/\s+/g, " ")
+//     .split(" ")
+//     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+//     .join(" ");
+// }
+
+// export const addService = async (data, shopId) => {
+//   try {
+
+//     const shopservices = {
+//       ...data,
+//       servicename: toTitleCase(data.servicename),
+//     };
+//     const res = await api.post(`/${shopId}/addservice`, { shopservices });       // { servicename, price, duration }
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+// }
+
+// export const deleteService = async (shopId, servicenames_id) => {
+//   try {
+//     const res = await api.delete(`/${shopId}/removeservices`, {
+//       data: {
+//         servicenames_id: servicenames_id,
+//       },
+//     });
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+
+// }
+
+// export const updateService = (shopId, data) => api.put(`/${shopId}/addservice`, data);
+
+
+// export const addEmployee = async (shopId, data) => {
+//   try {
+//     //console.log(data);
+//     const res = await api.post(`/${shopId}/addemployee`, data);     // { name, gender, employeeServices };
+//     //console.log(res);
+
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+// }
+
+
+// export const updateEmployee = async (shopId, employeeId, data) => {
+//   try {
+//     //console.log(shopId, employeeId, data);
+//     const res = await api.put(`/${shopId}/employee/${employeeId}`, data);
+//     //console.log(res);
+
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+
+// }
+
+// export const deleteEmployee = async (shopId, employeeId) => {
+//   try {
+//     //console.log(shopId, employeeId);
+//     const res = await api.delete(`/${shopId}/removesemployee`, { data: { employee_id: employeeId } });   // ← wrap in { data }, this is required for DELETE
+//     //console.log(res);
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+// }
+
+
+// export const getExistingServices = async () => {
+//   try {
+//     const res = await api.get("/shop/services");
+//     return res;
+//   }
+//   catch (err) {
+//     console.error("Error:", err.response?.data || err.message);
+//   }
+// };
+// export default api;
+
+
 // src/api/shopApi.js
 //
 // Calls for everything the dashboard needs, matching your
 // shopController.js and appointmentController.js endpoints.
-// Update BASE_URL to your real backend.
 
 import axios from "axios";
+import { refreshAccessToken } from "./authrefresh";
 
 const BASE_URL = "https://groome-backend.onrender.com";
-const Authrefresh = "https://groome-backend.onrender.com/auth";
 
 const api = axios.create({
   baseURL: `${BASE_URL}/shop`,
-  withCredentials: true,
-});
-
-const authApi = axios.create({
-  baseURL: `${Authrefresh}/user`,
   withCredentials: true,
 });
 
@@ -23,129 +380,53 @@ const authApi = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// ================= Refresh Variables =================
-
-
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((promise) => {
-    if (error) {
-      promise.reject(error);
-    } else {
-      promise.resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
-
-// ================= Response Interceptor =================
-
+// Response interceptor — uses the SHARED refresh coordinator, so this
+// file no longer races other api files' independent refresh attempts
 api.interceptors.response.use(
   (response) => response,
 
   async (error) => {
     const originalRequest = error.config;
 
-    console.log("API Error:", error.response?.status);
-
-    // Don't refresh the refresh-token request itself
     if (originalRequest.url?.includes("/regenerate-token")) {
       return Promise.reject(error);
     }
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          return api(originalRequest);
-        });
-      }
-
-      isRefreshing = true;
-
       try {
-        console.log("Refreshing Access Token...");
+        const newAccessToken = await refreshAccessToken();
 
-        const res = await authApi.get("/regenerate-token");
-
-        console.log("Refresh Success", res.data);
-
-        const newAccessToken = res.data.accessToken;
-
-        if (!newAccessToken) {
-          throw new Error("No access token received.");
-        }
-
-        // Save new token
-        localStorage.setItem("accessToken", newAccessToken);
-
-        // Update axios default header
-        api.defaults.headers.common.Authorization =
-          `Bearer ${newAccessToken}`;
-
-        // Update failed request header
-        originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
-
-        // Resolve queued requests
-        processQueue(null, newAccessToken);
-
-        // Retry failed request
-        const retryResponse = await api(originalRequest);
-
-        console.log("Retry Success");
-
-        return retryResponse;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
 
       } catch (err) {
-
-        console.log("Refresh Failed");
-        console.log(err.response?.status);
-        console.log(err.response?.data);
-
-        processQueue(err, null);
-
-        // localStorage.removeItem("accessToken");
-        // localStorage.removeItem("user");
-
-        window.location.href = "/GROOME_UI/#/login";
-
+        // refreshAccessToken() already cleared localStorage and
+        // redirected to /login — just propagate the rejection
         return Promise.reject(err);
-
-      } finally {
-        isRefreshing = false;
       }
     }
 
+    // FIX: this was missing/commented out in the previous version —
+    // without it, any non-401 error silently resolved as `undefined`
+    // instead of actually rejecting, breaking error handling upstream
     return Promise.reject(error);
   }
 );
 
-
 // --- Customer side --------------------------------------------------
 export const browseShops = async (userid, cityname) => {
   try {
-    const response = await api.get(`/browserShops/${userid}/${cityname}`); // search/filter query params
+    const response = await api.get(`/browserShops/${userid}/${cityname}`);
     return response;
   }
   catch (errr) {
@@ -156,18 +437,16 @@ export const browseShops = async (userid, cityname) => {
 export const getShopById = async (shopId, userid) => {
   try {
     const response = await api.get(`/browserShopsID/${shopId}/${userid}`);
-
-
     return response;
   }
   catch (errr) {
     console.error("Error:", errr.response?.data || errr.message);
   }
 }
+
 // Returns: [{ city, state }, ...] sorted by relevance.
 export const searchCity = (keyword) =>
   api.get("/search/city", { params: { q: keyword } });
-
 
 // --- Shop owner side --------------------------------------------------
 export const getMyShop = async () => {
@@ -184,7 +463,6 @@ export const getMyShop = async () => {
 export const setupShop = async (data) => {
   try {
     const response = await api.post("/setup", data)
-
     console.log(response);
   }
   catch (err) {
@@ -193,32 +471,26 @@ export const setupShop = async (data) => {
 };
 
 export const updateShop = (data) => api.put("/shops/mine", data);
+
 export const getShopAppointments = async (shopid) => {
-
   try {
-
     const response = await api.get(`/getmyshopAppointment/${shopid}`);
     return response;
   }
   catch (err) {
     console.error("Error:", err.response?.data || err.message);
-
   }
 }
 
 export const updateAppointmentStatus = async (appointmentId, status) => {
   try {
-    console.log("status", status)
     const response = await api.put(`/updateAppointmentstatus/${appointmentId}`, { status });
     return response;
   }
   catch (err) {
     console.error("Error:", err.response?.data || err.message);
-
   }
 }
-// --- Managing services / employees after the shop already exists ------
-// adjust these paths to match your real shopController routes
 
 function toTitleCase(text) {
   return text
@@ -234,12 +506,11 @@ function toTitleCase(text) {
 
 export const addService = async (data, shopId) => {
   try {
-
     const shopservices = {
       ...data,
       servicename: toTitleCase(data.servicename),
     };
-    const res = await api.post(`/${shopId}/addservice`, { shopservices });       // { servicename, price, duration }
+    const res = await api.post(`/${shopId}/addservice`, { shopservices });
     return res;
   }
   catch (err) {
@@ -250,27 +521,20 @@ export const addService = async (data, shopId) => {
 export const deleteService = async (shopId, servicenames_id) => {
   try {
     const res = await api.delete(`/${shopId}/removeservices`, {
-      data: {
-        servicenames_id: servicenames_id,
-      },
+      data: { servicenames_id: servicenames_id },
     });
     return res;
   }
   catch (err) {
     console.error("Error:", err.response?.data || err.message);
   }
-
 }
 
 export const updateService = (shopId, data) => api.put(`/${shopId}/addservice`, data);
 
-
 export const addEmployee = async (shopId, data) => {
   try {
-    console.log(data);
-    const res = await api.post(`/${shopId}/addemployee`, data);     // { name, gender, employeeServices };
-    console.log(res);
-
+    const res = await api.post(`/${shopId}/addemployee`, data);
     return res;
   }
   catch (err) {
@@ -278,33 +542,25 @@ export const addEmployee = async (shopId, data) => {
   }
 }
 
-
 export const updateEmployee = async (shopId, employeeId, data) => {
   try {
-    console.log(shopId, employeeId, data);
     const res = await api.put(`/${shopId}/employee/${employeeId}`, data);
-    console.log(res);
-
     return res;
   }
   catch (err) {
     console.error("Error:", err.response?.data || err.message);
   }
-
 }
 
 export const deleteEmployee = async (shopId, employeeId) => {
   try {
-    console.log(shopId, employeeId);
-    const res = await api.delete(`/${shopId}/removesemployee`, { data: { employee_id: employeeId } });   // ← wrap in { data }, this is required for DELETE
-    console.log(res);
+    const res = await api.delete(`/${shopId}/removesemployee`, { data: { employee_id: employeeId } });
     return res;
   }
   catch (err) {
     console.error("Error:", err.response?.data || err.message);
   }
 }
-
 
 export const getExistingServices = async () => {
   try {
@@ -315,4 +571,5 @@ export const getExistingServices = async () => {
     console.error("Error:", err.response?.data || err.message);
   }
 };
+
 export default api;

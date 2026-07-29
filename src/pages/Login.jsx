@@ -45,7 +45,7 @@
 //       localStorage.setItem("user", JSON.stringify(user));
 
 //       if (user.email === "groome@gmail.com") {
-//         console.log(user);
+//         //console.log(user);
 //         navigate("/admindashboard");
 //       }
 //       else { navigate("/dashboard"); }
@@ -238,11 +238,12 @@ export default function Login() {
 
       const { accessToken, user } = res.data;
 
+      localStorage.removeItem("city");
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
       if (user.email === "groome@gmail.com") {
-        console.log(user);
+        //console.log(user);
         navigate("/admindashboard");
       }
       else { navigate("/dashboard"); }

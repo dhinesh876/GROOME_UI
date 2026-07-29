@@ -86,7 +86,7 @@ export default function LocationSelector({
 
                 } catch (err) {
 
-                    console.log(err);
+                    //console.log(err);
 
                     alert("Unable to detect location");
 
@@ -130,7 +130,7 @@ export default function LocationSelector({
             setSuggestions(response.data); // [{ city, state }, ...]
 
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             setSuggestions([]);
         }
     };

@@ -161,7 +161,7 @@
 //       const res = await getExistingServices();
 //       setExistingServices(res.data.services || []);
 //     } catch (err) {
-//       console.log(err);
+//       //console.log(err);
 //     }
 //   };
 
@@ -209,7 +209,7 @@
 
 //       const res = await getShopAppointments(shopId);
 
-//       console.log(res.data.counts, " ", res.data.appointments)
+//       //console.log(res.data.counts, " ", res.data.appointments)
 
 //       setAppointments(res.data.appointments || res.data || []);
 
@@ -1899,7 +1899,7 @@
 //       const res = await getExistingServices();
 //       setExistingServices(res.data.services || []);
 //     } catch (err) {
-//       console.log(err);
+//       //console.log(err);
 //     }
 //   };
 
@@ -1947,7 +1947,7 @@
 
 //       const res = await getShopAppointments(shopId);
 
-//       console.log(res.data.counts, " ", res.data.appointments)
+//       //console.log(res.data.counts, " ", res.data.appointments)
 
 //       setAppointments(res.data.appointments || res.data || []);
 
@@ -3640,7 +3640,7 @@ export default function ShopOwnerDashboard({
       const res = await getExistingServices();
       setExistingServices(res.data.services || []);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -3688,7 +3688,7 @@ export default function ShopOwnerDashboard({
 
       const res = await getShopAppointments(shopId);
 
-      console.log(res.data.counts, " ", res.data.appointments)
+      //console.log(res.data.counts, " ", res.data.appointments)
 
       setAppointments(res.data.appointments || res.data || []);
 

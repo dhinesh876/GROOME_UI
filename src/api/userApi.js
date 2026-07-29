@@ -1,160 +1,210 @@
-// src/api/userApi.js
-import axios from "axios";
+// // src/api/userApi.js
+// import axios from "axios";
 
-const BASE_URL = "https://groome-backend.onrender.com/auth"; // <-- same host as your authApi.js; confirm the exact prefix per route below
+// const BASE_URL = "http://localhost:3000/auth"; // <-- same host as your authApi.js; confirm the exact prefix per route below
 
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+// const Authrefresh = "http://localhost:3000/auth";
 
-const api = axios.create({
-  baseURL: `${BASE_URL}`,
-  withCredentials: true,
+// const api = axios.create({
+//   baseURL: `${BASE_URL}`,
+//   withCredentials: true,
 
-  paramsSerializer: {
-    indexes: null,
-  },
-});
+//   paramsSerializer: {
+//     indexes: null,
+//   },
+// });
 
-const authApi = axios.create({
-  baseURL: `${Authrefresh}/user`,
-  withCredentials: true,
-});
+// const authApi = axios.create({
+//   baseURL: `${Authrefresh}/user`,
+//   withCredentials: true,
+// });
 
-// Request interceptor
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
+// // Request interceptor
+// api.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("accessToken");
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
-// ================= Refresh Variables =================
-
-
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((promise) => {
-    if (error) {
-      promise.reject(error);
-    } else {
-      promise.resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
-
-// ================= Response Interceptor =================
-
-api.interceptors.response.use(
-  (response) => response,
-
-  async (error) => {
-    const originalRequest = error.config;
-
-    console.log("API Error:", error.response?.status);
-
-    // Don't refresh the refresh-token request itself
-    if (originalRequest.url?.includes("/regenerate-token")) {
-      return Promise.reject(error);
-    }
-
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          return api(originalRequest);
-        });
-      }
-
-      isRefreshing = true;
-
-      try {
-        console.log("Refreshing Access Token...");
-
-        const res = await authApi.get("/regenerate-token");
-
-        console.log("Refresh Success", res.data);
-
-        const newAccessToken = res.data.accessToken;
-
-        if (!newAccessToken) {
-          throw new Error("No access token received.");
-        }
-
-        // Save new token
-        localStorage.setItem("accessToken", newAccessToken);
-
-        // Update axios default header
-        api.defaults.headers.common.Authorization =
-          `Bearer ${newAccessToken}`;
-
-        // Update failed request header
-        originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
-
-        // Resolve queued requests
-        processQueue(null, newAccessToken);
-
-        // Retry failed request
-        const retryResponse = await api(originalRequest);
-
-        console.log("Retry Success");
-
-        return retryResponse;
-
-      } catch (err) {
-
-        console.log("Refresh Failed");
-        console.log(err.response?.status);
-        console.log(err.response?.data);
-
-        processQueue(err, null);
-
-        // localStorage.removeItem("accessToken");
-        // localStorage.removeItem("user");
-
-        window.location.href = "/GROOME_UI/#/login";
-        return Promise.reject(err);
-
-      } finally {
-        isRefreshing = false;
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
+// // ================= Refresh Variables =================
 
 
-// adjust these two paths to whatever your backend actually exposes
-export const getProfile = async () => {
+// let isRefreshing = false;
+// let failedQueue = [];
 
-  try {
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach((promise) => {
+//     if (error) {
+//       promise.reject(error);
+//     } else {
+//       promise.resolve(token);
+//     }
+//   });
 
-    const Profiledata = await api.get("/user/me");;
+//   failedQueue = [];
+// };
 
-    return Profiledata;
-  }
-  catch (err) {
-    console.log(err);
-  }
-}
+// // ================= Response Interceptor =================
 
+// api.interceptors.response.use(
+//   (response) => response,
+
+//   async (error) => {
+//     const originalRequest = error.config;
+
+//     //console.log("API Error:", error.response?.status);
+
+//     // Don't refresh the refresh-token request itself
+//     if (originalRequest.url?.includes("/regenerate-token")) {
+//       return Promise.reject(error);
+//     }
+
+//     if (
+//       error.response?.status === 401 &&
+//       !originalRequest._retry
+//     ) {
+//       originalRequest._retry = true;
+
+//       if (isRefreshing) {
+//         return new Promise((resolve, reject) => {
+//           failedQueue.push({ resolve, reject });
+//         }).then((token) => {
+//           originalRequest.headers.Authorization = `Bearer ${token}`;
+//           return api(originalRequest);
+//         });
+//       }
+
+//       isRefreshing = true;
+
+//       try {
+//         //console.log("Refreshing Access Token...");
+
+//         const res = await authApi.get("/regenerate-token");
+
+//         //console.log("Refresh Success", res.data);
+
+//         const newAccessToken = res.data.accessToken;
+
+//         if (!newAccessToken) {
+//           throw new Error("No access token received.");
+//         }
+
+//         // Save new token
+//         localStorage.setItem("accessToken", newAccessToken);
+
+//         // Update axios default header
+//         api.defaults.headers.common.Authorization =
+//           `Bearer ${newAccessToken}`;
+
+//         // Update failed request header
+//         originalRequest.headers.Authorization =
+//           `Bearer ${newAccessToken}`;
+
+//         // Resolve queued requests
+//         processQueue(null, newAccessToken);
+
+//         // Retry failed request
+//         const retryResponse = await api(originalRequest);
+
+//         //console.log("Retry Success");
+
+//         return retryResponse;
+
+//       } catch (err) {
+
+//         //console.log("Refresh Failed");
+//         //console.log(err.response?.status);
+//         //console.log(err.response?.data);
+
+//         processQueue(err, null);
+
+//         // localStorage.removeItem("accessToken");
+//         // localStorage.removeItem("user");
+
+//         window.location.href = "/GROOME_UI/#/login";
+//         return Promise.reject(err);
+
+//       } finally {
+//         isRefreshing = false;
+//       }
+//     }
+
+//     return Promise.reject(error);
+//   }
+// );
+
+
+// // adjust these two paths to whatever your backend actually exposes
+// export const getProfile = async () => {
+
+//   try {
+
+//     const Profiledata = await api.get("/user/me");;
+
+//     return Profiledata;
+//   }
+//   catch (err) {
+//     //console.log(err);
+//   }
+// }
+
+
+// // export const updateProfile = async (data) => {
+
+// //   try {
+
+// //     if (data.shop) {
+
+// //       const shop = data.shop?.[0];
+
+// //       //console.log(data.shop.shopname, " data ", shop);
+
+// //       const formData = new FormData();
+
+// //       formData.append("name", data.name);
+// //       formData.append("number", data.number);
+// //       formData.append("gender", data.gender);
+
+// //       formData.append("shopname", data.shop.shopname);
+// //       formData.append("address", data.shop.address);
+// //       formData.append("openingTime", data.shop.openingTime);
+// //       formData.append("closingTime", data.shop.closingTime);
+// //       formData.append("genderCategory", data.shop.genderCategory);
+// //       formData.append(
+// //         "workingDays",
+// //         JSON.stringify(data.shop.workingDays)
+// //       );
+
+// //       if (data.shop.photo instanceof File) {
+// //         formData.append("photo", data.shop.photo);
+// //       }
+
+// //       //console.log(formData);
+// //       const Profiledata = await api.post(
+// //         "/updaet/myprofile",
+// //         formData,
+// //       );
+
+// //       return Profiledata;
+
+// //     }
+
+// //     return await api.post("/updaet/myprofile", data);
+
+// //   } catch (err) {
+
+// //     //console.log(err.message);
+
+// //   }
+
+// // };
 
 // export const updateProfile = async (data) => {
 
@@ -162,63 +212,117 @@ export const getProfile = async () => {
 
 //     if (data.shop) {
 
-//       const shop = data.shop?.[0];
-
-//       console.log(data.shop.shopname, " data ", shop);
-
 //       const formData = new FormData();
 
 //       formData.append("name", data.name);
 //       formData.append("number", data.number);
 //       formData.append("gender", data.gender);
 
-//       formData.append("shopname", data.shop.shopname);
-//       formData.append("address", data.shop.address);
-//       formData.append("openingTime", data.shop.openingTime);
-//       formData.append("closingTime", data.shop.closingTime);
-//       formData.append("genderCategory", data.shop.genderCategory);
+//       // Send the complete shop object
 //       formData.append(
-//         "workingDays",
-//         JSON.stringify(data.shop.workingDays)
+//         "shop",
+//         JSON.stringify({
+//           shopname: data.shop.shopname,
+//           address: data.shop.address,
+//           openingTime: data.shop.openingTime,
+//           closingTime: data.shop.closingTime,
+//           genderCategory: data.shop.genderCategory,
+//           workingDays: data.shop.workingDays,
+//         })
 //       );
 
+//       // Send photo separately
 //       if (data.shop.photo instanceof File) {
 //         formData.append("photo", data.shop.photo);
 //       }
 
-//       console.log(formData);
 //       const Profiledata = await api.post(
 //         "/updaet/myprofile",
-//         formData,
+//         formData
 //       );
 
 //       return Profiledata;
-
 //     }
 
 //     return await api.post("/updaet/myprofile", data);
 
 //   } catch (err) {
 
-//     console.log(err.message);
+//     //console.log(err);
 
 //   }
 
 // };
 
-export const updateProfile = async (data) => {
+// export default api;
 
+
+// src/api/userApi.js
+import axios from "axios";
+import { refreshAccessToken } from "./authrefresh";
+
+const BASE_URL = "https://groome-backend.onrender.com/auth";
+
+const api = axios.create({
+  baseURL: `${BASE_URL}`,
+  withCredentials: true,
+  paramsSerializer: { indexes: null },
+});
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  (response) => response,
+
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (originalRequest.url?.includes("/regenerate-token")) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const newAccessToken = await refreshAccessToken();
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export const getProfile = async () => {
   try {
+    const Profiledata = await api.get("/user/me");
+    return Profiledata;
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
 
+export const updateProfile = async (data) => {
+  try {
     if (data.shop) {
-
       const formData = new FormData();
 
       formData.append("name", data.name);
       formData.append("number", data.number);
       formData.append("gender", data.gender);
 
-      // Send the complete shop object
       formData.append(
         "shop",
         JSON.stringify({
@@ -231,27 +335,19 @@ export const updateProfile = async (data) => {
         })
       );
 
-      // Send photo separately
       if (data.shop.photo instanceof File) {
         formData.append("photo", data.shop.photo);
       }
 
-      const Profiledata = await api.post(
-        "/updaet/myprofile",
-        formData
-      );
-
+      const Profiledata = await api.post("/updaet/myprofile", formData);
       return Profiledata;
     }
 
     return await api.post("/updaet/myprofile", data);
 
   } catch (err) {
-
     console.log(err);
-
   }
-
 };
 
 export default api;

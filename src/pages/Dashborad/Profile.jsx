@@ -378,7 +378,7 @@ export default function Profile() {
           closingTime: shop.closingTime || "",
           workingDays: shop.workingDays || [],
           genderCategory: shop.genderCategory || "",
-          photo: shop.photo || "",
+          photo: shop.photo.url || "",
         });
 
       }
@@ -506,7 +506,7 @@ export default function Profile() {
             closingTime: shop.closingTime || "",
             workingDays: shop.workingDays || [],
             genderCategory: shop.genderCategory || "",
-            photo: shop.photo || "",
+            photo: shop.photo.url || "",
           });
 
         }
@@ -616,10 +616,10 @@ export default function Profile() {
 
               <div className="profile-shop-avatar">
 
-                {profile.shop?.[0]?.photo ? (
+                {profile.shop?.[0]?.photo.url ? (
 
                   <img
-                    src={profile.shop?.[0]?.photo}
+                    src={profile.shop?.[0]?.photo.url}
                     alt={profile.shop?.[0]?.shopname}
                     className="profile-shop-avatar-img"
                   />
@@ -793,7 +793,7 @@ export default function Profile() {
 
                 <div className="shop-image-upload">
 
-                  <img
+                  {/* <img
                     src={
                       shopForm.photo instanceof File
                         ? URL.createObjectURL(shopForm.photo)
@@ -801,7 +801,15 @@ export default function Profile() {
                     }
                     alt="Shop"
                     className="shop-preview"
-                  />
+                  /> */}
+
+                  {shopForm.photo && (
+                    <img
+                      src={shopForm.photo instanceof File ? URL.createObjectURL(shopForm.photo) : shopForm.photo}
+                      alt="Shop"
+                      className="shop-preview"
+                    />
+                  )}
 
                   <input
                     type="file"

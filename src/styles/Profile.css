@@ -103,7 +103,8 @@
 }
 
 .profile-form input,
-.profile-form select {
+.profile-form select,
+.profile-form textarea {
     width: 100%;
     padding: 12px 14px;
     font-size: 15px;
@@ -112,10 +113,12 @@
     outline: none;
     transition: 0.3s;
     box-sizing: border-box;
+    font-family: inherit;
 }
 
 .profile-form input:focus,
-.profile-form select:focus {
+.profile-form select:focus,
+.profile-form textarea:focus {
     border-color: #7c3aed;
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
@@ -134,6 +137,70 @@
 
 .profile-actions button {
     flex: 1;
+}
+
+/* ==========================
+   OPENING / CLOSING TIME GRID
+========================== */
+
+.time-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* ==========================
+   WORKING DAYS PILLS
+========================== */
+
+.pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pill {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid #dcdcdc;
+    background: #f8fafc;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pill:hover {
+    border-color: #7c3aed;
+    color: #7c3aed;
+}
+
+.pill.active {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    border-color: #7c3aed;
+    color: #fff;
+}
+
+/* ==========================
+   SHOP IMAGE UPLOAD
+========================== */
+
+.shop-image-upload {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.shop-preview {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid #ececec;
+    background: #f8fafc;
+    flex-shrink: 0;
 }
 
 /* ==========================
@@ -174,6 +241,23 @@
 }
 
 /* Small phones */
+@media (max-width: 480px) {
+
+    .time-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-image-upload {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pill {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
 @media (max-width: 420px) {
 
     .profile-card,

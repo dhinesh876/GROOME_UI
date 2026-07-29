@@ -33,14 +33,14 @@
 
 //             const res = await getDashboard();
 
-//             console.log(res); // Check this
+//             //console.log(res); // Check this
 
 //             if (res.data.success) {
 //                 setDashboard(res.data.dashboard);
 //             }
 
 //         } catch (err) {
-//             console.log(err);
+//             //console.log(err);
 //         }
 
 //     };
@@ -367,9 +367,6 @@
 
 
 
-import { useEffect, useState } from "react";
-import "../styles/AdminDashboard.css";
-
 import {
     Bell,
     CalendarDays,
@@ -383,11 +380,21 @@ import {
     UserCog,
     Users,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/AdminDashboard.css";
+
 
 import { getDashboard } from "../api/adminApi";
 
 const AdminDashboard = () => {
 
+
+    const navigate = useNavigate();
+
+    // const location = useLocation();
+
+    // //console.log(location.state?.shopId);
     const [dashboard, setDashboard] = useState({
         totalShops: 0,
         pendingShops: 0,
@@ -401,14 +408,12 @@ const AdminDashboard = () => {
 
             const res = await getDashboard();
 
-            console.log(res); // Check this
-
             if (res.data.success) {
                 setDashboard(res.data.dashboard);
             }
 
         } catch (err) {
-            console.log(err);
+            //console.log(err);
         }
 
     };
@@ -427,33 +432,70 @@ const AdminDashboard = () => {
         };
     }, []);
 
+    // const cards = [
+    //     {
+    //         title: "Total Shops",
+    //         value: dashboard.totalShops,
+    //         icon: <Store size={28} />,
+    //         color: "purple",
+    //     },
+    //     {
+    //         title: "Pending Shops",
+    //         value: dashboard.pendingShops,
+    //         icon: <Clock size={28} />,
+    //         color: "orange",
+    //     },
+    //     {
+    //         title: "Customers",
+    //         value: dashboard.totalCustomers,
+    //         icon: <Users size={28} />,
+    //         color: "blue",
+    //     },
+    //     {
+    //         title: "Appointments",
+    //         value: dashboard.totalAppointments,
+    //         icon: <CalendarDays size={28} />,
+    //         color: "green",
+    //     },
+    // ];
+
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        localStorage.removeItem("city");
+        navigate("/login");
+    };
+
     const cards = [
         {
             title: "Total Shops",
             value: dashboard.totalShops,
             icon: <Store size={28} />,
             color: "purple",
+            path: "/admin/approved-shops"
         },
         {
             title: "Pending Shops",
             value: dashboard.pendingShops,
             icon: <Clock size={28} />,
             color: "orange",
+            path: "/admin/pending-shops"
         },
         {
             title: "Customers",
             value: dashboard.totalCustomers,
             icon: <Users size={28} />,
             color: "blue",
+            path: "/admin/customers"
         },
         {
             title: "Appointments",
             value: dashboard.totalAppointments,
             icon: <CalendarDays size={28} />,
             color: "green",
-        },
+            path: "/admin/appointments"
+        }
     ];
-
     return (
         <div className="adminD-page">
 
@@ -479,93 +521,54 @@ const AdminDashboard = () => {
 
                     </div>
 
-                    {/* <nav className="adminD-nav">
-
-                        <button className="adminD-navItem adminD-active">
-                            <LayoutDashboard size={20} />
-                            Dashboard
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Clock size={20} />
-                            Pending Shops
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Store size={20} />
-                            Approved Shops
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Users size={20} />
-                            Customers
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <UserCog size={20} />
-                            Shop Owners
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <CalendarDays size={20} />
-                            Appointments
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Scissors size={20} />
-                            Services
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Star size={20} />
-                            Reviews
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Bell size={20} />
-                            Notifications
-                        </button>
-
-                        <button className="adminD-navItem">
-                            <Settings size={20} />
-                            Settings
-                        </button>
-
-                    </nav> */}
-
                     <nav className="adminD-nav">
 
                         <button className="adminD-navItem adminD-active">
                             <LayoutDashboard size={20} />
                             <span>Dashboard</span>
                         </button>
-
+                        {/* 
                         <button className="adminD-navItem">
+                            <Clock size={20} />
+                            <span>Pending Shops</span>
+                        </button> */}
+
+
+                        <button
+                            className="adminD-navItem"
+                            onClick={() => navigate("/admin/pending-shops")}
+                        >
                             <Clock size={20} />
                             <span>Pending Shops</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem"
+                            onClick={() => navigate("/admin/approved-shops")}
+                        >
                             <Store size={20} />
                             <span>Approved Shops</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem"
+                            onClick={() => navigate("/admin/customers-shops")}
+                        >
                             <Users size={20} />
                             <span>Customers</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem"
+                            onClick={() => navigate("/admin/shopowner-shops")}>
                             <UserCog size={20} />
                             <span>Shop Owners</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem"
+                            onClick={() => navigate("/admin/appointments-shops")}>
                             <CalendarDays size={20} />
                             <span>Appointments</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem" onClick={() => navigate("/admin/Services-shops")}>
                             <Scissors size={20} />
                             <span>Services</span>
                         </button>
@@ -575,7 +578,7 @@ const AdminDashboard = () => {
                             <span>Reviews</span>
                         </button>
 
-                        <button className="adminD-navItem">
+                        <button className="adminD-navItem" onClick={() => navigate("/admin/notification-shops")}>
                             <Bell size={20} />
                             <span>Notifications</span>
                         </button>
@@ -621,7 +624,7 @@ const AdminDashboard = () => {
                             <span>Super Admin</span>
                         </div>
 
-                        <button className="adminD-headerLogout">
+                        <button className="adminD-headerLogout" onClick={handleLogout}>
                             <LogOut size={18} />
                             Logout
                         </button>
@@ -636,9 +639,17 @@ const AdminDashboard = () => {
 
                     {cards.map((card) => (
 
+                        // <div
+                        //     className="adminD-card"
+                        //     key={card.title}
+                        // >
+
                         <div
-                            className="adminD-card"
                             key={card.title}
+                            className="adminD-card"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => navigate(card.path)}
+
                         >
 
                             <div
@@ -673,7 +684,13 @@ const AdminDashboard = () => {
                             Recent Pending Shops
                         </h2>
 
-                        <button className="adminD-viewAll">
+                        {/* <button className="adminD-viewAll">
+                            View All
+                        </button> */}
+                        <button
+                            className="adminD-viewAll"
+                            onClick={() => navigate("/admin/pending-shops")}
+                        >
                             View All
                         </button>
 
@@ -719,7 +736,20 @@ const AdminDashboard = () => {
 
                                     <td>
 
-                                        <button className="adminD-btnView">
+                                        {/* <button className="adminD-btnView">
+                                            View
+                                        </button> */}
+
+                                        <button
+                                            className="adminD-btnView"
+                                            onClick={() =>
+                                                navigate("/admin/pending-shops", {
+                                                    state: {
+                                                        shopId: shop._id
+                                                    }
+                                                })
+                                            }
+                                        >
                                             View
                                         </button>
 
