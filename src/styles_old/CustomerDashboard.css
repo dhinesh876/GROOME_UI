@@ -50,44 +50,6 @@
     margin: 0 0 10px 0;
 }
 
-/* ---------- No-location prompt ---------- */
-.cd-noLocation {
-    background: var(--card);
-    border-radius: var(--radius-card);
-    padding: 50px 28px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-.cd-noLocation h2 {
-    margin: 0 0 8px 0;
-    color: var(--ink);
-    font-size: 20px;
-}
-
-.cd-noLocation p {
-    color: var(--muted);
-    margin: 0;
-    font-size: 14px;
-}
-
-/* ---------- Shop closed today ---------- */
-.cd-shop-disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
-.cd-shop-disabled:hover {
-    transform: none;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-.cd-shop-closed-pill {
-    background: red;
-    color: white;
-    border-color: transparent;
-}
-
 /* ---------- Responsive ---------- */
 
 /* Tablets */

@@ -143,7 +143,7 @@
    OPENING / CLOSING TIME GRID
 ========================== */
 
-.profile-time-grid {
+.time-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
@@ -153,13 +153,13 @@
    WORKING DAYS PILLS
 ========================== */
 
-.profile-pill-row {
+.pill-row {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.profile-pill {
+.pill {
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid #dcdcdc;
@@ -171,12 +171,12 @@
     transition: 0.2s;
 }
 
-.profile-pill:hover {
+.pill:hover {
     border-color: #7c3aed;
     color: #7c3aed;
 }
 
-.profile-pill.active {
+.pill.active {
     background: linear-gradient(135deg, #7c3aed, #5b21b6);
     border-color: #7c3aed;
     color: #fff;
@@ -186,14 +186,14 @@
    SHOP IMAGE UPLOAD
 ========================== */
 
-.profile-shop-image-upload {
+.shop-image-upload {
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 10px;
 }
 
-.profile-shop-preview {
+.shop-preview {
     width: 70px;
     height: 70px;
     border-radius: 12px;
@@ -243,16 +243,16 @@
 /* Small phones */
 @media (max-width: 480px) {
 
-    .profile-time-grid {
+    .time-grid {
         grid-template-columns: 1fr;
     }
 
-    .profile-shop-image-upload {
+    .shop-image-upload {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .profile-pill {
+    .pill {
         padding: 6px 12px;
         font-size: 13px;
     }

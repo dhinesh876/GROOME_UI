@@ -578,7 +578,8 @@ const AdminDashboard = () => {
                             <span>Reviews</span>
                         </button>
 
-                        <button className="adminD-navItem" onClick={() => navigate("/admin/notification-shops")}>
+                        <button className="adminD-navItem" >
+                            {/* onClick={() => navigate("/admin/notification-shops")} */}
                             <Bell size={20} />
                             <span>Notifications</span>
                         </button>

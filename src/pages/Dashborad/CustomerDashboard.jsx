@@ -1,16 +1,17 @@
-
 // // src/pages/dashboard/CustomerDashboard.jsx
 // import {
 //   useCallback,
 //   useEffect,
 //   useState,
 // } from "react";
+// import "../../styles/CustomerDashboard.css";
 // import MyAppointments from "./MyAppointment";
 
 // import {
 //   browseShops,
 //   getShopById,
 // } from "../../api/shopApi";
+// // import LocationSearchBar from "../Dashborad/LocationAccess";
 
 // import BookAppointment from "./BookAppointment";
 
@@ -20,6 +21,7 @@
 // export default function CustomerDashboard({
 //   tab,
 //   setTab,
+//   city
 // }) {
 //   const [shops, setShops] = useState([]);
 
@@ -59,7 +61,7 @@
 //         const response =
 //           await browseShops(
 //             user.userid,
-//             search
+//             city
 //           );
 
 
@@ -79,14 +81,22 @@
 //     },
 //     [
 //       user.userid,
-//       search,
+//       city
 //     ]
 //   );
 
+//   const today = new Date().toLocaleDateString("en-US", {
+//     weekday: "short",
+//   });
+
 
 //   useEffect(() => {
-//     loadShops();
-//   }, [loadShops]);
+
+//     if (city) {
+//       loadShops();
+//     }
+
+//   }, [city, loadShops]);
 
 
 //   /*
@@ -148,246 +158,321 @@
 //   ============================================
 //   */
 
-//   return (
-//     <>
+//   if (!city) {
 
-//       {/* ======================================
-//           DASHBOARD TABS
-//       ======================================= */}
+//     return (
 
-//       <div className="dash-tabs">
+//       <div className="cd-noLocation">
 
-//         <button
-//           className={`dash-tab ${tab === "home"
-//             ? "active"
-//             : ""
-//             }`}
-//           onClick={() => {
-//             setTab("home");
+//         <h2>Select your location</h2>
 
-//             setSelectedShop(null);
-
-//             setError("");
-//           }}
-//         >
-//           Browse shops
-//         </button>
-
-
-//         <button
-//           className={`dash-tab ${tab === "appointments"
-//             ? "active"
-//             : ""
-//             }`}
-//           onClick={() => {
-//             setTab("appointments");
-
-//             setSelectedShop(null);
-//           }}
-//         >
-//           My appointments
-//         </button>
-
-
-//         <button
-//           className={`dash-tab ${tab === "profile"
-//             ? "active"
-//             : ""
-//             }`}
-//           onClick={() => {
-//             setTab("profile");
-
-//             setSelectedShop(null);
-//           }}
-//         >
-//           Profile
-//         </button>
+//         <p>
+//           Please detect your location or enter your city to browse nearby salons.
+//         </p>
 
 //       </div>
 
+//     );
 
-//       <div className="dash-content">
+//   } else {
+//     return (
+//       <>
 
-//         {/* ====================================
+//         {/* ======================================
+//           DASHBOARD TABS
+//       ======================================= */}
+
+//         <div className="dash-tabs">
+
+//           <button
+//             className={`dash-tab ${tab === "home"
+//               ? "active"
+//               : ""
+//               }`}
+//             onClick={() => {
+//               setTab("home");
+
+//               setSelectedShop(null);
+
+//               setError("");
+//             }}
+//           >
+//             Browse shops
+//           </button>
+
+
+//           <button
+//             className={`dash-tab ${tab === "appointments"
+//               ? "active"
+//               : ""
+//               }`}
+//             onClick={() => {
+//               setTab("appointments");
+
+//               setSelectedShop(null);
+//             }}
+//           >
+//             My appointments
+//           </button>
+
+
+//           <button
+//             className={`dash-tab ${tab === "profile"
+//               ? "active"
+//               : ""
+//               }`}
+//             onClick={() => {
+//               setTab("profile");
+
+//               setSelectedShop(null);
+//             }}
+//           >
+//             Profile
+//           </button>
+
+//         </div>
+
+
+//         <div className="dash-content">
+
+//           {/* ====================================
 //             PROFILE
 //         ===================================== */}
 
-//         {tab === "profile" && (
-//           <Profile />
-//         )}
+//           {tab === "profile" && (
+//             <Profile />
+//           )}
 
 
-//         {/* ====================================
+//           {/* ====================================
 //             HOME - SHOP LIST
 //         ===================================== */}
 
-//         {tab === "home" &&
-//           !selectedShop && (
-//             <>
+//           {tab === "home" &&
+//             !selectedShop && (
+//               <>
 
-//               <h1 className="dash-heading">
-//                 Find a shop
-//               </h1>
-
-
-//               <p className="dash-subheading">
-//                 Browse nearby salons and services.
-//               </p>
+//                 <h1 className="dash-heading">
+//                   Find a shop
+//                 </h1>
 
 
-//               <div
-//                 className="dash-field"
-//                 style={{
-//                   maxWidth: 320,
-//                   marginBottom: 20,
-//                 }}
-//               >
-//                 <input
-//                   placeholder="Search shops..."
-//                   value={search}
-//                   onChange={(e) =>
-//                     setSearch(
-//                       e.target.value
-//                     )
-//                   }
-//                   onKeyDown={(e) => {
-//                     if (
-//                       e.key === "Enter"
-//                     ) {
-//                       loadShops();
-//                     }
+//                 <p className="dash-subheading">
+//                   Browse nearby salons and services.
+//                 </p>
+
+
+//                 <div
+//                   className="dash-field"
+//                   style={{
+//                     maxWidth: 320,
+//                     marginBottom: 20,
 //                   }}
-//                 />
-//               </div>
+//                 >
+//                   <input
+//                     placeholder="Search shops..."
+//                     value={search}
+//                     onChange={(e) =>
+//                       setSearch(
+//                         e.target.value
+//                       )
+//                     }
+//                     onKeyDown={(e) => {
+//                       if (
+//                         e.key === "Enter"
+//                       ) {
+//                         loadShops();
+//                       }
+//                     }}
+//                   />
+//                 </div>
 
 
-//               {error && (
-//                 <p className="auth-error">
-//                   {error}
-//                 </p>
-//               )}
+//                 {error && (
+//                   <p className="auth-error">
+//                     {error}
+//                   </p>
+//                 )}
 
 
-//               {loading ? (
-//                 <p className="empty-state">
-//                   Loading shops...
-//                 </p>
-//               ) : shops.length === 0 ? (
-//                 <p className="empty-state">
-//                   No shops found yet.
-//                 </p>
-//               ) : (
-//                 <div className="shop-grid">
+//                 {loading ? (
+//                   <p className="empty-state">
+//                     Loading shops...
+//                   </p>
+//                 ) : shops.length === 0 ? (
+//                   <p className="empty-state">
+//                     No shops found yet.
+//                   </p>
+//                 ) : (
+//                   <div className="cd-shop-grid">
 
-//                   {shops.map(
-//                     (shop) => (
-//                       <div
-//                         key={shop._id}
-//                         className="shop-card"
-//                         onClick={() =>
-//                           openShop(
-//                             shop._id
-//                           )
-//                         }
-//                       >
-
+//                     {/* {shops.map(
+//                       (shop) => (
 //                         <div
-//                           className="shop-card-photo"
-//                           style={
-//                             shop.photo
-//                               ? {
-//                                 backgroundImage:
-//                                   `url(${shop.photo?.url || shop.photo})`,
-//                                 backgroundSize:
-//                                   "cover",
-//                                 backgroundPosition:
-//                                   "center",
-//                               }
-//                               : undefined
+//                           key={shop._id}
+//                           className="cd-shop-card"
+//                           onClick={() =>
+//                             openShop(
+//                               shop._id
+//                             )
 //                           }
-//                         />
+//                         >
+
+//                           <div
+//                             className="cd-shop-card-photo"
+//                             style={
+//                               shop.photo
+//                                 ? {
+//                                   backgroundImage:
+//                                     `url(${shop.photo?.url || shop.photo})`,
+//                                   backgroundSize:
+//                                     "cover",
+//                                   backgroundPosition:
+//                                     "center",
+//                                 }
+//                                 : undefined
+//                             }
+//                           />
 
 
-//                         <div className="shop-card-body">
+//                           <div className="cd-shop-card-body">
 
-//                           <p className="shop-card-name">
-//                             {shop.shopname}
-//                           </p>
-
-
-//                           <p className="shop-card-meta">
-//                             {shop.address}
-//                           </p>
+//                             <p className="cd-shop-card-name">
+//                               {shop.shopname}
+//                             </p>
 
 
-//                           <div className="pill-row">
-
-//                             <span className="pill">
-//                               {
-//                                 shop.genderCategory
-//                               }
-//                             </span>
+//                             <p className="cd-shop-card-meta">
+//                               {shop.address}
+//                             </p>
 
 
-//                             <span className="pill">
-//                               {
-//                                 shop.openingTime
-//                               }
-//                               –
-//                               {
-//                                 shop.closingTime
-//                               }
-//                             </span>
+//                             <div className="pill-row">
+
+//                               <span className="pill">
+//                                 {
+//                                   shop.genderCategory
+//                                 }
+//                               </span>
+
+
+//                               <span className="pill">
+//                                 {
+//                                   shop.openingTime
+//                                 }
+//                                 –
+//                                 {
+//                                   shop.closingTime
+//                                 }
+//                               </span>
+
+//                             </div>
 
 //                           </div>
 
 //                         </div>
+//                       )
+//                     )} */}
 
-//                       </div>
-//                     )
-//                   )}
+//                     {shops.map((shop) => {
+//                       const isOpenToday = shop.workingDays?.includes(today);
 
-//                 </div>
-//               )}
+//                       return (
+//                         <div
+//                           key={shop._id}
+//                           className={`cd-shop-card ${!isOpenToday ? "cd-shop-disabled" : ""}`}
+//                           onClick={() => {
+//                             if (isOpenToday) {
+//                               openShop(shop._id);
+//                             }
+//                           }}
+//                         >
+//                           <div
+//                             className="cd-shop-card-photo"
+//                             style={
+//                               shop.photo
+//                                 ? {
+//                                   backgroundImage: `url(${shop.photo?.url || shop.photo})`,
+//                                   backgroundSize: "cover",
+//                                   backgroundPosition: "center",
+//                                 }
+//                                 : undefined
+//                             }
+//                           />
 
-//             </>
-//           )}
+//                           <div className="cd-shop-card-body">
+//                             <p className="cd-shop-card-name">
+//                               {shop.shopname}
+//                             </p>
+
+//                             <p className="cd-shop-card-meta">
+//                               {shop.address}
+//                             </p>
+
+//                             <div className="pill-row">
+//                               <span className="pill">
+//                                 {shop.genderCategory}
+//                               </span>
+
+//                               <span className="pill">
+//                                 {shop.openingTime} – {shop.closingTime}
+//                               </span>
+
+//                               {!isOpenToday && (
+//                                 <span className="pill cd-shop-closed-pill" style={{ background: "red", color: "white" }}>
+//                                   Closed Today
+//                                 </span>
+//                               )}
+//                             </div>
+//                           </div>
+//                         </div>
+//                       );
+//                     })}
+
+//                   </div>
+//                 )}
+
+//               </>
+//             )}
 
 
-//         {/* ====================================
+//           {/* ====================================
 //             SHOP OPEN -> straight into booking
 //             (no separate old-design detail screen
 //             anymore — BookAppointment handles the
 //             whole thing, one consistent design)
 //         ===================================== */}
 
-//         {tab === "home" &&
-//           selectedShop && (
-//             <BookAppointment
-//               shop={selectedShop}
-//               onBack={handleBackToResults}
-//               onBooked={() => {
-//                 setTab("appointments");
-//                 setSelectedShop(null);
-//               }}
-//             />
-//           )}
+//           {tab === "home" &&
+//             selectedShop && (
+//               <BookAppointment
+//                 shop={selectedShop}
+//                 onBack={handleBackToResults}
+//                 onBooked={() => {
+//                   setTab("appointments");
+//                   setSelectedShop(null);
+//                 }}
+//               />
+//             )}
 
 
-//         {/* ====================================
+//           {/* ====================================
 //             APPOINTMENTS
 //         ===================================== */}
 
-//         {tab === "appointments" && (
-//           <MyAppointments />
-//         )}
+//           {tab === "appointments" && (
+//             <MyAppointments />
+//           )}
 
-//       </div>
+//         </div>
 
-//     </>
-//   );
+//       </>
+//     );
+//   }
 // }
 
+
+//new
 
 // src/pages/dashboard/CustomerDashboard.jsx
 import {
@@ -708,7 +793,7 @@ export default function CustomerDashboard({
                             )
                           }
                         >
-
+ 
                           <div
                             className="cd-shop-card-photo"
                             style={
@@ -724,29 +809,29 @@ export default function CustomerDashboard({
                                 : undefined
                             }
                           />
-
-
+ 
+ 
                           <div className="cd-shop-card-body">
-
+ 
                             <p className="cd-shop-card-name">
                               {shop.shopname}
                             </p>
-
-
+ 
+ 
                             <p className="cd-shop-card-meta">
                               {shop.address}
                             </p>
-
-
+ 
+ 
                             <div className="pill-row">
-
+ 
                               <span className="pill">
                                 {
                                   shop.genderCategory
                                 }
                               </span>
-
-
+ 
+ 
                               <span className="pill">
                                 {
                                   shop.openingTime
@@ -756,11 +841,11 @@ export default function CustomerDashboard({
                                   shop.closingTime
                                 }
                               </span>
-
+ 
                             </div>
-
+ 
                           </div>
-
+ 
                         </div>
                       )
                     )} */}
@@ -810,7 +895,7 @@ export default function CustomerDashboard({
                               </span>
 
                               {!isOpenToday && (
-                                <span className="pill cd-shop-closed-pill" style={{ background: "red", color: "white" }}>
+                                <span className="pill cd-shop-closed-pill">
                                   Closed Today
                                 </span>
                               )}

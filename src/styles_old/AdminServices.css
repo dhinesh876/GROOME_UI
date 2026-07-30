@@ -2,7 +2,7 @@
    PAGE
 ========================================= */
 
-.adminApt-page {
+.adminS-page {
     min-height: 100vh;
     background: #f5f7fb;
     padding: 30px;
@@ -13,20 +13,20 @@
    HEADER
 ========================================= */
 
-.adminApt-header {
+.adminS-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
 }
 
-.adminApt-headerLeft {
+.adminS-headerLeft {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.adminApt-backBtn {
+.adminS-backBtn {
     background: #6c3bff;
     color: #fff;
     border: none;
@@ -38,33 +38,33 @@
     transition: .3s;
 }
 
-.adminApt-backBtn:hover {
+.adminS-backBtn:hover {
     background: #5126d8;
 }
 
-.adminApt-header h1 {
+.adminS-header h1 {
     margin: 0;
     font-size: 30px;
     color: #222;
 }
 
-.adminApt-header p {
+.adminS-header p {
     margin-top: 6px;
     color: #777;
 }
 
 /* =========================================
-   CARDS
+   DASHBOARD CARDS
 ========================================= */
 
-.adminApt-cardGrid {
+.adminS-cardGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     margin-bottom: 30px;
 }
 
-.adminApt-card {
+.adminS-card {
     background: #fff;
     border-radius: 18px;
     padding: 22px;
@@ -74,48 +74,48 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
 }
 
-.adminApt-card h2 {
+.adminS-card h2 {
     margin: 0;
     font-size: 30px;
     color: #222;
 }
 
-.adminApt-card span {
+.adminS-card span {
     color: #777;
     font-size: 15px;
 }
 
-.adminApt-cardIcon {
+.adminS-cardIcon {
     width: 65px;
     height: 65px;
     border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: white;
 }
 
-.adminApt-cardIcon.purple {
+.adminS-cardIcon.purple {
     background: #7a4cff;
 }
 
-.adminApt-cardIcon.orange {
-    background: #ff9800;
-}
-
-.adminApt-cardIcon.green {
+.adminS-cardIcon.green {
     background: #16a34a;
 }
 
-.adminApt-cardIcon.red {
+.adminS-cardIcon.red {
     background: #ef4444;
+}
+
+.adminS-cardIcon.blue {
+    background: #2196f3;
 }
 
 /* =========================================
    TOOLBAR
 ========================================= */
 
-.adminApt-toolbar {
+.adminS-toolbar {
     display: flex;
     justify-content: space-between;
     gap: 15px;
@@ -123,7 +123,7 @@
     flex-wrap: wrap;
 }
 
-.adminApt-search {
+.adminS-search {
     flex: 1;
     min-width: 280px;
     display: flex;
@@ -135,11 +135,11 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, .05);
 }
 
-.adminApt-search svg {
+.adminS-search svg {
     color: #666;
 }
 
-.adminApt-search input {
+.adminS-search input {
     width: 100%;
     border: none;
     outline: none;
@@ -147,8 +147,8 @@
     font-size: 15px;
 }
 
-.adminApt-filter {
-    min-width: 180px;
+.adminS-filter {
+    min-width: 200px;
     border: none;
     outline: none;
     background: #fff;
@@ -162,24 +162,24 @@
    TABLE
 ========================================= */
 
-.adminApt-tableCard {
+.adminS-tableCard {
     background: #fff;
     border-radius: 18px;
     overflow-x: auto;
     box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
 }
 
-.adminApt-table {
+.adminS-table {
     width: 100%;
     border-collapse: collapse;
     min-width: 1050px;
 }
 
-.adminApt-table thead {
+.adminS-table thead {
     background: #f7f7fb;
 }
 
-.adminApt-table th {
+.adminS-table th {
     text-align: left;
     padding: 18px 20px;
     color: #555;
@@ -187,30 +187,30 @@
     font-weight: 600;
 }
 
-.adminApt-table td {
+.adminS-table td {
     padding: 18px 20px;
     border-top: 1px solid #eee;
     color: #444;
     font-size: 15px;
 }
 
-.adminApt-table tbody tr {
+.adminS-table tbody tr {
     transition: .25s;
 }
 
-.adminApt-table tbody tr:hover {
+.adminS-table tbody tr:hover {
     background: #faf8ff;
 }
 
 /* =========================================
-   STATUS BADGES
+   STATUS BADGE
 ========================================= */
 
-.adminApt-badge {
+.adminS-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 95px;
+    min-width: 90px;
     padding: 6px 14px;
     border-radius: 30px;
     color: #fff;
@@ -218,36 +218,24 @@
     font-weight: 600;
 }
 
-.adminApt-badge.pending {
-    background: #ff9800;
-}
-
-.adminApt-badge.confirmed {
-    background: #2196f3;
-}
-
-.adminApt-badge.completed {
+.adminS-badge.active {
     background: #16a34a;
 }
 
-.adminApt-badge.cancelled {
+.adminS-badge.inactive {
     background: #ef4444;
-}
-
-.adminApt-badge.noshow {
-    background: #6b7280;
 }
 
 /* =========================================
    VIEW BUTTON
 ========================================= */
 
-.adminApt-viewBtn {
+.adminS-viewBtn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     background: #6c3bff;
-    color: white;
+    color: #fff;
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
@@ -257,7 +245,7 @@
     transition: .3s;
 }
 
-.adminApt-viewBtn:hover {
+.adminS-viewBtn:hover {
     background: #5126d8;
 }
 
@@ -265,7 +253,7 @@
    LOADING
 ========================================= */
 
-.adminApt-loading {
+.adminS-loading {
     text-align: center;
     padding: 45px;
     color: #777;
@@ -276,7 +264,7 @@
    PAGINATION
 ========================================= */
 
-.adminApt-pagination {
+.adminS-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -285,7 +273,7 @@
     flex-wrap: wrap;
 }
 
-.adminApt-pagination button {
+.adminS-pagination button {
     border: none;
     background: #fff;
     padding: 10px 18px;
@@ -296,34 +284,34 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
 }
 
-.adminApt-pagination button:hover:not(:disabled) {
+.adminS-pagination button:hover:not(:disabled) {
     background: #6c3bff;
     color: #fff;
 }
 
-.adminApt-pagination button:disabled {
+.adminS-pagination button:disabled {
     opacity: .5;
     cursor: not-allowed;
 }
 
-.adminApt-pageActive {
+.adminS-pageActive {
     background: #6c3bff !important;
-    color: white;
+    color: #fff;
 }
 
 /* =========================================
    SCROLLBAR
 ========================================= */
 
-.adminApt-tableCard::-webkit-scrollbar {
+.adminS-tableCard::-webkit-scrollbar {
     height: 8px;
 }
 
-.adminApt-tableCard::-webkit-scrollbar-track {
+.adminS-tableCard::-webkit-scrollbar-track {
     background: #ececec;
 }
 
-.adminApt-tableCard::-webkit-scrollbar-thumb {
+.adminS-tableCard::-webkit-scrollbar-thumb {
     background: #7a4cff;
     border-radius: 20px;
 }
@@ -332,7 +320,7 @@
    MODAL
 ========================================= */
 
-.adminApt-modalOverlay {
+.adminS-modalOverlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, .45);
@@ -343,16 +331,16 @@
     z-index: 999;
 }
 
-.adminApt-modal {
+.adminS-modal {
     width: 90%;
     max-width: 550px;
     background: #fff;
     border-radius: 18px;
     overflow: hidden;
-    animation: adminAFade .25s ease;
+    animation: adminSFade .25s ease;
 }
 
-@keyframes adminAFade {
+@keyframes adminSFade {
 
     from {
         opacity: 0;
@@ -366,7 +354,7 @@
 
 }
 
-.adminApt-modalHeader {
+.adminS-modalHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -374,21 +362,21 @@
     border-bottom: 1px solid #eee;
 }
 
-.adminApt-modalHeader h2 {
+.adminS-modalHeader h2 {
     margin: 0;
     font-size: 24px;
     color: #222;
 }
 
-.adminApt-closeBtn {
+.adminS-closeBtn {
     border: none;
     background: transparent;
-    cursor: pointer;
     font-size: 24px;
+    cursor: pointer;
     color: #777;
 }
 
-.adminApt-closeBtn:hover {
+.adminS-closeBtn:hover {
     color: #000;
 }
 
@@ -396,32 +384,32 @@
    MODAL BODY
 ========================================= */
 
-.adminApt-modalBody {
+.adminS-modalBody {
     padding: 24px;
 }
 
-.adminApt-infoRow {
+.adminS-infoRow {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
     padding: 12px 0;
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f1f1f1;
 }
 
-.adminApt-infoRow:last-child {
+.adminS-infoRow:last-child {
     border-bottom: none;
 }
 
-.adminApt-infoRow span {
+.adminS-infoRow span {
     color: #777;
     font-weight: 500;
 }
 
-.adminApt-infoRow strong {
+.adminS-infoRow strong {
     color: #222;
-    text-align: right;
     max-width: 60%;
+    text-align: right;
     word-break: break-word;
 }
 
@@ -429,17 +417,19 @@
    MODAL FOOTER
 ========================================= */
 
-.adminApt-modalFooter {
+.adminS-modalFooter {
     padding: 20px 24px;
     border-top: 1px solid #eee;
     display: flex;
     justify-content: flex-end;
+    gap: 12px;
 }
 
-.adminApt-closeModalBtn {
+.adminS-enableBtn,
+.adminS-disableBtn,
+.adminS-closeModalBtn {
+
     border: none;
-    background: #6c3bff;
-    color: #fff;
     padding: 12px 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -447,7 +437,30 @@
     transition: .3s;
 }
 
-.adminApt-closeModalBtn:hover {
+.adminS-enableBtn {
+    background: #16a34a;
+    color: white;
+}
+
+.adminS-enableBtn:hover {
+    background: #15803d;
+}
+
+.adminS-disableBtn {
+    background: #ef4444;
+    color: white;
+}
+
+.adminS-disableBtn:hover {
+    background: #dc2626;
+}
+
+.adminS-closeModalBtn {
+    background: #6c3bff;
+    color: white;
+}
+
+.adminS-closeModalBtn:hover {
     background: #5126d8;
 }
 
@@ -457,31 +470,31 @@
 
 @media (max-width:992px) {
 
-    .adminApt-page {
+    .adminS-page {
         padding: 20px;
     }
 
-    .adminApt-header {
+    .adminS-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
     }
 
-    .adminApt-headerLeft {
+    .adminS-headerLeft {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .adminApt-cardGrid {
+    .adminS-cardGrid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .adminApt-toolbar {
+    .adminS-toolbar {
         flex-direction: column;
     }
 
-    .adminApt-search,
-    .adminApt-filter {
+    .adminS-search,
+    .adminS-filter {
         width: 100%;
     }
 
@@ -493,52 +506,58 @@
 
 @media (max-width:768px) {
 
-    .adminApt-page {
+    .adminS-page {
         padding: 15px;
     }
 
-    .adminApt-cardGrid {
+    .adminS-cardGrid {
         grid-template-columns: 1fr;
     }
 
-    .adminApt-card {
+    .adminS-card {
         padding: 18px;
     }
 
-    .adminApt-card h2 {
+    .adminS-card h2 {
         font-size: 24px;
     }
 
-    .adminApt-header h1 {
+    .adminS-header h1 {
         font-size: 24px;
     }
 
-    .adminApt-backBtn {
+    .adminS-backBtn {
         width: 100%;
     }
 
-    .adminApt-modal {
+    .adminS-modal {
         width: 100%;
     }
 
-    .adminApt-modalHeader,
-    .adminApt-modalBody,
-    .adminApt-modalFooter {
+    .adminS-modalHeader,
+    .adminS-modalBody,
+    .adminS-modalFooter {
         padding: 18px;
     }
 
-    .adminApt-infoRow {
+    .adminS-infoRow {
         flex-direction: column;
         align-items: flex-start;
         gap: 6px;
     }
 
-    .adminApt-infoRow strong {
+    .adminS-infoRow strong {
         max-width: 100%;
         text-align: left;
     }
 
-    .adminApt-closeModalBtn {
+    .adminS-modalFooter {
+        flex-direction: column;
+    }
+
+    .adminS-enableBtn,
+    .adminS-disableBtn,
+    .adminS-closeModalBtn {
         width: 100%;
     }
 
@@ -550,24 +569,24 @@
 
 @media (max-width:480px) {
 
-    .adminApt-header h1 {
+    .adminS-header h1 {
         font-size: 22px;
     }
 
-    .adminApt-cardIcon {
+    .adminS-cardIcon {
         width: 55px;
         height: 55px;
     }
 
-    .adminApt-card h2 {
+    .adminS-card h2 {
         font-size: 22px;
     }
 
-    .adminApt-pagination {
+    .adminS-pagination {
         gap: 6px;
     }
 
-    .adminApt-pagination button {
+    .adminS-pagination button {
         padding: 8px 12px;
         font-size: 13px;
     }

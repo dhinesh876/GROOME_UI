@@ -289,10 +289,6 @@
     color: black;
 }
 
-.shop-left {
-    flex-shrink: 0;
-}
-
 .shop-cover {
     width: 220px;
     height: 220px;
@@ -302,40 +298,6 @@
 
 .shop-right {
     flex: 1;
-}
-
-.shop-owner {
-    color: #666;
-    margin-top: 6px;
-    font-size: 15px;
-}
-
-.shop-address {
-    color: #666;
-    margin-top: 6px;
-    font-size: 15px;
-}
-
-.shop-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
-}
-
-.shop-tags span {
-    background: #f3f0ff;
-    color: #6D28D9;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.working-days {
-    margin-top: 10px;
-    color: #666;
-    font-size: 14px;
 }
 
 .approval-banner {

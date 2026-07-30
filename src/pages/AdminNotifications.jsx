@@ -84,7 +84,7 @@ export default function AdminNotifications() {
 
         catch (err) {
 
-            //console.log(err);
+            console.log(err);
 
         }
 
@@ -124,7 +124,7 @@ export default function AdminNotifications() {
 
         catch (err) {
 
-            //console.log(err);
+            console.log(err);
 
         }
 
@@ -156,7 +156,7 @@ export default function AdminNotifications() {
 
         catch (err) {
 
-            //console.log(err);
+            console.log(err);
 
         }
 

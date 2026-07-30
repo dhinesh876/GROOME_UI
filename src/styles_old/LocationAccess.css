@@ -1,0 +1,690 @@
+/* =====================================================
+   LOCATION SELECTOR — modern dark glass style
+   Matches the app's login/register glassmorphic look
+   (translucent panels, blur, indigo accents) instead of
+   a plain flat white card.
+===================================================== */
+
+:root {
+    --loc-glass-bg: rgba(255, 255, 255, 0.06);
+    --loc-glass-bg-hover: rgba(255, 255, 255, 0.1);
+    --loc-glass-border: rgba(255, 255, 255, 0.14);
+    --loc-text: #f3f4f6;
+    --loc-muted: rgba(255, 255, 255, 0.55);
+    --loc-indigo: #8b5cf6;
+    --loc-indigo-d: #6d28d9;
+}
+
+/* =====================================================
+   TRIGGER PILL
+===================================================== */
+
+.locUI-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    width: 260px;
+    padding: 12px 16px;
+
+    background: var(--loc-glass-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--loc-glass-border);
+    border-radius: 16px;
+
+    cursor: pointer;
+    transition: .25s;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+
+.locUI-pill:hover {
+    background: var(--loc-glass-bg-hover);
+    transform: translateY(-2px);
+    border-color: rgba(139, 92, 246, .5);
+    box-shadow: 0 15px 35px rgba(139, 92, 246, .2);
+}
+
+.locUI-pill>svg {
+    color: var(--loc-muted);
+    flex-shrink: 0;
+}
+
+.locUI-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.locUI-icon {
+    color: var(--loc-indigo);
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.locUI-left h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--loc-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.locUI-left span {
+    display: block;
+    font-size: 11px;
+    color: var(--loc-muted);
+    margin-top: 2px;
+}
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.locUI-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 8, 20, .6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: locUIFade .25s ease;
+    padding: 16px;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.locUI-modal {
+    width: 420px;
+    max-width: 100%;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+
+    background: rgba(20, 20, 35, .85);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--loc-glass-border);
+    border-radius: 26px;
+    padding: 28px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, .5);
+    animation: locUISlide .3s ease;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.locUI-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.locUI-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--loc-text);
+}
+
+.locUI-close {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border: none;
+    background: rgba(255, 255, 255, .08);
+    color: var(--loc-text);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .25s;
+}
+
+.locUI-close:hover {
+    background: #ef4444;
+    color: #fff;
+}
+
+.locUI-close:active {
+    transform: scale(.92);
+}
+
+/* =====================================================
+   CURRENT LOCATION BUTTON
+===================================================== */
+
+.locUI-currentBtn {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--loc-indigo), #4f46e5);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 12px 28px rgba(139, 92, 246, .35);
+}
+
+.locUI-currentBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 35px rgba(139, 92, 246, .45);
+}
+
+.locUI-currentBtn:disabled {
+    opacity: .8;
+    cursor: not-allowed;
+}
+
+.locUI-currentBtn:active {
+    transform: scale(.98);
+}
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.locUI-divider {
+    position: relative;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.locUI-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, .14);
+}
+
+.locUI-divider span {
+    position: relative;
+    background: rgba(20, 20, 35, 1);
+    padding: 0 18px;
+    color: var(--loc-muted);
+    font-size: 13px;
+}
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.locUI-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid var(--loc-glass-border);
+    border-radius: 14px;
+    padding: 0 16px;
+    height: 54px;
+    transition: .25s;
+}
+
+.locUI-search:focus-within {
+    border-color: var(--loc-indigo);
+    background: rgba(255, 255, 255, .08);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, .18);
+}
+
+.locUI-search svg {
+    color: var(--loc-muted);
+    flex-shrink: 0;
+}
+
+.locUI-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 15px;
+    color: var(--loc-text);
+}
+
+.locUI-search input::placeholder {
+    color: rgba(255, 255, 255, .35);
+}
+
+.locUI-setBtn {
+    border: none;
+    background: var(--loc-indigo);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .25s;
+    flex-shrink: 0;
+}
+
+.locUI-setBtn:hover {
+    background: var(--loc-indigo-d);
+}
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+.locUI-spin {
+    animation: locUISpin 1s linear infinite;
+}
+
+.locUI-loaderCircle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, .18);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    animation: locUIPulse 1.8s infinite;
+}
+
+.locUI-loaderCircle svg {
+    color: #fff;
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes locUIFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes locUISlide {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes locUISpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes locUIPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, .4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 22px rgba(139, 92, 246, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+}
+
+/* =====================================================
+   POPULAR CITIES
+===================================================== */
+
+.locUI-title {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--loc-muted);
+    font-weight: 600;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.locUI-popularGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.locUI-chip {
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid var(--loc-glass-border);
+    color: var(--loc-text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: .2s;
+}
+
+.locUI-chip:hover {
+    background: var(--loc-indigo);
+    border-color: var(--loc-indigo);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(139, 92, 246, .3);
+}
+
+/* =====================================================
+   CITY LIST (kept for compatibility if re-enabled)
+===================================================== */
+
+.locUI-cityList {
+    margin-top: 22px;
+    max-height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--loc-indigo) rgba(255, 255, 255, .08);
+}
+
+.locUI-cityList::-webkit-scrollbar {
+    width: 7px;
+}
+
+.locUI-cityList::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, .05);
+    border-radius: 20px;
+}
+
+.locUI-cityList::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--loc-indigo), var(--loc-indigo-d));
+    border-radius: 20px;
+}
+
+.locUI-city {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all .2s ease;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, .04);
+    color: var(--loc-text);
+}
+
+.locUI-city svg {
+    color: var(--loc-indigo);
+    flex-shrink: 0;
+}
+
+.locUI-city:hover {
+    background: rgba(139, 92, 246, .15);
+    border-color: rgba(139, 92, 246, .4);
+    transform: translateX(6px);
+}
+
+.locUI-city:active {
+    transform: scale(.98);
+}
+
+.locUI-empty {
+    text-align: center;
+    padding: 40px 10px;
+    color: var(--loc-muted);
+    font-size: 14px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.locUI-footer {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    display: flex;
+    justify-content: center;
+}
+
+.locUI-footer button {
+    border: none;
+    background: none;
+    color: var(--loc-indigo);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.locUI-footer button:hover {
+    color: #fff;
+}
+
+/* =====================================================
+   LOCATION BADGE
+===================================================== */
+
+.locUI-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 10.5px;
+    font-weight: 600;
+    margin-top: 5px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, .15);
+    color: #4ade80;
+}
+
+.locUI-badge-manual {
+    background: rgba(255, 255, 255, .1);
+    color: var(--loc-muted);
+}
+
+/* =====================================================
+   NICE HOVER
+===================================================== */
+
+.locUI-pill:hover .locUI-icon {
+    transform: scale(1.15);
+    transition: .3s;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 992px) {
+    .locUI-pill {
+        width: 220px;
+    }
+
+    .locUI-modal {
+        width: 380px;
+    }
+}
+
+@media (max-width: 768px) {
+    .locUI-modal {
+        width: 94%;
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .locUI-pill {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .locUI-header h2 {
+        font-size: 19px;
+    }
+
+    .locUI-currentBtn {
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .locUI-search {
+        height: 50px;
+    }
+
+    .locUI-city {
+        padding: 12px;
+    }
+
+    .locUI-cityList {
+        max-height: 220px;
+    }
+}
+
+@media (max-width: 420px) {
+    .locUI-pill {
+        padding: 10px 14px;
+    }
+
+    .locUI-left h4 {
+        font-size: 14px;
+    }
+
+    .locUI-chip {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .locUI-modal {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .locUI-header h2 {
+        font-size: 17px;
+    }
+
+    .locUI-close {
+        width: 34px;
+        height: 34px;
+    }
+
+    .locUI-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .locUI-chip {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .locUI-loaderCircle {
+        width: 64px;
+        height: 64px;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .locUI-overlay {
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .locUI-modal {
+        max-height: 92vh;
+        max-height: 92dvh;
+    }
+}
+
+/* =====================================================
+   SUGGESTION LIST
+   (was missing entirely — this is why suggestions had no
+   proper spacing/background and looked like they were
+   floating/jumping relative to the search bar above them)
+===================================================== */
+
+.locUI-suggestionList {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.locUI-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.locUI-suggestion:hover {
+    background: #f6f2ff;
+    border-color: #d8b4fe;
+}
+
+.locUI-suggestion svg {
+    color: #7C3AED;
+    flex-shrink: 0;
+}
+
+/* =====================================================
+   SUGGESTION TEXT (city + state)
+   Uses plain block-level divs in the JSX (not flex/strong/small),
+   so city and state are guaranteed to stack on separate lines
+   with zero dependency on flex-direction loading correctly.
+===================================================== */
+
+.locUI-suggestionText {
+    display: block;
+}
+
+.locUI-suggestionCity {
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.3;
+}
+
+.locUI-suggestionState {
+    font-size: 12px;
+    font-weight: 400;
+    color: #777;
+    line-height: 1.3;
+}

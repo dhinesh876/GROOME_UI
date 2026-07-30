@@ -14,9 +14,9 @@ import {
     getAppointments
 } from "../api/adminApi";
 
-import "../styles/AdminAppointments.css";
+import "../styles/adminAppointments.css";
 
-export default function AdminAppointments() {
+export default function adminAppointments() {
 
     /* ===============================
         STATES
@@ -178,19 +178,19 @@ export default function AdminAppointments() {
 
     return (
 
-        <div className="adminA-page">
+        <div className="adminApt-page">
 
             {/* ===============================
                 HEADER
             =============================== */}
 
-            <div className="adminA-header">
+            <div className="adminApt-header">
 
-                <div className="adminA-headerLeft">
+                <div className="adminApt-headerLeft">
 
                     <button
 
-                        className="adminA-backBtn"
+                        className="adminApt-backBtn"
 
                         onClick={() => navigate("/admindashboard")}
 
@@ -224,11 +224,11 @@ export default function AdminAppointments() {
                 CARDS
             =============================== */}
 
-            <div className="adminA-cardGrid">
+            <div className="adminApt-cardGrid">
 
-                <div className="adminA-card">
+                <div className="adminApt-card">
 
-                    <div className="adminA-cardIcon purple">
+                    <div className="adminApt-cardIcon purple">
 
                         <CalendarDays size={28} />
 
@@ -252,9 +252,9 @@ export default function AdminAppointments() {
 
                 </div>
 
-                <div className="adminA-card">
+                <div className="adminApt-card">
 
-                    <div className="adminA-cardIcon orange">
+                    <div className="adminApt-cardIcon orange">
 
                         <Clock3 size={28} />
 
@@ -278,9 +278,9 @@ export default function AdminAppointments() {
 
                 </div>
 
-                <div className="adminA-card">
+                <div className="adminApt-card">
 
-                    <div className="adminA-cardIcon green">
+                    <div className="adminApt-cardIcon green">
 
                         <CheckCircle size={28} />
 
@@ -304,9 +304,9 @@ export default function AdminAppointments() {
 
                 </div>
 
-                <div className="adminA-card">
+                <div className="adminApt-card">
 
-                    <div className="adminA-cardIcon red">
+                    <div className="adminApt-cardIcon red">
 
                         <XCircle size={28} />
 
@@ -336,9 +336,9 @@ export default function AdminAppointments() {
                 SEARCH
             =============================== */}
 
-            <div className="adminA-toolbar">
+            <div className="adminApt-toolbar">
 
-                <div className="adminA-search">
+                <div className="adminApt-search">
 
                     <Search size={18} />
 
@@ -362,7 +362,7 @@ export default function AdminAppointments() {
 
                 <select
 
-                    className="adminA-filter"
+                    className="adminApt-filter"
 
                     value={statusFilter}
 
@@ -394,9 +394,9 @@ export default function AdminAppointments() {
                 TABLE
             =============================== */}
 
-            <div className="adminA-tableCard">
+            <div className="adminApt-tableCard">
 
-                <table className="adminA-table">
+                <table className="adminApt-table">
 
                     <thead>
 
@@ -432,7 +432,7 @@ export default function AdminAppointments() {
 
                                     <td
                                         colSpan="8"
-                                        className="adminA-loading"
+                                        className="adminApt-loading"
                                     >
 
                                         Loading...
@@ -449,7 +449,7 @@ export default function AdminAppointments() {
 
                                         <td
                                             colSpan="8"
-                                            className="adminA-loading"
+                                            className="adminApt-loading"
                                         >
 
                                             No Appointments Found
@@ -496,7 +496,7 @@ export default function AdminAppointments() {
 
                                             <td>
 
-                                                <span className={`adminA-badge ${appointment.status.toLowerCase()}`}>
+                                                <span className={`adminApt-badge ${appointment.status.toLowerCase()}`}>
 
                                                     {appointment.status}
 
@@ -514,7 +514,7 @@ export default function AdminAppointments() {
 
                                                 <button
 
-                                                    className="adminA-viewBtn"
+                                                    className="adminApt-viewBtn"
 
                                                     onClick={() => handleView(appointment)}
 
@@ -548,7 +548,7 @@ export default function AdminAppointments() {
 
                 totalPages > 1 &&
 
-                <div className="adminA-pagination">
+                <div className="adminApt-pagination">
 
                     <button
 
@@ -574,7 +574,7 @@ export default function AdminAppointments() {
 
                                     page === index + 1
 
-                                        ? "adminA-pageActive"
+                                        ? "adminApt-pageActive"
 
                                         : ""
 
@@ -622,11 +622,11 @@ export default function AdminAppointments() {
 
                 selectedAppointment &&
 
-                <div className="adminA-modalOverlay">
+                <div className="adminApt-modalOverlay">
 
-                    <div className="adminA-modal">
+                    <div className="adminApt-modal">
 
-                        <div className="adminA-modalHeader">
+                        <div className="adminApt-modalHeader">
 
                             <h2>
 
@@ -636,7 +636,7 @@ export default function AdminAppointments() {
 
                             <button
 
-                                className="adminA-closeBtn"
+                                className="adminApt-closeBtn"
 
                                 onClick={() => setShowModal(false)}
 
@@ -648,9 +648,9 @@ export default function AdminAppointments() {
 
                         </div>
 
-                        <div className="adminA-modalBody">
+                        <div className="adminApt-modalBody">
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Customer</span>
 
@@ -658,7 +658,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Phone</span>
 
@@ -666,7 +666,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Shop</span>
 
@@ -674,7 +674,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Employee</span>
 
@@ -682,7 +682,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Services</span>
 
@@ -702,7 +702,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Date</span>
 
@@ -710,7 +710,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Time</span>
 
@@ -718,7 +718,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Duration</span>
 
@@ -730,7 +730,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Total Price</span>
 
@@ -742,7 +742,7 @@ export default function AdminAppointments() {
 
                             </div>
 
-                            <div className="adminA-infoRow">
+                            <div className="adminApt-infoRow">
 
                                 <span>Status</span>
 
@@ -756,11 +756,11 @@ export default function AdminAppointments() {
 
                         </div>
 
-                        <div className="adminA-modalFooter">
+                        <div className="adminApt-modalFooter">
 
                             <button
 
-                                className="adminA-closeModalBtn"
+                                className="adminApt-closeModalBtn"
 
                                 onClick={() => setShowModal(false)}
 

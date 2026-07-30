@@ -18,7 +18,7 @@
 
 import axios from "axios";
 
-const Authrefresh = "https://groome-backend.onrender.com/auth";
+const Authrefresh = "http://localhost:3000/auth";
 
 const authApi = axios.create({
     baseURL: `${Authrefresh}/user`,
@@ -73,6 +73,7 @@ export const refreshAccessToken = () => {
 
             localStorage.removeItem("accessToken");
             localStorage.removeItem("user");
+            localStorage.removeItem("city");
 
             window.location.href = "/GROOME_UI/#/login";
 

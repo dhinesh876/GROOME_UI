@@ -1,0 +1,525 @@
+/* ===================================================================
+   Dashboard.css — re-themed to match the uploaded auth pages
+   (Login.css / Register.css / VerifyEmail.css / ForgotPassword.css)
+
+   Palette (lifted directly from those files):
+     --ink       #111827   headings on white cards
+     --muted     #6b7280   secondary text
+     --muted2    #64748b   dividers/meta text
+     --line      #d1d5db   input/card borders
+     --indigo    #4f46e5   primary brand, buttons, active states
+     --indigo-d  #2563eb   gradient end for buttons/links hover
+     --blue      #60a5fa   accent (used for highlighted words, badges)
+     --cyan      #06b6d4   second background-circle accent
+     --card      #ffffff   card background
+     --err-bg    #fee2e2 / --err-text #dc2626  (.error-box)
+   Same dark gradient page background + white "glass" cards as their
+   login/register/verify pages, same Poppins font.
+   =================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+:root {
+  --ink: #111827;
+  --muted: #6b7280;
+  --muted2: #64748b;
+  --line: #d1d5db;
+  --indigo: #4f46e5;
+  --indigo-d: #2563eb;
+  --blue: #60a5fa;
+  --cyan: #06b6d4;
+  --card: #ffffff;
+  --radius-card: 20px;
+  --radius: 12px;
+  /* kept for backwards-compat with existing inline styles in the
+     dashboard components — same values as above, different names */
+  --burgundy: var(--indigo);
+  --burgundy-d: var(--indigo-d);
+  --gold: var(--blue);
+  --ivory: #f8fafc;
+  --line-alt: var(--line);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.dash-shell {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* soft blurred accent circles, same trick as the login page */
+.dash-shell::before,
+.dash-shell::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.dash-shell::before {
+  width: 350px;
+  height: 350px;
+  background: var(--indigo);
+  top: -120px;
+  left: -120px;
+}
+
+.dash-shell::after {
+  width: 420px;
+  height: 420px;
+  background: var(--cyan);
+  right: -150px;
+  top: 200px;
+}
+
+/* ---------- Top bar (glass, like the login card's outer container) ---------- */
+.dash-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dash-logo {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+
+.dash-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.dash-logo span {
+  color: var(--blue);
+}
+
+.dash-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-role-badge {
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.dash-logout-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.dash-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ---------- Tabs ---------- */
+.dash-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 18px 28px 0;
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-tab {
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.25s;
+}
+
+.dash-tab:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dash-tab.active {
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+/* ---------- Content ---------- */
+.dash-content {
+  padding: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-heading {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+
+.dash-subheading {
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 24px 0;
+  font-size: 14px;
+}
+
+/* ---------- Stat cards (owner dashboard) — white glass cards ---------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--indigo);
+}
+
+.stat-card .stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  padding: 4px 11px;
+  border-radius: 999px;
+}
+
+/* ---------- Detail panel ---------- */
+.detail-card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 32px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.detail-card .dash-heading,
+.detail-card .dash-subheading {
+  color: var(--ink);
+}
+
+.detail-card .dash-subheading {
+  color: var(--muted);
+}
+
+.detail-back {
+  background: none;
+  border: none;
+  color: var(--indigo);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0 16px 0;
+  font-size: 14px;
+}
+
+/* ---------- Table (appointments) ---------- */
+.appt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.appt-table th,
+.appt-table td {
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid #eef0f4;
+  color: var(--ink);
+}
+
+.appt-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.status-Pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-Confirmed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-Completed {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.status-Cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ---------- Register-shop CTA ---------- */
+.register-cta {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 40px 28px;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.register-cta h3 {
+  margin: 0 0 8px 0;
+  color: var(--ink);
+  font-size: 22px;
+}
+
+.register-cta p {
+  color: var(--muted);
+  margin: 0 0 22px 0;
+  font-size: 14px;
+}
+
+/* ---------- Forms shared ---------- */
+.dash-form {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 32px;
+  max-width: 520px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.dash-form .dash-heading {
+  color: var(--ink);
+}
+
+.dash-field {
+  margin-bottom: 20px;
+}
+
+.dash-field label {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.dash-field input,
+.dash-field select,
+.dash-field textarea {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 14px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  color: var(--ink);
+  transition: 0.25s;
+  font-family: "Poppins", sans-serif;
+}
+
+.dash-field textarea {
+  height: auto;
+  padding: 12px 14px;
+}
+
+.dash-field input:focus,
+.dash-field select:focus,
+.dash-field textarea:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* ---------- Buttons — rounded rectangle + gradient, matching login-btn ---------- */
+.btn-primary {
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-d));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 13px 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.auth-error,
+.error-box {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 0 0 18px 0;
+  font-size: 14px;
+}
+
+.auth-success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 0 0 18px 0;
+  font-size: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 60px 20px;
+  font-size: 14px;
+}
+
+/* ---------- Responsive ---------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .dash-topbar {
+    padding: 16px 22px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dash-left {
+    gap: 16px;
+  }
+
+  .dash-content {
+    padding: 22px;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .dash-topbar {
+    padding: 14px 18px;
+  }
+
+  .dash-left {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .dash-content {
+    padding: 18px;
+  }
+
+  .dash-tabs {
+    padding: 14px 18px 0;
+  }
+
+  .appt-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .dash-form,
+  .detail-card,
+  .register-cta {
+    padding: 22px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+  .dash-heading {
+    font-size: 20px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-form,
+  .detail-card,
+  .register-cta {
+    padding: 16px;
+  }
+}
