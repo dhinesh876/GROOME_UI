@@ -189,7 +189,7 @@
 import axios from "axios";
 import { refreshAccessToken } from "./authrefresh";
 
-const BASE_URL = "http://localhost:3000/shop";
+const BASE_URL = "https://groome-backend.onrender.com/shop";
 
 const api = axios.create({
   baseURL: `${BASE_URL}`,
