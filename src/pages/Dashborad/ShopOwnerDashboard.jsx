@@ -1802,6 +1802,8 @@ const emptyEmployee = {
   employeeServices: [],
 };
 
+
+
 export default function ShopOwnerDashboard({
   tab,
   setTab,
@@ -1814,6 +1816,10 @@ export default function ShopOwnerDashboard({
   const [existingServices, setExistingServices] = useState([]);
   const [appointments, setAppointments] =
     useState([]);
+
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [customerOtp, setCustomerOtp] = useState("");
 
   const [loading, setLoading] =
     useState(true);
@@ -2152,9 +2158,9 @@ export default function ShopOwnerDashboard({
     });
   };
 
-  const handleStatusUpdate = async (appointmentId, status) => {
+  const handleStatusUpdate = async (appointmentId, status, otp) => {
     try {
-      await updateAppointmentStatus(appointmentId, status);
+      await updateAppointmentStatus(appointmentId, status, otp);
 
 
       setAppointments(prev =>
@@ -2198,6 +2204,24 @@ export default function ShopOwnerDashboard({
         },
       ],
     });
+  };
+
+  const verifyCustomerOtp = async () => {
+
+    console.log(selectedAppointment.customberotp, " ", customerOtp)
+    if (customerOtp !== selectedAppointment.customberotp) {
+      alert("Invalid OTP");
+      return;
+    }
+
+    handleStatusUpdate(
+      selectedAppointment.appointmentId,
+      "Completed",
+      customerOtp
+    );
+
+    setShowOtpModal(false);
+    setCustomerOtp("");
   };
 
   const removeEmployee = (index) => {
@@ -3459,7 +3483,7 @@ export default function ShopOwnerDashboard({
 
                         {appointment.status === "Confirmed" && (
                           <>
-                            <button
+                            {/* <button
                               className="btn-action btn-complete"
                               onClick={async () => {
                                 handleStatusUpdate(
@@ -3469,7 +3493,19 @@ export default function ShopOwnerDashboard({
 
                               }}
                             >
-                              <Check size={14} /> Complete
+                              <Check size={14} /> Service Start
+                            </button> */}
+
+                            <button
+                              className="btn-action btn-complete"
+                              onClick={() => {
+                                console.log(appointment);
+                                setSelectedAppointment(appointment);
+                                setCustomerOtp("");
+                                setShowOtpModal(true);
+                              }}
+                            >
+                              <Check size={14} /> Service Start
                             </button>
 
                             <button
@@ -3507,6 +3543,89 @@ export default function ShopOwnerDashboard({
 
                 ))}
 
+                {
+                  showOtpModal && selectedAppointment && (
+
+                    <div className="otp-modal-overlay">
+
+                      <div className="otp-modal">
+
+                        <h2>Start Service Verification</h2>
+
+                        <p className="otp-subtitle">
+                          Verify the customer's identity before starting the service.
+                        </p>
+
+                        <div className="otp-info">
+
+                          <div className="otp-info-row">
+                            <span>Customer</span>
+                            <strong>{selectedAppointment.customer?.name}</strong>
+                          </div>
+
+                          <div className="otp-info-row">
+                            <span>Appointment Date</span>
+                            <strong>
+                              {selectedAppointment.starttime.split(", ")[0]}
+                            </strong>
+                          </div>
+
+                          <div className="otp-info-row">
+                            <span>Appointment Time</span>
+                            <strong>
+                              {selectedAppointment.starttime.split(", ")[1]} -{" "}
+                              {selectedAppointment.endTime.split(", ")[1]}
+                            </strong>
+                          </div>
+
+                          <div className="otp-info-row">
+                            <span>Employee</span>
+                            <strong>{selectedAppointment.employee?.name}</strong>
+                          </div>
+
+                        </div>
+
+                        <p className="otp-instruction">
+                          Check customer <strong>Name</strong> and the
+                          <strong> 5-digit OTP</strong> received in the booking confirmation email.
+                        </p>
+
+                        <input
+                          type="number"
+                          value={customerOtp}
+                          maxLength={5}
+                          placeholder="Enter 5-digit OTP"
+                          onChange={(e) => setCustomerOtp(e.target.value)}
+                        />
+
+                        <div className="otp-modal-buttons">
+
+                          <button
+                            className="btn-action btn-cancel"
+                            onClick={() => {
+                              setShowOtpModal(false);
+                              setCustomerOtp("");
+                            }}
+                          >
+                            Close
+                          </button>
+
+                          <button
+                            className="btn-action btn-confirm"
+                            onClick={verifyCustomerOtp}
+                          >
+                            Verify & Start Service
+                          </button>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  )
+                }
+
               </div>
 
             )}
@@ -3528,4 +3647,6 @@ export default function ShopOwnerDashboard({
       </div>
     </>
   );
+
+
 }

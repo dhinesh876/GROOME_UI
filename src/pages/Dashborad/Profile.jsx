@@ -928,6 +928,7 @@ export default function Profile() {
 
       const shop = data.shop?.[0];
 
+
       if (shop) {
 
         setShopForm({
@@ -937,7 +938,7 @@ export default function Profile() {
           closingTime: shop.closingTime || "",
           workingDays: shop.workingDays || [],
           genderCategory: shop.genderCategory || "",
-          photo: shop.photo || "",
+          photo: shop.photo.url || "",
         });
 
       }
@@ -1065,7 +1066,7 @@ export default function Profile() {
             closingTime: shop.closingTime || "",
             workingDays: shop.workingDays || [],
             genderCategory: shop.genderCategory || "",
-            photo: shop.photo || "",
+            photo: shop.photo.url || "",
           });
 
         }
@@ -1175,10 +1176,10 @@ export default function Profile() {
 
               <div className="profile-shop-avatar">
 
-                {profile.shop?.[0]?.photo ? (
+                {profile.shop?.[0]?.photo.url ? (
 
                   <img
-                    src={profile.shop?.[0]?.photo}
+                    src={profile.shop?.[0]?.photo.url}
                     alt={profile.shop?.[0]?.shopname}
                     className="profile-shop-avatar-img"
                   />

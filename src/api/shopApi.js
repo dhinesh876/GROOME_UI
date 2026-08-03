@@ -482,9 +482,10 @@ export const getShopAppointments = async (shopid) => {
   }
 }
 
-export const updateAppointmentStatus = async (appointmentId, status) => {
+export const updateAppointmentStatus = async (appointmentId, status, otp) => {
   try {
-    const response = await api.put(`/updateAppointmentstatus/${appointmentId}`, { status });
+    otp = otp || null; // If otp is undefined, set it to null
+    const response = await api.put(`/updateAppointmentstatus/${appointmentId}`, { status, otp });
     return response;
   }
   catch (err) {
